@@ -1,6 +1,6 @@
-package com.example.demodesafio03.dtos.User;
+package com.senai.M3PFBackEnd.dtos.User;
 
-import com.example.demodesafio03.enums.UserType;
+import com.senai.M3PFBackEnd.enums.UserType;
 
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
