@@ -1,4 +1,4 @@
-package com.example.demodesafio03.exceptions;
+package com.senai.M3PFBackEnd.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
