@@ -1,0 +1,1 @@
+INSERT INTO public.users(status, id, cpf, email, full_name, genre, password, phone, type) VALUES (true, '80e51f89-46e9-4d39-83a0-c00f33393bc0', '390.053.750-00', 'administrador@email.com', 'Manda-chuva', 'não binário', 'senhamestre', '(49) 9 8622-8534', 'ADMINISTRATOR');
