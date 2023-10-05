@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 
 public record UserRequestPutDto(
         @NotBlank(message = "O campo nome completo é obrigatório!")
+        @Size(min = 8, message = "O campo nome deve ter no mínimo 8 caracteres")
         String fullName,
 
         @NotBlank(message = "O campo gênero é obrigatório!")
