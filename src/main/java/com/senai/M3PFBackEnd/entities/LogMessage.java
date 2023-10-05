@@ -11,12 +11,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name = "LogMessage")
 @Table(name = "logs")
 @Getter
 @Setter
+@NoArgsConstructor
 public class LogMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +30,8 @@ public class LogMessage {
     @Column(nullable = false)
     @CreatedDate
     private LocalDateTime createdAt;
+
+    public LogMessage(String message) {
+        this.message = message;
+    }
 }
