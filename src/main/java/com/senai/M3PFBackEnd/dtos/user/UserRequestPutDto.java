@@ -11,7 +11,7 @@ public record UserRequestPutDto(
         @NotBlank(message = "O campo gênero é obrigatório!")
         @Pattern(
                 regexp = "CISGENDER|TRANSGENDER|NONBINARY",
-                message = "O tipo de ser: CISGENDER, TRANSGENDER ou NONBINARY"
+                message = "O tipo deve ser: CISGENDER, TRANSGENDER ou NONBINARY"
         )
         String genre,
 
@@ -28,7 +28,7 @@ public record UserRequestPutDto(
         String password,
 
         @NotBlank(message = "O campo tipo é obrigatório!")
-        @Pattern(regexp = "ADMINISTRATOR|DOCTOR|NURSE", message = "O tipo de ser: ADMINISTRATOR, DOCTOR ou NURSE")
+        @Pattern(regexp = "ADMINISTRATOR|DOCTOR|NURSE", message = "O tipo deve ser: ADMINISTRATOR, DOCTOR ou NURSE")
         String type
 ) {
 }
