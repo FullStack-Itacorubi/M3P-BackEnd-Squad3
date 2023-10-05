@@ -1,6 +1,8 @@
 package com.senai.M3PFBackEnd.controllers;
 
 
+import com.senai.M3PFBackEnd.dtos.login.LoginRequestDto;
+import com.senai.M3PFBackEnd.dtos.login.LoginResponseDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
@@ -65,5 +67,11 @@ public class UserController {
                 "Usuário excluído com sucesso!",
                 HttpStatus.ACCEPTED
         );
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto newLogin){
+        LoginResponseDto verifiedUser = this.userService.login(newLogin);
+        return new ResponseEntity<>(verifiedUser, HttpStatus.OK);
     }
 }
