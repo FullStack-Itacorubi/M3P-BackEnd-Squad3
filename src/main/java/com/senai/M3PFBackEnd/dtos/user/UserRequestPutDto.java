@@ -1,4 +1,4 @@
-package com.senai.M3PFBackEnd.dtos.User;
+package com.senai.M3PFBackEnd.dtos.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

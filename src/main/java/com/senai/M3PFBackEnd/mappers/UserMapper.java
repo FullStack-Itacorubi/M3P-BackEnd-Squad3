@@ -1,7 +1,7 @@
 package com.senai.M3PFBackEnd.mappers;
 
-import com.senai.M3PFBackEnd.dtos.User.UserRequestDto;
-import com.senai.M3PFBackEnd.dtos.User.UserRequestPutDto;
+import com.senai.M3PFBackEnd.dtos.user.UserRequestDto;
+import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.entities.UserEntity;
 import com.senai.M3PFBackEnd.enums.Genre;
 import com.senai.M3PFBackEnd.enums.UserType;

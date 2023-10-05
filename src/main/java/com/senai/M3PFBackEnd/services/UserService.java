@@ -1,8 +1,8 @@
 package com.senai.M3PFBackEnd.services;
 
-import com.senai.M3PFBackEnd.dtos.User.UserRequestDto;
-import com.senai.M3PFBackEnd.dtos.User.UserRequestPutDto;
-import com.senai.M3PFBackEnd.dtos.User.UserResponseDto;
+import com.senai.M3PFBackEnd.dtos.user.UserRequestDto;
+import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
+import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
 import com.senai.M3PFBackEnd.entities.UserEntity;
 import com.senai.M3PFBackEnd.mappers.UserMapper;
 import com.senai.M3PFBackEnd.repositories.UserRepository;

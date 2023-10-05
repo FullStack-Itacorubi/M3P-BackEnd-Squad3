@@ -1,4 +1,4 @@
-package com.senai.M3PFBackEnd.dtos.User;
+package com.senai.M3PFBackEnd.dtos.user;
 
 import com.senai.M3PFBackEnd.entities.UserEntity;
 
