@@ -3,6 +3,8 @@ package com.senai.M3PFBackEnd.mappers;
 import com.senai.M3PFBackEnd.dtos.User.UserRequestDto;
 import com.senai.M3PFBackEnd.dtos.User.UserRequestPutDto;
 import com.senai.M3PFBackEnd.entities.UserEntity;
+import com.senai.M3PFBackEnd.enums.Genre;
+import com.senai.M3PFBackEnd.enums.UserType;
 
 public class UserMapper {
     private UserMapper() {
@@ -12,12 +14,12 @@ public class UserMapper {
         UserEntity target = new UserEntity();
 
         target.setFullName(source.fullName());
-        target.setGenre(source.genre());
+        target.setGenre(Genre.valueOf(source.genre()));
         target.setCpf(source.cpf());
         target.setPhone(source.phone());
         target.setEmail(source.email());
         target.setPassword(source.password());
-        target.setType(source.type());
+        target.setType(UserType.valueOf(source.type()));
 
         return target;
     }
@@ -26,15 +28,11 @@ public class UserMapper {
         UserEntity target = new UserEntity();
 
         target.setFullName(source.fullName());
-        target.setGenre(source.genre());
+        target.setGenre(Genre.valueOf(source.genre()));
         target.setPhone(source.phone());
         target.setPassword(source.password());
-        target.setType(source.type());
+        target.setType(UserType.valueOf(source.type()));
 
         return target;
     }
-
-    /*public static UserResponseDto map(UserEntity source) {
-        return new UserResponseDto(source);
-    }*/
 }
