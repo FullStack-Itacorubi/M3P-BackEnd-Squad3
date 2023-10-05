@@ -26,6 +26,4 @@ public class HandlerExceptions {
 
         return errors;
     }
-
-
 }
