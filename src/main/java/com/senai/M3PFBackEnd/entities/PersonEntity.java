@@ -1,11 +1,10 @@
 package com.senai.M3PFBackEnd.entities;
 
 import com.senai.M3PFBackEnd.enums.Genre;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @MappedSuperclass
 @Getter

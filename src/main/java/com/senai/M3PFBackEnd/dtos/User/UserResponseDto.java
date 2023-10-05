@@ -2,10 +2,8 @@ package com.senai.M3PFBackEnd.dtos.User;
 
 import com.senai.M3PFBackEnd.entities.UserEntity;
 
-import java.util.UUID;
-
 public record UserResponseDto(
-        UUID id,
+        Long id,
 
         String fullName,
 
