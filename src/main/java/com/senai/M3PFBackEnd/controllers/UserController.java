@@ -3,7 +3,7 @@ package com.senai.M3PFBackEnd.controllers;
 
 import com.senai.M3PFBackEnd.dtos.login.LoginRequestDto;
 import com.senai.M3PFBackEnd.dtos.login.LoginResponseDto;
-import com.senai.M3PFBackEnd.dtos.user.UserRequestDto;
+import com.senai.M3PFBackEnd.dtos.user.UserRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
 import com.senai.M3PFBackEnd.services.UserService;
@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDto> registerUser(
-            @RequestBody @Valid UserRequestDto newUser
+            @RequestBody @Valid UserRequestPostDto newUser
     ) {
         UserResponseDto user = this.userService.save(newUser);
 

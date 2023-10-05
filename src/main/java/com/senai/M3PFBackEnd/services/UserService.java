@@ -2,7 +2,7 @@ package com.senai.M3PFBackEnd.services;
 
 import com.senai.M3PFBackEnd.dtos.login.LoginRequestDto;
 import com.senai.M3PFBackEnd.dtos.login.LoginResponseDto;
-import com.senai.M3PFBackEnd.dtos.user.UserRequestDto;
+import com.senai.M3PFBackEnd.dtos.user.UserRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
 import com.senai.M3PFBackEnd.entities.UserEntity;
@@ -58,7 +58,7 @@ public class UserService {
         return this.userRepository.getReferenceById(id);
     }
 
-    public UserResponseDto save(UserRequestDto newUser) {
+    public UserResponseDto save(UserRequestPostDto newUser) {
         this.verifyIfHasCpf(newUser.cpf());
 
         this.verifyIfHasEmail(newUser.email());

@@ -1,6 +1,7 @@
 package com.senai.M3PFBackEnd.dtos.user;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -29,6 +30,9 @@ public record UserRequestPutDto(
 
         @NotBlank(message = "O campo tipo é obrigatório!")
         @Pattern(regexp = "ADMINISTRATOR|DOCTOR|NURSE", message = "O tipo deve ser: ADMINISTRATOR, DOCTOR ou NURSE")
-        String type
+        String type,
+
+        @NotNull(message = "O campo status é obrigatório!")
+        Boolean status
 ) {
 }

@@ -3,7 +3,7 @@ package com.senai.M3PFBackEnd.dtos.user;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
 
-public record UserRequestDto(
+public record UserRequestPostDto(
         @NotBlank(message = "O campo nome completo é obrigatório!")
         @Size(min = 8, message = "O campo nome deve ter no mínimo 8 caracteres")
         String fullName,
