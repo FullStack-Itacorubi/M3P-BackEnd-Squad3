@@ -12,8 +12,8 @@ import java.util.UUID;
 @Setter
 public class PersonEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable=false)
     private String fullName;

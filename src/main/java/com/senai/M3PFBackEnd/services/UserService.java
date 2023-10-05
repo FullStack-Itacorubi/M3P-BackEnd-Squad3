@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -42,7 +41,7 @@ public class UserService {
         }
     }
 
-    private void verifyIfHasId(UUID id) {
+    private void verifyIfHasId(Long id) {
         boolean isIdExists = this.userRepository.existsById(id);
 
         if (!isIdExists) {
@@ -53,7 +52,7 @@ public class UserService {
         }
     }
 
-    private UserEntity getUser(UUID id) {
+    private UserEntity getUser(Long id) {
         return this.userRepository.getReferenceById(id);
     }
 
@@ -67,11 +66,12 @@ public class UserService {
         return new UserResponseDto(userRepository.save(user));
     }
 
-    public UserResponseDto update(UUID id, UserRequestPutDto userToUpdate) {
+    public UserResponseDto update(Long id, UserRequestPutDto userToUpdate) {
         UserEntity userFound = this.delete(id);
 
         UserEntity user = UserMapper.map(userToUpdate);
 
+        user.setId(userFound.getId());
         user.setCpf(userFound.getCpf());
         user.setEmail(userFound.getEmail());
 
@@ -86,7 +86,7 @@ public class UserService {
                 .toList();
     }
 
-    public UserResponseDto getOne(UUID id) {
+    public UserResponseDto getOne(Long id) {
         this.verifyIfHasId(id);
 
         UserEntity user = this.getUser(id);
@@ -94,7 +94,7 @@ public class UserService {
         return new UserResponseDto(user);
     }
 
-    public UserEntity delete(UUID id) {
+    public UserEntity delete(Long id) {
         this.verifyIfHasId(id);
 
         UserEntity userFound = this.getUser(id);

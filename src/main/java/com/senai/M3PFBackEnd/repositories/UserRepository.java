@@ -5,17 +5,15 @@ import com.senai.M3PFBackEnd.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, UUID> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByCpf(String cpf);
 
     boolean existsByEmail(String email);
 
-    boolean existsById(UUID id);
+    boolean existsById(Long id);
 
-    UserEntity getReferenceById(UUID id);
+    UserEntity getReferenceById(Long id);
 
-    void deleteById(UUID id);
+    void deleteById(Long id);
 }
