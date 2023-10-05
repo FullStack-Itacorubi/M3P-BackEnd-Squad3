@@ -12,14 +12,13 @@ public record UserRequestPutDto(
         @NotBlank(message = "O campo gênero é obrigatório!")
         @Pattern(
                 regexp = "CISGENDER|TRANSGENDER|NONBINARY",
-                message = "O tipo de ser: CISGENDER, TRANSGENDER ou NONBINARY"
+                message = "O tipo deve ser: CISGENDER, TRANSGENDER ou NONBINARY"
         )
         String genre,
 
         @NotBlank(message = "O campo telefone é obrigatório!")
-        // @Pattern(regexp = "\d{8,12}")
         @Pattern(
-                regexp = "(\\([0-9]{2}\\) 9 [0-9]{4}-[0-9]{4})|(\\([0-9]{2}\\)[0-9]{4}-[0-9]{4})",
+                regexp = "(\\([0-9]{2}\\) [0-9] [0-9]{4}-[0-9]{4})",
                 message = "O campo telefone deve ter o seguinte formato: (00) 9 8765-4321"
         )
         String phone,
@@ -29,7 +28,7 @@ public record UserRequestPutDto(
         String password,
 
         @NotBlank(message = "O campo tipo é obrigatório!")
-        @Pattern(regexp = "ADMINISTRATOR|DOCTOR|NURSE", message = "O tipo de ser: ADMINISTRATOR, DOCTOR ou NURSE")
+        @Pattern(regexp = "ADMINISTRATOR|DOCTOR|NURSE", message = "O tipo deve ser: ADMINISTRATOR, DOCTOR ou NURSE")
         String type
 ) {
 }
