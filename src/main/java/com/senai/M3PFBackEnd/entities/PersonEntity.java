@@ -1,5 +1,6 @@
 package com.senai.M3PFBackEnd.entities;
 
+import com.senai.M3PFBackEnd.enums.Genre;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,8 @@ public class PersonEntity {
     private String fullName;
 
     @Column(nullable=false)
-    private String genre;
+    @Enumerated(value = EnumType.STRING)
+    private Genre genre;
 
     @Column(nullable=false, unique = true)
     private String cpf;
@@ -30,7 +32,5 @@ public class PersonEntity {
     private String email;
 
     @Column(nullable = false, columnDefinition = "boolean default true")
-    // @Column(columnDefinition = "boolean default true")
-    // @Column(nullable=false)
     private Boolean status = true;
 }
