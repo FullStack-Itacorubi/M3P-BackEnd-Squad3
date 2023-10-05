@@ -67,7 +67,8 @@ public class UserService {
     }
 
     public UserResponseDto update(Long id, UserRequestPutDto userToUpdate) {
-        UserEntity userFound = this.delete(id);
+        this.verifyIfHasId(id);
+        UserEntity userFound = getUser(id);
 
         UserEntity user = UserMapper.map(userToUpdate);
 
