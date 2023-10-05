@@ -1,5 +1,7 @@
 package com.senai.M3PFBackEnd.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +16,9 @@ public class LogsService {
 
     public void saveLog(String message) {
         this.logsRepository.save(new LogMessage(message));
+    }
+
+    public List<LogMessage> getLogs() {
+        return this.logsRepository.findAllOrderByCreatedAtDesc();
     }
 }
