@@ -58,46 +58,16 @@ public class UserService {
     }
 
     public UserResponseDto save(UserRequestDto newUser) {
-        /*boolean isCpfAlreadyExists = this.userRepository.existsByCpf(newUser.cpf());
-
-        if (isCpfAlreadyExists) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Este CPF já foi registrado em nossa base de dados!"
-            );
-        }*/
         this.verifyIfHasCpf(newUser.cpf());
 
-        /*boolean isEmailAlreadyExists = this.userRepository.existsByEmail(newUser.email());
-
-        if (isEmailAlreadyExists) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Este e-mail já foi registrado em nossa base de dados!"
-            );
-        }*/
         this.verifyIfHasEmail(newUser.email());
 
         UserEntity user = UserMapper.map(newUser);
 
-        // return UserMapper.map(userRepository.save(user));
         return new UserResponseDto(userRepository.save(user));
     }
 
     public UserResponseDto update(UUID id, UserRequestPutDto userToUpdate) {
-        /*boolean isIdExists = this.userRepository.existsById(id);
-
-        if (!isIdExists) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
-        }*/
-        /*verifyIfHasId(id);
-
-        UserEntity userFound = this.getUser(id);
-
-        this.userRepository.delete(userFound);*/
         UserEntity userFound = this.delete(id);
 
         UserEntity user = UserMapper.map(userToUpdate);
@@ -119,7 +89,6 @@ public class UserService {
     public UserResponseDto getOne(UUID id) {
         this.verifyIfHasId(id);
 
-        // UserEntity user = this.userRepository.getReferenceById(id);
         UserEntity user = this.getUser(id);
 
         return new UserResponseDto(user);
@@ -127,11 +96,10 @@ public class UserService {
 
     public UserEntity delete(UUID id) {
         this.verifyIfHasId(id);
-        // this.userRepository.deleteById(id);
 
         UserEntity userFound = this.getUser(id);
 
-        this.userRepository.delete(userFound);
+        this.userRepository.deleteById(id);
 
         return userFound;
     }
