@@ -10,9 +10,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity(name = "log_message")
+@Entity(name = "LogMessage")
 @Table(name = "logs")
+@Getter
+@Setter
 public class LogMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
