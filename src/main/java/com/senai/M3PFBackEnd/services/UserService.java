@@ -1,5 +1,7 @@
 package com.senai.M3PFBackEnd.services;
 
+import com.senai.M3PFBackEnd.dtos.login.LoginRequestDto;
+import com.senai.M3PFBackEnd.dtos.login.LoginResponseDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
@@ -103,5 +105,17 @@ public class UserService {
         this.userRepository.deleteById(id);
 
         return userFound;
+    }
+
+    public LoginResponseDto login(LoginRequestDto newLogin) {
+        UserEntity user = userRepository.getByEmail(newLogin.email())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha ou e-mail inválido!"));
+        if(!passwordMatches(user.getPassword(), newLogin.password()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha ou e-mail inválido!");
+        return new LoginResponseDto(user);
+    }
+
+    private boolean passwordMatches(String password, String passedPassword){
+        return password.equals(passedPassword);
     }
 }
