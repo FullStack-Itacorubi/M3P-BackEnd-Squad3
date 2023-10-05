@@ -12,8 +12,4 @@ public enum Genre {
     NONBINARY("Não-binário");
 
     private final String type;
-
-    /*Genre(String type) {
-        this.type = type;
-    }*/
 }
