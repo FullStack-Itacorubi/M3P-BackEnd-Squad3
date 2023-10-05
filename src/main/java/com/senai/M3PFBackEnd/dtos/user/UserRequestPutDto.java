@@ -16,9 +16,8 @@ public record UserRequestPutDto(
         String genre,
 
         @NotBlank(message = "O campo telefone é obrigatório!")
-        // @Pattern(regexp = "\d{8,12}")
         @Pattern(
-                regexp = "(\\([0-9]{2}\\) 9 [0-9]{4}-[0-9]{4})|(\\([0-9]{2}\\)[0-9]{4}-[0-9]{4})",
+                regexp = "(\\([0-9]{2}\\) [0-9] [0-9]{4}-[0-9]{4})",
                 message = "O campo telefone deve ter o seguinte formato: (00) 9 8765-4321"
         )
         String phone,
