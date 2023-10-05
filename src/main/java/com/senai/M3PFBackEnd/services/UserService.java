@@ -63,7 +63,7 @@ public class UserService {
 
         UserEntity user = UserMapper.map(newUser);
 
-        return new UserResponseDto(userRepository.save(user));
+        return new UserResponseDto(this.userRepository.save(user));
     }
 
     public UserResponseDto update(Long id, UserRequestPutDto userToUpdate) {
@@ -75,7 +75,7 @@ public class UserService {
         user.setCpf(userFound.getCpf());
         user.setEmail(userFound.getEmail());
 
-        return new UserResponseDto(userRepository.save(user));
+        return new UserResponseDto(this.userRepository.save(user));
     }
 
     public List<UserResponseDto> getAll() {
