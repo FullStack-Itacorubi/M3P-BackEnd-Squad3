@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.senai.M3PFBackEnd.dtos.logs.LogResponseDto;
 import com.senai.M3PFBackEnd.entities.LogMessage;
 import com.senai.M3PFBackEnd.repositories.LogsRepository;
 
@@ -18,7 +19,8 @@ public class LogsService {
         this.logsRepository.save(new LogMessage(message));
     }
 
-    public List<LogMessage> getLogs() {
-        return this.logsRepository.findAllOrderByCreatedAtDesc();
+    public List<LogResponseDto> getLogs() {
+        return this.logsRepository.findAllOrderByCreatedAtDesc()
+                .stream().map(LogResponseDto::new).toList();
     }
 }

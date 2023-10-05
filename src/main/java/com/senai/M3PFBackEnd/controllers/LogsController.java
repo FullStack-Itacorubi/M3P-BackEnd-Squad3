@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.senai.M3PFBackEnd.entities.LogMessage;
+import com.senai.M3PFBackEnd.dtos.logs.LogResponseDto;
 import com.senai.M3PFBackEnd.services.LogsService;
 
 @RestController
@@ -19,7 +19,7 @@ public class LogsController {
     private LogsService logsService;
 
     @GetMapping
-    public ResponseEntity<List<LogMessage>> getLogs() {
+    public ResponseEntity<List<LogResponseDto>> getLogs() {
         return ResponseEntity.ok(logsService.getLogs());
     }
 }
