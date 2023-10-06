@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.senai.M3PFBackEnd.enums.exercise.ExerciseType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,7 +30,7 @@ public record ExerciseRequestPostDto(
                 @Pattern(
                     regexp = "AEROBICS|MUSCULAR|FLEXIBILITY|STRENGTH|AGILITY|OTHER",
                     message = "O tipo deve ser: AEROBICS, MUSCULAR, FLEXIBILITY, STRENGTH, AGILITY ou OTHER")
-                ExerciseType type,
+                String type,
 
                 @NotNull(message = "O campo quantidade por semana é obrigatório!")
                 Integer weeklyAmount,
