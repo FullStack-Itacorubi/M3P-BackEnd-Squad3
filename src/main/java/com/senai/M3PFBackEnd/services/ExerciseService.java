@@ -37,6 +37,11 @@ public class ExerciseService {
         return exerciseRepository.findAll().stream().map(ExerciseResponseDto::new).toList();
     }
 
+    public ExerciseResponseDto getExerciseById(Long id) {
+        verifyIfHasId(id);
+        return new ExerciseResponseDto(exerciseRepository.getReferenceById(id));
+    }
+
     private void verifyIfHasId(Long id) {
         boolean isIdExists = exerciseRepository.existsById(id);
 

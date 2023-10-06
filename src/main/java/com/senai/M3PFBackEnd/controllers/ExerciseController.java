@@ -37,16 +37,20 @@ public class ExerciseController {
             @PathVariable(name = "id") Long id,
             @RequestBody @Valid ExerciseRequestPutDto requestDto) {
         ExerciseResponseDto responseDto = exerciseService.update(id, requestDto);
-
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<ExerciseResponseDto>> listExercises(
-        @RequestParam(name = "nome") String name
-    ){
+            @RequestParam(name = "nome") String name){
         List<ExerciseResponseDto> responseList = exerciseService.getExercises(name);
-
         return new ResponseEntity<>(responseList, HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<ExerciseResponseDto> getExerciseById(
+            @PathVariable(name = "id") Long id){
+        ExerciseResponseDto responseDto = exerciseService.getExerciseById(id);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }
