@@ -36,7 +36,5 @@ public record ExamRequestDto(
         @NotBlank(message = "O campo resultados é obrigatório!")
         @Size(min = 16, max = 1024, message = "O campo nome do exame deve ter de 16 a 1024 caracteres!")
         String results
-
-        Boolean systemStatus
 ) {
 }
