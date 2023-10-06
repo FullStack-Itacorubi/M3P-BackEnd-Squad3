@@ -36,7 +36,7 @@ public class ExerciseEntity {
     private ExerciseType type;
 
     @Column(nullable = false)
-    private Integer weeklyAmmount;
+    private Integer weeklyAmount;
 
     @Column(nullable = false, length = 1000)
     private String description;
