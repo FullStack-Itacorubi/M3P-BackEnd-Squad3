@@ -86,7 +86,7 @@ public record PatientRequestPostDto(
 
         @JsonFormat(
                 shape = JsonFormat.Shape.STRING,
-                pattern = "MM/yyyy",
+                pattern = "MM/yy",
                 locale = "pt-BR",
                 timezone = "Brazil/East"
         )
