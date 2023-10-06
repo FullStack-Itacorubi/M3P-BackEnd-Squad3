@@ -3,12 +3,15 @@ package com.senai.M3PFBackEnd.controllers;
 import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.exam.ExamResponseDto;
+import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
 import com.senai.M3PFBackEnd.services.ExamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/exames")
@@ -27,6 +30,12 @@ public class ExamController {
                                                       @RequestBody @Valid ExamRequestPutDto examToUpdate) {
         ExamResponseDto examUpdated = this.examService.update(id, examToUpdate);
         return new ResponseEntity<>(examUpdated, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ExamResponseDto>> getAllUsers() {
+        List<ExamResponseDto> examsList = this.examService.getAllExams();
+        return new ResponseEntity<>(examsList, HttpStatus.OK);
     }
 
 }

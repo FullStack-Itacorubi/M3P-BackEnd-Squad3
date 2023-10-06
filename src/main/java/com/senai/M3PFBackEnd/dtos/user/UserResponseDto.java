@@ -1,5 +1,6 @@
 package com.senai.M3PFBackEnd.dtos.user;
 
+import com.senai.M3PFBackEnd.entities.ExamEntity;
 import com.senai.M3PFBackEnd.entities.UserEntity;
 
 public record UserResponseDto(
@@ -28,4 +29,5 @@ public record UserResponseDto(
                 userEntity.getType().getType()
         );
     }
+
 }
