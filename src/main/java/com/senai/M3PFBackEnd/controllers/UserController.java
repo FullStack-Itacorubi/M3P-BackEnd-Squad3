@@ -1,10 +1,7 @@
 package com.senai.M3PFBackEnd.controllers;
 
 
-import com.senai.M3PFBackEnd.dtos.login.LoginRequestDto;
-import com.senai.M3PFBackEnd.dtos.login.LoginResponseDto;
-import com.senai.M3PFBackEnd.dtos.login.PasswordResetRequestDto;
-import com.senai.M3PFBackEnd.dtos.login.PasswordResetResponseDto;
+import com.senai.M3PFBackEnd.dtos.login.*;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
@@ -81,5 +78,11 @@ public class UserController {
     public ResponseEntity<PasswordResetResponseDto> resetPassword(
             @RequestBody @Valid PasswordResetRequestDto passwordResetRequestDto){
         return new ResponseEntity<>(this.userService.updatePassword(passwordResetRequestDto), HttpStatus.OK);
+    }
+
+    @GetMapping("email")
+    public ResponseEntity<PasswordResetResponseDto> getUser(@RequestBody EmailRequestDto emailRequestDto) {
+        PasswordResetResponseDto user = this.userService.getByEmail(emailRequestDto.email());
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

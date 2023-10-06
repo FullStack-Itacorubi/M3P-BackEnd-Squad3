@@ -134,4 +134,11 @@ public class UserService {
     private boolean emailMatches(String email, String passedEmail){
         return email.equals(passedEmail);
     }
+
+    public PasswordResetResponseDto getByEmail(String email) {
+        UserEntity user = userRepository.getByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!"));
+
+        return new PasswordResetResponseDto(user);
+    }
 }
