@@ -29,7 +29,7 @@ public class LogMessage {
 
     @Column(nullable = false)
     @CreatedDate
-    private LocalDateTime timestamp;
+    private LocalDateTime timestamp = LocalDateTime.now();
 
     public LogMessage(String message) {
         this.message = message;
