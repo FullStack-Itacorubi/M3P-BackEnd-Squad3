@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 public class PatientService {
     @Autowired
@@ -41,6 +43,17 @@ public class PatientService {
         }
     }
 
+    private void verifyIfHasId(Long id) {
+        boolean isIdExists = this.patientRepository.existsById(id);
+
+        if (!isIdExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "O id informado é inválido!"
+            );
+        }
+    }
+
     private void checkEmailUpdate(Long id, String email) {
         var patient = this.patientRepository
                 .findAll()
@@ -58,17 +71,6 @@ public class PatientService {
         }
 
         // return patient.get();
-    }
-
-    private void verifyIfHasId(Long id) {
-        boolean isIdExists = this.patientRepository.existsById(id);
-
-        if (!isIdExists) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
-        }
     }
 
     public PatientResponseDto addPatient(PatientRequestPostDto newPatient) {
@@ -93,5 +95,13 @@ public class PatientService {
         patient.getAddress().setId(patientFound.getAddress().getId());
 
         return new PatientResponseDto(this.patientRepository.save(patient));
+    }
+
+    public List<PatientResponseDto> getAll() {
+        return this.patientRepository
+                .findAll()
+                .stream()
+                .map(PatientResponseDto::new)
+                .toList();
     }
 }
