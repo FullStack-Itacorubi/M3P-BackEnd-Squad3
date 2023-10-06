@@ -57,5 +57,14 @@ public class ExamService {
         return new ExamResponseDto(examRepository.save(exam));
     }
 
+    public ExamEntity delete(Long id){
+        this.verifyIsHasId(id);
+
+        ExamEntity examFound = this.examRepository.getReferenceById(id);
+        this.examRepository.delete(examFound);
+
+        return examFound;
+    }
+
 
 }

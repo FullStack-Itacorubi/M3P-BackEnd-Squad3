@@ -45,4 +45,13 @@ public class ExamController {
         return new ResponseEntity<>(query, HttpStatus.OK);
     }
 
+    @DeleteMapping("{idExam}")
+    public ResponseEntity<String> deleteExam(@PathVariable(name = "idExam") Long id) {
+        this.examService.delete(id);
+        return new ResponseEntity<>(
+                "Consulta excluida com sucesso!",
+                HttpStatus.ACCEPTED
+        );
+    }
+
 }
