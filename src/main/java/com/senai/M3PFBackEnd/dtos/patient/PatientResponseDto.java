@@ -51,7 +51,9 @@ public record PatientResponseDto(
         )
         LocalDate healthInsuranceValidity,
 
-        AddressResponseDto address
+        AddressResponseDto address,
+
+        Boolean status
 ) {
     public PatientResponseDto(PatientEntity patient) {
         this(
@@ -71,7 +73,8 @@ public record PatientResponseDto(
                 patient.getHealthInsurance(),
                 patient.getHealthInsuranceNumber(),
                 patient.getHealthInsuranceValidity(),
-                new AddressResponseDto(patient.getAddress())
+                new AddressResponseDto(patient.getAddress()),
+                patient.getStatus()
         );
     }
 }
