@@ -1,12 +1,14 @@
 package com.senai.M3PFBackEnd.services;
 
 import com.senai.M3PFBackEnd.dtos.patient.PatientRequestPostDto;
+import com.senai.M3PFBackEnd.dtos.patient.PatientRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.patient.PatientResponseDto;
 import com.senai.M3PFBackEnd.entities.PatientEntity;
 import com.senai.M3PFBackEnd.mappers.PatientMapper;
 import com.senai.M3PFBackEnd.repositories.AddressRepository;
 import com.senai.M3PFBackEnd.repositories.PatientRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
 
     private void verifyIfHasCpf(String cpf) {
         boolean isCpfAlreadyExists = this.patientRepository.existsByCpf(cpf);
@@ -42,8 +41,34 @@ public class PatientService {
         }
     }
 
-    public boolean verifyIdExists(Long id) {
-        return this.patientRepository.existsById(id);
+    private void checkEmailUpdate(Long id, String email) {
+        var patient = this.patientRepository
+                .findAll()
+                .stream()
+                .filter(p ->
+                        p.getEmail().equals(email) && !p.getId().equals(id)
+                )
+                .findFirst();
+
+        if (patient.isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Este e-mail já foi registrado em nossa base de dados!"
+            );
+        }
+
+        // return patient.get();
+    }
+
+    private void verifyIfHasId(Long id) {
+        boolean isIdExists = this.patientRepository.existsById(id);
+
+        if (!isIdExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "O id informado é inválido!"
+            );
+        }
     }
 
     public PatientResponseDto addPatient(PatientRequestPostDto newPatient) {
@@ -51,6 +76,21 @@ public class PatientService {
         verifyIfHasEmail(newPatient.email());
 
         PatientEntity patient = PatientMapper.map(newPatient);
+
+        return new PatientResponseDto(this.patientRepository.save(patient));
+    }
+
+    public PatientResponseDto update(Long id, PatientRequestPutDto patientToUpdate) {
+        verifyIfHasId(id);
+        checkEmailUpdate(id, patientToUpdate.email());
+
+        var patientFound = this.patientRepository.getReferenceById(id);
+        var patient = PatientMapper.map(patientToUpdate);
+
+        patient.setId(patientFound.getId());
+        patient.setCpf(patientFound.getCpf());
+        patient.setRg(patientFound.getRg());
+        patient.getAddress().setId(patientFound.getAddress().getId());
 
         return new PatientResponseDto(this.patientRepository.save(patient));
     }
