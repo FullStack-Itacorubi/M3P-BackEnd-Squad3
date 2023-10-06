@@ -11,13 +11,17 @@ import java.time.LocalDate;
 
 public record PatientRequestPostDto(
         @NotBlank(message = "O campo nome completo é obrigatório!")
-        @Size(min = 8, message = "O campo nome deve ter no mínimo 8 caracteres")
+        @Size(
+                min = 8,
+                max = 64,
+                message = "O campo nome completo deve ter no mínimo 8 caracteres"
+        )
         String fullName,
 
         @NotBlank(message = "O campo gênero é obrigatório!")
         @Pattern(
                 regexp = "CISGENDER|TRANSGENDER|NONBINARY",
-                message = "O tipo de ser: CISGENDER, TRANSGENDER ou NONBINARY"
+                message = "O campo gênero deve ser: CISGENDER, TRANSGENDER ou NONBINARY"
         )
         String genre,
 
@@ -33,7 +37,7 @@ public record PatientRequestPostDto(
         )
         String phone,
 
-        @NotBlank(message = "O campo CPF é obrigatório!")
+        @NotBlank(message = "O campo email é obrigatório!")
         @Email(message = "O campo e-mail é inválido!")
         String email,
 
@@ -46,25 +50,29 @@ public record PatientRequestPostDto(
         )
         LocalDate birthday,
 
-        @NotBlank(message = "O campo CPF é obrigatório!")
+        @NotBlank(message = "O campo RG é obrigatório!")
         @Size(max = 20)
         String rg,
 
         @NotBlank(message = "O campo estado cívil é obrigatório!")
         @Pattern(
                 regexp = "SINGLE|MARRIED|SEPARATED|DIVORCED|WIDOWER",
-                message = "O tipo de ser: SINGLE, MARRIED, SEPARATED, DIVORCED ou WIDOWER"
+                message = "O campo estado cívil deve ser: SINGLE, MARRIED, SEPARATED, DIVORCED ou WIDOWER"
         )
         String civilStatus,
 
         @NotBlank(message = "O campo naturalidade é obrigatório!")
-        @Size(min = 8, message = "O campo naturalidade deve ter no mínimo 8 caracteres")
+        @Size(
+                min = 8,
+                max = 64,
+                message = "O campo naturalidade deve ter no mínimo 8 caracteres"
+        )
         String placeOfBirth,
 
         @NotBlank(message = "O campo contato de emergência é obrigatório!")
         @Pattern(
                 regexp = "(\\([0-9]{2}\\) [0-9] [0-9]{4}-[0-9]{4})",
-                message = "O campo telefone deve ter o seguinte formato: (00) 9 8765-4321"
+                message = "O campo contato de emergência deve ter o seguinte formato: (00) 9 8765-4321"
         )
         String emergencyContact,
 
