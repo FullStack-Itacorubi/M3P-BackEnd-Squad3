@@ -47,7 +47,7 @@ public record PatientRequestPutDto(
         @NotBlank(message = "O campo estado cívil é obrigatório!")
         @Pattern(
                 regexp = "SINGLE|MARRIED|SEPARATED|DIVORCED|WIDOWER",
-                message = "O O campo estado cívil deve ser: SINGLE, MARRIED, SEPARATED, DIVORCED ou WIDOWER"
+                message = "O campo estado cívil deve ser: SINGLE, MARRIED, SEPARATED, DIVORCED ou WIDOWER"
         )
         String civilStatus,
 
@@ -76,12 +76,13 @@ public record PatientRequestPutDto(
 
         @JsonFormat(
                 shape = JsonFormat.Shape.STRING,
-                pattern = "MM/yyyy",
+                pattern = "MM/yy",
                 locale = "pt-BR",
                 timezone = "Brazil/East"
         )
         String healthInsuranceValidity,
 
+        @NotNull(message = "O campo endereço é obrigatório!")
         @Valid
         AddressRequestPostDto address,
 
