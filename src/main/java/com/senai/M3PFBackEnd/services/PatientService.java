@@ -69,8 +69,10 @@ public class PatientService {
                     "Este e-mail já foi registrado em nossa base de dados!"
             );
         }
+    }
 
-        // return patient.get();
+    private PatientEntity getPatient(Long id) {
+        return this.patientRepository.getReferenceById(id);
     }
 
     public PatientResponseDto addPatient(PatientRequestPostDto newPatient) {
@@ -103,5 +105,13 @@ public class PatientService {
                 .stream()
                 .map(PatientResponseDto::new)
                 .toList();
+    }
+
+    public PatientResponseDto getOne(Long id) {
+        this.verifyIfHasId(id);
+
+        PatientEntity user = this.getPatient(id);
+
+        return new PatientResponseDto(user);
     }
 }
