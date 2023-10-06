@@ -20,7 +20,7 @@ public class LogsService {
     }
 
     public List<LogResponseDto> getLogs() {
-        return this.logsRepository.findAllOrderByCreatedAtDesc()
+        return this.logsRepository.findAllByOrderByTimestampDesc()
                 .stream().map(LogResponseDto::new).toList();
     }
 }

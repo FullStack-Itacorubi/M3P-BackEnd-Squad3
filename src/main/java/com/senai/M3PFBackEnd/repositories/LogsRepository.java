@@ -10,5 +10,5 @@ import com.senai.M3PFBackEnd.entities.LogMessage;
 @Repository
 public interface LogsRepository extends JpaRepository<LogMessage, Long> {
 
-    public List<LogMessage> findAllOrderByCreatedAtDesc();
+    public List<LogMessage> findAllByOrderByTimestampDesc();
 }
