@@ -14,7 +14,7 @@ public record PatientRequestPostDto(
         @Size(
                 min = 8,
                 max = 64,
-                message = "O campo nome completo deve ter no mínimo 8 caracteres"
+                message = "O campo nome completo deve ter entre 8 a 64 caracteres"
         )
         String fullName,
 
@@ -65,7 +65,7 @@ public record PatientRequestPostDto(
         @Size(
                 min = 8,
                 max = 64,
-                message = "O campo naturalidade deve ter no mínimo 8 caracteres"
+                message = "O campo naturalidade deve ter entre 8 a 64 caracteres"
         )
         String placeOfBirth,
 
