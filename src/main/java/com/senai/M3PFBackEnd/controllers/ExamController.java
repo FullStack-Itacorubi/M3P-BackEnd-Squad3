@@ -18,4 +18,10 @@ public class ExamController {
     @Autowired
     private ExamService examService;
 
+    @PostMapping
+    public ResponseEntity<ExamResponseDto> registerExam(@RequestBody @Valid ExamRequestDto newExam){
+        ExamResponseDto exam = this.examService.save(newExam);
+        return new ResponseEntity<>(exam, HttpStatus.CREATED);
+    }
+
 }
