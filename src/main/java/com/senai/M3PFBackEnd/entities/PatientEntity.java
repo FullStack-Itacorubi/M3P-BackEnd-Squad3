@@ -22,7 +22,7 @@ public class PatientEntity extends PersonEntity {
     @Enumerated(value = EnumType.STRING)
     private CivilStatus civilStatus;
 
-    @Column(nullable=false)
+    @Column(nullable=false, length = 64)
     private String placeOfBirth;
 
     @Column(nullable=false)
