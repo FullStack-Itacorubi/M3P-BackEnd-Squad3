@@ -42,6 +42,11 @@ public class ExerciseService {
         return new ExerciseResponseDto(exerciseRepository.getReferenceById(id));
     }
 
+    public void delete(Long id) {
+        verifyIfHasId(id);
+        exerciseRepository.deleteById(id);
+    }
+
     private void verifyIfHasId(Long id) {
         boolean isIdExists = exerciseRepository.existsById(id);
 
