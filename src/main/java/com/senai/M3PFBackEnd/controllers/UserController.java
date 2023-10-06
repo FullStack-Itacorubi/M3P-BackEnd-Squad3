@@ -81,7 +81,7 @@ public class UserController {
     }
 
     @GetMapping("email")
-    public ResponseEntity<PasswordResetResponseDto> getUser(@RequestBody EmailRequestDto emailRequestDto) {
+    public ResponseEntity<PasswordResetResponseDto> getEmail(@RequestBody EmailRequestDto emailRequestDto) {
         PasswordResetResponseDto user = this.userService.getByEmail(emailRequestDto.email());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
