@@ -1,5 +1,6 @@
 package com.senai.M3PFBackEnd.services;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,13 @@ public class ExerciseService {
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
         exercise.setId(id);
         return new ExerciseResponseDto(exerciseRepository.save(exercise));
+    }
+
+    public List<ExerciseResponseDto> getExercises(String name) {
+        // TODO adicionar retorno por nome de pacientes
+        // if(!name.isBlank())
+
+        return exerciseRepository.findAll().stream().map(ExerciseResponseDto::new).toList();
     }
 
     private void verifyIfHasId(Long id) {
