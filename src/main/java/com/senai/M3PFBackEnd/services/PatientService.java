@@ -111,9 +111,9 @@ public class PatientService {
         // TODO: talvez validar se id é um Long -> bad request
         this.verifyIfHasId(id);
 
-        PatientEntity user = this.getPatient(id);
+        PatientEntity patient = this.getPatient(id);
 
-        return new PatientResponseDto(user);
+        return new PatientResponseDto(patient);
     }
 
     public void delete(Long id) {
