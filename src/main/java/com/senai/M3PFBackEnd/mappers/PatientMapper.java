@@ -7,11 +7,9 @@ import com.senai.M3PFBackEnd.enums.CivilStatus;
 import com.senai.M3PFBackEnd.enums.Genre;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
 public class PatientMapper {
-    private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private PatientMapper() {}
     // TODO: ver como formatar a data de validade
     private static LocalDate formatStringToLocalDate(String date) {
@@ -19,9 +17,6 @@ public class PatientMapper {
         int year = Integer.parseInt("20" + arrayString[1]);
         int month = Integer.parseInt(arrayString[0]);
 
-        // String dateString = localDate.format(dateFormat);
-        // return LocalDate.parse(date, dateFormat);
-        // return LocalDate.parse(dateString);
         return LocalDate
                 .now()
                 .withYear(year)
