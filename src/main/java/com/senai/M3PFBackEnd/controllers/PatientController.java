@@ -48,8 +48,20 @@ public class PatientController {
     public ResponseEntity<PatientResponseDto> getPatient(
             @PathVariable(name = "idPatient") Long id
     ) {
-        PatientResponseDto user = this.patientService.getOne(id);
+        PatientResponseDto patient = this.patientService.getOne(id);
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(patient, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{idPatient}")
+    public ResponseEntity<String> deletePatient(
+            @PathVariable(name = "idPatient") Long id
+    ) {
+        this.patientService.delete(id);
+
+        return new ResponseEntity<>(
+                "Usuário excluído com sucesso!",
+                HttpStatus.ACCEPTED
+        );
     }
 }
