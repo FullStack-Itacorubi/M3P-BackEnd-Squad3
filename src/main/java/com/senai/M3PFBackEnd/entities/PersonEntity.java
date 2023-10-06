@@ -14,7 +14,7 @@ public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable=false, length = 64)
     private String fullName;
 
     @Column(nullable=false)
