@@ -19,7 +19,7 @@ public record ExamRequestDto(
         LocalDate examDate,
 
         @NotNull(message = "O campo hora do exame é obrigatório!")
-        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+        @JsonFormat(pattern = "HH:mm:ss")
         LocalTime examHour,
 
         @NotBlank(message = "O campo tipo do exame é obrigatório!")
