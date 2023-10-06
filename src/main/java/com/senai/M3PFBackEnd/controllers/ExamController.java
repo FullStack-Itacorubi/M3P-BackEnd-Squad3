@@ -32,10 +32,17 @@ public class ExamController {
         return new ResponseEntity<>(examUpdated, HttpStatus.OK);
     }
 
+    //TODO: filtar GET pelo nome do Usuário
     @GetMapping
-    public ResponseEntity<List<ExamResponseDto>> getAllUsers() {
+    public ResponseEntity<List<ExamResponseDto>> getExams() {
         List<ExamResponseDto> examsList = this.examService.getAllExams();
         return new ResponseEntity<>(examsList, HttpStatus.OK);
+    }
+
+    @GetMapping("{idExam}")
+    public ResponseEntity<ExamResponseDto> getExam(@PathVariable(name = "idExam") Long id) {
+        ExamResponseDto query = this.examService.getExamById(id);
+        return new ResponseEntity<>(query, HttpStatus.OK);
     }
 
 }

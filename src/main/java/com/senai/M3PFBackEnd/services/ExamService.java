@@ -42,6 +42,7 @@ public class ExamService {
         return new ExamResponseDto(examRepository.save(exam));
     }
 
+    //TODO: filtar GET pelo nome do Usuário
     public List<ExamResponseDto> getAllExams() {
         return this.examRepository
                 .findAll()
@@ -49,5 +50,12 @@ public class ExamService {
                 .map(ExamResponseDto::new)
                 .toList();
     }
+
+    public ExamResponseDto getExamById(Long id){
+        this.verifyIsHasId(id);
+        ExamEntity exam = this.examRepository.getReferenceById(id);
+        return new ExamResponseDto(examRepository.save(exam));
+    }
+
 
 }
