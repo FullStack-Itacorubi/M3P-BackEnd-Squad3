@@ -42,5 +42,5 @@ public class ExerciseEntity {
     private String description;
 
     @Column(nullable = false, columnDefinition = "boolean default true")
-    private boolean status;
+    private boolean status = true;
 }
