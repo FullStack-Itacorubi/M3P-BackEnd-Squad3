@@ -108,10 +108,17 @@ public class PatientService {
     }
 
     public PatientResponseDto getOne(Long id) {
+        // TODO: talvez validar se id é um Long -> bad request
         this.verifyIfHasId(id);
 
         PatientEntity user = this.getPatient(id);
 
         return new PatientResponseDto(user);
+    }
+
+    public void delete(Long id) {
+        this.verifyIfHasId(id);
+
+        this.patientRepository.deleteById(id);
     }
 }
