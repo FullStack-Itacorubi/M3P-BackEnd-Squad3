@@ -16,6 +16,6 @@ public class ExerciseService {
 
     public ExerciseResponseDto save(ExerciseRequestPostDto requestDto) {
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
-        return new ExerciseResponseDto(exercise);
+        return new ExerciseResponseDto(exerciseRepository.save(exercise));
     }
 }

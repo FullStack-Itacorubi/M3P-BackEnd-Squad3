@@ -1,6 +1,7 @@
 package com.senai.M3PFBackEnd.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ public class ExerciseController {
     @PostMapping
     public ResponseEntity<ExerciseResponseDto> registerExercise(
         @RequestBody @Valid ExerciseRequestPostDto requestDto) {
-        return null;
+        ExerciseResponseDto responseDto = exerciseService.save(requestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 }
