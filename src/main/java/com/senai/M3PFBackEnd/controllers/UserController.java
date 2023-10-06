@@ -3,6 +3,8 @@ package com.senai.M3PFBackEnd.controllers;
 
 import com.senai.M3PFBackEnd.dtos.login.LoginRequestDto;
 import com.senai.M3PFBackEnd.dtos.login.LoginResponseDto;
+import com.senai.M3PFBackEnd.dtos.login.PasswordResetRequestDto;
+import com.senai.M3PFBackEnd.dtos.login.PasswordResetResponseDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
@@ -73,5 +75,11 @@ public class UserController {
     public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto newLogin){
         LoginResponseDto verifiedUser = this.userService.login(newLogin);
         return new ResponseEntity<>(verifiedUser, HttpStatus.OK);
+    }
+
+    @PatchMapping("resetarsenha")
+    public ResponseEntity<PasswordResetResponseDto> resetPassword(
+            @RequestBody @Valid PasswordResetRequestDto passwordResetRequestDto){
+        return new ResponseEntity<>(this.userService.updatePassword(passwordResetRequestDto), HttpStatus.OK);
     }
 }

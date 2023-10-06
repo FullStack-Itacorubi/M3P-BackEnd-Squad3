@@ -2,6 +2,8 @@ package com.senai.M3PFBackEnd.services;
 
 import com.senai.M3PFBackEnd.dtos.login.LoginRequestDto;
 import com.senai.M3PFBackEnd.dtos.login.LoginResponseDto;
+import com.senai.M3PFBackEnd.dtos.login.PasswordResetRequestDto;
+import com.senai.M3PFBackEnd.dtos.login.PasswordResetResponseDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
@@ -117,5 +119,19 @@ public class UserService {
 
     private boolean passwordMatches(String password, String passedPassword){
         return password.equals(passedPassword);
+    }
+
+    public PasswordResetResponseDto updatePassword(PasswordResetRequestDto newPassword){
+        this.verifyIfHasId(newPassword.id());
+        UserEntity user = getUser(newPassword.id());
+        if(!emailMatches(user.getEmail(), newPassword.email()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email inválido!");
+        user.setPassword(newPassword.password());
+
+        return new PasswordResetResponseDto(userRepository.save(user));
+    }
+
+    private boolean emailMatches(String email, String passedEmail){
+        return email.equals(passedEmail);
     }
 }
