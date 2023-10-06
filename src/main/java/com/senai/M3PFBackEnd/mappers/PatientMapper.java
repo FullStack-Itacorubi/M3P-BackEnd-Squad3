@@ -1,6 +1,7 @@
 package com.senai.M3PFBackEnd.mappers;
 
 import com.senai.M3PFBackEnd.dtos.patient.PatientRequestPostDto;
+import com.senai.M3PFBackEnd.dtos.patient.PatientRequestPutDto;
 import com.senai.M3PFBackEnd.entities.PatientEntity;
 import com.senai.M3PFBackEnd.enums.CivilStatus;
 import com.senai.M3PFBackEnd.enums.Genre;
@@ -45,9 +46,39 @@ public class PatientMapper {
         target.setSpecificCareList(source.specificCareList());
         target.setHealthInsurance(source.healthInsurance());
         target.setHealthInsuranceNumber(source.healthInsuranceNumber());
-        // target.setHealthInsuranceValidity(LocalDate.parse(source.healthInsuranceValidity()));
-        target.setHealthInsuranceValidity(formatStringToLocalDate(source.healthInsuranceValidity()));
         target.setAddress(AddressMapper.map(source.address()));
+
+        target.setHealthInsuranceValidity(
+                source.healthInsuranceValidity() != null ?
+                        formatStringToLocalDate(source.healthInsuranceValidity()) :
+                        null
+        );
+
+        return target;
+    }
+
+    public static PatientEntity map(PatientRequestPutDto source) {
+        PatientEntity target = new PatientEntity();
+
+        target.setFullName(source.fullName());
+        target.setGenre(Genre.valueOf(source.genre()));
+        target.setPhone(source.phone());
+        target.setEmail(source.email());
+        target.setBirthday(source.birthday());
+        target.setCivilStatus(CivilStatus.valueOf(source.civilStatus()));
+        target.setPlaceOfBirth(source.placeOfBirth());
+        target.setEmergencyContact(source.emergencyContact());
+        target.setAllergyList(source.allergyList());
+        target.setSpecificCareList(source.specificCareList());
+        target.setHealthInsurance(source.healthInsurance());
+        target.setHealthInsuranceNumber(source.healthInsuranceNumber());
+        target.setHealthInsuranceValidity(
+                source.healthInsuranceValidity() != null ?
+                        formatStringToLocalDate(source.healthInsuranceValidity()) :
+                        null
+        );
+        target.setAddress(AddressMapper.map(source.address()));
+        target.setStatus(source.status());
 
         return target;
     }
