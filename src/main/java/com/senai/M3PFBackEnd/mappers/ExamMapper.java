@@ -9,12 +9,13 @@ public class ExamMapper {
     public static ExamEntity map(ExamRequestDto source){
         ExamEntity target = new ExamEntity();
 
-        target.getExamName();
-        target.getExamDate();
-        target.getExamHour();
-        target.getExamType();
-        target.getLaboratory();
-        target.getResults();
+        target.setExamName(source.examName());
+        target.setExamDate(source.examDate());
+        target.setExamHour(source.examHour());
+        target.setExamType(source.examType());
+        target.setDocumentUrl(source.documentUrl());
+        target.setLaboratory(source.laboratory());
+        target.setResults(source.results());
 
         return target;
     }
