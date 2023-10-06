@@ -32,7 +32,6 @@ public class ExamEntity {
     @Column(nullable = false)
     private String laboratory;
 
-    @Column(nullable = false)
     private String documentUrl;
 
     @Column(nullable = false)
