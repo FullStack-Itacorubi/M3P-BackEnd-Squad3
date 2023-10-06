@@ -1,12 +1,12 @@
 package com.senai.M3PFBackEnd.mappers;
 
-import com.senai.M3PFBackEnd.dtos.exam.ExamRequestDto;
+import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPostDto;
 import com.senai.M3PFBackEnd.entities.ExamEntity;
 
 public class ExamMapper {
     private ExamMapper(){ }
 
-    public static ExamEntity map(ExamRequestDto source){
+    public static ExamEntity map(ExamRequestPostDto source){
         ExamEntity target = new ExamEntity();
 
         target.setExamName(source.examName());

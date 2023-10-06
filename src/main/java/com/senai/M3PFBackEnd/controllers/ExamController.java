@@ -1,6 +1,6 @@
 package com.senai.M3PFBackEnd.controllers;
 
-import com.senai.M3PFBackEnd.dtos.exam.ExamRequestDto;
+import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.exam.ExamResponseDto;
 import com.senai.M3PFBackEnd.services.ExamService;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ public class ExamController {
     private ExamService examService;
 
     @PostMapping
-    public ResponseEntity<ExamResponseDto> registerExam(@RequestBody @Valid ExamRequestDto newExam){
+    public ResponseEntity<ExamResponseDto> registerExam(@RequestBody @Valid ExamRequestPostDto newExam){
         ExamResponseDto exam = this.examService.save(newExam);
         return new ResponseEntity<>(exam, HttpStatus.CREATED);
     }

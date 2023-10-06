@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record ExamRequestDto(
+public record ExamRequestPostDto(
         @NotBlank(message = "O campo nome do exame é obrigatório!")
         @Size(min = 8, max = 64, message = "O campo nome do exame deve ter de 6 a 64 caracteres!")
         String examName,
@@ -29,7 +28,7 @@ public record ExamRequestDto(
         @NotBlank(message = "O campo laboratório é obrigatório!")
         @Size(min = 4, max = 32, message = "O campo nome do exame deve ter de 4 a 32 caracteres!")
         String laboratory,
-        
+
         String documentUrl,
 
         @NotBlank(message = "O campo resultados é obrigatório!")

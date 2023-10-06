@@ -1,6 +1,6 @@
 package com.senai.M3PFBackEnd.services;
 
-import com.senai.M3PFBackEnd.dtos.exam.ExamRequestDto;
+import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.exam.ExamResponseDto;
 import com.senai.M3PFBackEnd.entities.ExamEntity;
 import com.senai.M3PFBackEnd.mappers.ExamMapper;
@@ -13,7 +13,7 @@ public class ExamService {
     @Autowired
     private ExamRepository examRepository;
 
-    public ExamResponseDto save(ExamRequestDto newExam) {
+    public ExamResponseDto save(ExamRequestPostDto newExam) {
         ExamEntity exam = ExamMapper.map(newExam);
         return new ExamResponseDto(this.examRepository.save(exam));
     }
