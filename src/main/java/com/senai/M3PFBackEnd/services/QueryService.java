@@ -43,6 +43,7 @@ public class QueryService {
 
 
     public QueryResponseDto update(Long id, QueryRequestPutDto queryToUpdate) {
+        this.verifyIsHasId(id);
 
         QueryEntity query = QueryMapper.map(queryToUpdate);
 
