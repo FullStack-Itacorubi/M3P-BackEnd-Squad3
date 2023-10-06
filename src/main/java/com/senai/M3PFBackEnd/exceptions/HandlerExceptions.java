@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.DateTimeException;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +25,32 @@ public class HandlerExceptions {
 
             errors.put(fieldName, errorMessage);
         });
+
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DateTimeParseException.class)
+    public Map<String, String> handleDateParseException(DateTimeParseException exception) {
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put(
+                "message",
+                exception.getLocalizedMessage()
+        );
+
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DateTimeException.class)
+    public Map<String, String> handleDateException(DateTimeException exception) {
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put(
+                "message",
+                exception.getLocalizedMessage()
+        );
 
         return errors;
     }
