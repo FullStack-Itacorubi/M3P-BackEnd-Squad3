@@ -2,11 +2,7 @@ package com.senai.M3PFBackEnd.dtos.exercises;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -23,7 +19,6 @@ public record ExerciseRequestPostDto(
 
                 @NotNull(message = "O campo horário é obrigatório!")
                 @JsonFormat(pattern = "HH:mm:ss")
-                @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
                 LocalTime time,
 
                 @NotBlank(message = "O campo tipo é obrigatório!")
