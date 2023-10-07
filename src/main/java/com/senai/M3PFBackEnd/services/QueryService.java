@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 
 @Service
 public class QueryService {
@@ -52,6 +54,18 @@ public class QueryService {
         return new QueryResponseDto(queryRepository.save(query));
     }
 
+    public List<QueryEntity> findAll() {
+            return queryRepository.findAll();
+    }
+
+    public QueryResponseDto getOne(Long id) {
+        this.verifyIsHasId(id);
+
+        QueryEntity query = this.getQuery(id);
+
+        return new QueryResponseDto(query);
+    }
+
     public QueryEntity delete(Long id) {
         this.verifyIsHasId(id);
 
@@ -63,12 +77,5 @@ public class QueryService {
     }
 
 
-    public QueryResponseDto getOne(Long id) {
-        this.verifyIsHasId(id);
-
-        QueryEntity query = this.getQuery(id);
-
-        return new QueryResponseDto(query);
-    }
 }
 

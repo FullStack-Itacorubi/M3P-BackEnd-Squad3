@@ -33,6 +33,7 @@ public record QueryRequestPutDto(
         @Size(min = 16, max = 256, message = "O campo Dosagem e Precauções deve ter no mínimo 16 e máximo 256 caracteres, respectivamente!")
         String dosageAndRecautions,
 
-        Boolean systemStatus
+        @NotNull(message = "O campo status é obrigatório!")
+        Boolean status
 ) {
 }

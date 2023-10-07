@@ -38,6 +38,11 @@ public class QueryController {
         return new ResponseEntity<>(queryUpdated, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAllQueries() {
+        return ResponseEntity.status(HttpStatus.OK).body(queryService.findAll());
+    }
+
     @GetMapping("{idQuery}")
     public ResponseEntity<QueryResponseDto> getQuery(
             @PathVariable(name = "idQuery") Long id

@@ -15,7 +15,7 @@ public record QueryResponseDto(
         //Atualizar e Vincular com entidade Medicamentos
         String prescriptionMedication,
         String dosageAndRecautions,
-        Boolean systemStatus
+        Boolean status
 ) {
     public QueryResponseDto(QueryEntity queryEntity) {
         this(
@@ -26,7 +26,7 @@ public record QueryResponseDto(
                 queryEntity.getProblemDescription(),
                 queryEntity.getPrescriptionMedication(),
                 queryEntity.getDosageAndRecautions(),
-                queryEntity.getSystemStatus()
+                queryEntity.getStatus()
         );
     }
 }

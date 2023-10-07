@@ -6,10 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QueryRepository extends JpaRepository<QueryEntity, Long> {
-    boolean existsById(Long id);
 
-    QueryEntity getReferenceById(Long id);
-
-    void deleteById(Long id);
 }
 

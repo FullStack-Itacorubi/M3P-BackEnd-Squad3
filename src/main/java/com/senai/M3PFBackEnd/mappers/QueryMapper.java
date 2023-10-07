@@ -31,7 +31,7 @@ public class QueryMapper {
         target.setProblemDescription(source.problemDescription());
         target.setPrescriptionMedication(source.prescriptionMedication());
         target.setDosageAndRecautions(source.dosageAndRecautions());
-        target.setSystemStatus(source.systemStatus());
+        target.setStatus(source.status());
 
         return target;
     }

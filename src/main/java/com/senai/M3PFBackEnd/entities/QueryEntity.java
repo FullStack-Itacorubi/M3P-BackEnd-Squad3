@@ -36,6 +36,6 @@ public class QueryEntity {
     private String dosageAndRecautions;
 
     @Column(nullable=false, columnDefinition = "boolean default true")
-    private Boolean systemStatus = true;
+    private Boolean status = true;
 
 }
