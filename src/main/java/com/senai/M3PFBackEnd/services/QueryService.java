@@ -1,9 +1,9 @@
 package com.senai.M3PFBackEnd.services;
 
 
-import com.senai.M3PFBackEnd.dtos.QueryRequestDto;
-import com.senai.M3PFBackEnd.dtos.QueryRequestPutDto;
-import com.senai.M3PFBackEnd.dtos.QueryResponseDto;
+import com.senai.M3PFBackEnd.dtos.Query.QueryRequestDto;
+import com.senai.M3PFBackEnd.dtos.Query.QueryRequestPutDto;
+import com.senai.M3PFBackEnd.dtos.Query.QueryResponseDto;
 import com.senai.M3PFBackEnd.entities.QueryEntity;
 import com.senai.M3PFBackEnd.mappers.QueryMapper;
 import com.senai.M3PFBackEnd.repositories.QueryRepository;

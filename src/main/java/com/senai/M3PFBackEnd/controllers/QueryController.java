@@ -1,9 +1,9 @@
 package com.senai.M3PFBackEnd.controllers;
 
 
-import com.senai.M3PFBackEnd.dtos.QueryRequestDto;
-import com.senai.M3PFBackEnd.dtos.QueryRequestPutDto;
-import com.senai.M3PFBackEnd.dtos.QueryResponseDto;
+import com.senai.M3PFBackEnd.dtos.Query.QueryRequestDto;
+import com.senai.M3PFBackEnd.dtos.Query.QueryRequestPutDto;
+import com.senai.M3PFBackEnd.dtos.Query.QueryResponseDto;
 import com.senai.M3PFBackEnd.services.QueryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.senai.M3PFBackEnd.mappers;
 
 
-import com.senai.M3PFBackEnd.dtos.QueryRequestDto;
-import com.senai.M3PFBackEnd.dtos.QueryRequestPutDto;
+import com.senai.M3PFBackEnd.dtos.Query.QueryRequestDto;
+import com.senai.M3PFBackEnd.dtos.Query.QueryRequestPutDto;
 import com.senai.M3PFBackEnd.entities.QueryEntity;
 
 public class QueryMapper {

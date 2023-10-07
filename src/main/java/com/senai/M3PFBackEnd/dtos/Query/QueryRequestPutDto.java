@@ -1,15 +1,14 @@
-package com.senai.M3PFBackEnd.dtos;
+package com.senai.M3PFBackEnd.dtos.Query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record QueryRequestDto(
+public record QueryRequestPutDto(
         @NotBlank(message = "O campo Motivo da consulta é obrigatório!")
         @Size(min = 8, message = "O campo Motivo da consulta deve ter no mínimo 8 caracteres!")
         String reasonForConsultation,
@@ -27,12 +26,14 @@ public record QueryRequestDto(
         String problemDescription,
 
         //Atualizar e Vincular com entidade Medicamentos
+        @NotBlank(message = "O campo Medicação Receitada é obrigatório!")
         String prescriptionMedication,
 
         @NotBlank(message = "O campo Dosagem e Precauções é obrigatório!")
         @Size(min = 16, max = 256, message = "O campo Dosagem e Precauções deve ter no mínimo 16 e máximo 256 caracteres, respectivamente!")
         String dosageAndRecautions,
 
+        @NotNull(message = "O campo status é obrigatório!")
         Boolean status
 ) {
 }
