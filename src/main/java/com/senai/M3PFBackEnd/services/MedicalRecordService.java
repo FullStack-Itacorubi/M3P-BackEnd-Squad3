@@ -54,7 +54,7 @@ public class MedicalRecordService {
 
     private void throwBadRequest() {
         throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND,
+            HttpStatus.BAD_REQUEST,
             "Busca não condiz com nenhum usuário");
     }
 }
