@@ -2,7 +2,9 @@ package com.senai.M3PFBackEnd.services;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import com.senai.M3PFBackEnd.dtos.medicalRecord.MedicalRecordResponseDto;
 import com.senai.M3PFBackEnd.entities.MedicalRecordEntity;
 import com.senai.M3PFBackEnd.entities.PatientEntity;
@@ -19,8 +21,40 @@ public class MedicalRecordService {
         medicalRecordsRepository.save(medicalRecord);
     }
 
-    public List<MedicalRecordResponseDto> listMedicalRecords() {
-        return medicalRecordsRepository.findAll().stream()
-            .map(MedicalRecordResponseDto::new).toList();
+    public List<MedicalRecordResponseDto> listMedicalRecords(String name) {
+        List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
+            .findAllByPatientFullNameContaining(name);
+    
+        if(medicalRecords.isEmpty()) throwBadRequest();
+    
+        return mapListToDto(medicalRecords);
+    }
+
+    public List<MedicalRecordResponseDto> listMedicalRecords(Long id) {
+        List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
+            .findAllByPatientId(id);
+    
+        if(medicalRecords.isEmpty()) throwBadRequest();
+    
+        return mapListToDto(medicalRecords);
+    }
+
+    public List<MedicalRecordResponseDto> listMedicalRecords(Long id, String name) {
+        List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
+            .findAllByPatientIdAndPatientFullNameContaining(id, name);
+
+        if(medicalRecords.isEmpty()) throwBadRequest();
+
+        return mapListToDto(medicalRecords);
+    }
+
+    private List<MedicalRecordResponseDto> mapListToDto(List<MedicalRecordEntity> list) {
+        return list.stream().map(MedicalRecordResponseDto::new).toList();
+    }
+
+    private void throwBadRequest() {
+        throw new ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "Busca não condiz com nenhum usuário");
     }
 }
