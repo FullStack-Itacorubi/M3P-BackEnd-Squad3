@@ -19,6 +19,9 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private MedicalRecordService medicalRecordService;
+
     private void verifyIfHasCpf(String cpf) {
         boolean isCpfAlreadyExists = this.patientRepository.existsByCpf(cpf);
 
@@ -78,8 +81,10 @@ public class PatientService {
         verifyIfHasEmail(newPatient.email());
 
         PatientEntity patient = PatientMapper.map(newPatient);
+        patient = this.patientRepository.save(patient);
+        medicalRecordService.createMedicalRecord(patient);
 
-        return new PatientResponseDto(this.patientRepository.save(patient));
+        return new PatientResponseDto(patient);
     }
 
     public PatientResponseDto update(Long id, PatientRequestPutDto patientToUpdate) {

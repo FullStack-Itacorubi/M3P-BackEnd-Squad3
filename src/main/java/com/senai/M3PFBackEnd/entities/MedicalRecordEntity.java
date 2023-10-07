@@ -17,7 +17,7 @@ import lombok.Setter;
 @Table(name = "medical_records")
 @Getter
 @Setter
-public class MedicalRecordsEntity {
+public class MedicalRecordEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +35,10 @@ public class MedicalRecordsEntity {
     private List<ExerciseEntity> exercises;
 
     // TODO: adicionar relacionamentos de consulta e dieta
+
+    public MedicalRecordEntity(PatientEntity patient) {
+        this.patient = patient;
+    }
 
     @PreRemove
     public void checkIfHasAnyAssociationBeforeRemoval() {
