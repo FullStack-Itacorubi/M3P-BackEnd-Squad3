@@ -53,13 +53,12 @@ public class ExamService {
 
     public ExamResponseDto getExamById(Long id){
         this.verifyIsHasId(id);
-        ExamEntity exam = this.examRepository.getReferenceById(id);
-        return new ExamResponseDto(examRepository.save(exam));
+        return new ExamResponseDto(examRepository.getReferenceById(id));
     }
 
     public void delete(Long id){
         this.verifyIsHasId(id);
         examRepository.deleteById(id);
     }
-    
+
 }
