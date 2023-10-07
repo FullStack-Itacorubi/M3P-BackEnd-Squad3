@@ -13,7 +13,8 @@ public record ExamResponseDto(
         String examType,
         String laboratory,
         String documentUrl,
-        String results
+        String results,
+        boolean status
 ) {
     public ExamResponseDto(ExamEntity examEntity){
         this(
@@ -24,7 +25,8 @@ public record ExamResponseDto(
                 examEntity.getExamType(),
                 examEntity.getLaboratory(),
                 examEntity.getDocumentUrl(),
-                examEntity.getResults()
+                examEntity.getResults(),
+                examEntity.getStatus()
         );
     }
 }
