@@ -32,7 +32,8 @@ public class MedicamentEntity {
     @Enumerated(value = EnumType.STRING)
     private MedicamentType type;
 
-    @Column(nullable=false, precision = 19, scale = 2)
+    // @Column(nullable=false, precision = 19, scale = 2)
+    @Column(nullable=false)
     private Double quantity;
 
     @Column(nullable=false)
