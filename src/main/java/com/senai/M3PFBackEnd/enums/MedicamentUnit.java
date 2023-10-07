@@ -12,5 +12,5 @@ public enum MedicamentUnit {
     ML("ml"),
     PERCENTAGE("%");
 
-    private final String medicamentUnity;
+    private final String unity;
 }
