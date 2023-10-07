@@ -41,8 +41,8 @@ public class ExamController {
 
     @GetMapping("{idExam}")
     public ResponseEntity<ExamResponseDto> getExam(@PathVariable(name = "idExam") Long id) {
-        ExamResponseDto query = this.examService.getExamById(id);
-        return new ResponseEntity<>(query, HttpStatus.OK);
+        ExamResponseDto exam = this.examService.getExamById(id);
+        return new ResponseEntity<>(exam, HttpStatus.OK);
     }
 
     @DeleteMapping("{idExam}")
