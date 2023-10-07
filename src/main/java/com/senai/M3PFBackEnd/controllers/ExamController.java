@@ -49,7 +49,7 @@ public class ExamController {
     public ResponseEntity<String> deleteExam(@PathVariable(name = "idExam") Long id) {
         this.examService.delete(id);
         return new ResponseEntity<>(
-                "Consulta excluida com sucesso!",
+                "Exame excluído com sucesso!",
                 HttpStatus.ACCEPTED
         );
     }
