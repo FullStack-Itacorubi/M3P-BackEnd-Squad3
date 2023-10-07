@@ -2,11 +2,7 @@ package com.senai.M3PFBackEnd.mappers;
 
 import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPutDto;
-import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
 import com.senai.M3PFBackEnd.entities.ExamEntity;
-import com.senai.M3PFBackEnd.entities.UserEntity;
-import com.senai.M3PFBackEnd.enums.Genre;
-import com.senai.M3PFBackEnd.enums.UserType;
 
 public class ExamMapper {
     private ExamMapper(){ }

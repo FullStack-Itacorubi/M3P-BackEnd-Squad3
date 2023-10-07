@@ -5,10 +5,8 @@ import com.senai.M3PFBackEnd.dtos.patient.PatientRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.patient.PatientResponseDto;
 import com.senai.M3PFBackEnd.entities.PatientEntity;
 import com.senai.M3PFBackEnd.mappers.PatientMapper;
-import com.senai.M3PFBackEnd.repositories.AddressRepository;
 import com.senai.M3PFBackEnd.repositories.PatientRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
