@@ -23,7 +23,7 @@ public class MedicalRecordService {
 
     public List<MedicalRecordResponseDto> listMedicalRecords(String name) {
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
-            .findAllByPatientFullNameContaining(name);
+            .findAllByPatientFullNameContainingIgnoringCase(name);
     
         if(medicalRecords.isEmpty()) throwBadRequest();
     
@@ -41,7 +41,7 @@ public class MedicalRecordService {
 
     public List<MedicalRecordResponseDto> listMedicalRecords(Long id, String name) {
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
-            .findAllByPatientIdAndPatientFullNameContaining(id, name);
+            .findAllByPatientIdAndPatientFullNameContainingIgnoringCase(id, name);
 
         if(medicalRecords.isEmpty()) throwBadRequest();
 

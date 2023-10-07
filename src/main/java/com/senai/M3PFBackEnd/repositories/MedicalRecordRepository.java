@@ -7,9 +7,9 @@ import com.senai.M3PFBackEnd.entities.MedicalRecordEntity;
 
 @Repository
 public interface MedicalRecordRepository extends JpaRepository <MedicalRecordEntity, Long> {
-    public List<MedicalRecordEntity> findAllByPatientIdAndPatientFullNameContaining(Long id, String name);
+    public List<MedicalRecordEntity> findAllByPatientIdAndPatientFullNameContainingIgnoringCase(Long id, String name);
 
     public List<MedicalRecordEntity> findAllByPatientId(Long id);
 
-    public List<MedicalRecordEntity> findAllByPatientFullNameContaining(String name);
+    public List<MedicalRecordEntity> findAllByPatientFullNameContainingIgnoringCase(String name);
 }
