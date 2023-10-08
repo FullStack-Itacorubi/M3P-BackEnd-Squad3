@@ -28,8 +28,6 @@ public class MedicamentMapper {
         MedicamentEntity target = new MedicamentEntity();
 
         target.setName(source.name());
-        target.setDate(source.date());
-        target.setTime(source.time());
         target.setType(MedicamentType.valueOf(source.type()));
         target.setQuantity(source.quantity());
         target.setUnit(MedicamentUnit.valueOf(source.unit()));
