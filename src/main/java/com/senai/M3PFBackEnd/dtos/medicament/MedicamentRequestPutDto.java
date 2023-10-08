@@ -9,24 +9,11 @@ import java.time.LocalTime;
 public record MedicamentRequestPutDto(
         @NotBlank(message = "O campo nome é obrigatório!")
         @Size(
-                min = 8,
+                min = 5,
                 max = 100,
-                message = "O campo nome deve ter entre 8 a 100 caracteres."
+                message = "O campo nome deve ter entre 5 a 100 caracteres."
         )
         String name,
-
-        @NotNull(message = "O campo data do medicamento é obrigatório!")
-        @JsonFormat(
-                shape = JsonFormat.Shape.STRING,
-                pattern = "dd/MM/yyyy",
-                locale = "pt-BR",
-                timezone = "Brazil/East"
-        )
-        LocalDate date,
-
-        @NotNull(message = "O campo hora do medicamento é obrigatório!")
-        @JsonFormat(pattern = "HH:mm:ss")
-        LocalTime time,
 
         @NotBlank(message = "O campo tipo do medicamento é obrigatório!")
         @Pattern(

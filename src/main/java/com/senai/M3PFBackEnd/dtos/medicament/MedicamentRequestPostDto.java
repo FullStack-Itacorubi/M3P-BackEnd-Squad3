@@ -9,9 +9,9 @@ import java.time.LocalTime;
 public record MedicamentRequestPostDto(
         @NotBlank(message = "O campo nome é obrigatório!")
         @Size(
-                min = 8,
+                min = 5,
                 max = 100,
-                message = "O campo nome deve ter entre 8 a 100 caracteres."
+                message = "O campo nome deve ter entre 5 a 100 caracteres."
         )
         String name,
 
