@@ -1,6 +1,7 @@
 package com.senai.M3PFBackEnd.exceptions;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +24,20 @@ public class HandlerExceptions {
 
             errors.put(fieldName, errorMessage);
         });
+
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Map<String, String> handleHttpDeserializeException(HttpMessageNotReadableException exception) {
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put(
+                "message",
+                // exception.getHttpInputMessage().toString(),
+                exception.getLocalizedMessage()
+                );
 
         return errors;
     }
