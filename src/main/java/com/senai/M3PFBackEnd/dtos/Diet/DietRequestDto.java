@@ -21,7 +21,7 @@ public record DietRequestDto(
         LocalDate dietDate,
 
         @NotNull(message = "O campo Horário da Dieta é obrigatório!")
-        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+        @JsonFormat(pattern = "HH:mm:ss")
         LocalTime dietTime,
 
         @NotBlank(message = "O campo Tipo de Dieta é obrigatório!")
@@ -32,9 +32,7 @@ public record DietRequestDto(
         String type,
 
         //Atualizar e Vincular com entidade Pacientes
-        @Column(nullable=false)
-        String description,
+        String description
 
-        Boolean status
 ) {
 }
