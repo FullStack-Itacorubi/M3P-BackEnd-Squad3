@@ -48,7 +48,7 @@ public class DietController {
     public ResponseEntity<DietResponseDto> getDiet(
             @PathVariable(name = "idDiet") Long id
     ) {
-        DietResponseDto diet = this.dietService.getOne(id);
+        DietResponseDto diet = this.dietService.getDietById(id);
 
         return new ResponseEntity<>(diet, HttpStatus.OK);
     }
@@ -61,7 +61,7 @@ public class DietController {
         this.dietService.delete(id);
 
         return new ResponseEntity<>(
-                "Consulta excluida com sucesso!",
+                "Dieta excluida com sucesso!",
                 HttpStatus.ACCEPTED
         );
     }

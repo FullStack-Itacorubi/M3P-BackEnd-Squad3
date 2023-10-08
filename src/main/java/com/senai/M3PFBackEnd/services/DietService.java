@@ -47,7 +47,11 @@ public class DietService {
 
         DietEntity diet = DietMapper.map(dietToUpdate);
 
+        DietEntity found = getDiet(id);
+
         diet.setId(id);
+        diet.setDietDate(found.getDietDate());
+        diet.setDietTime(found.getDietTime());
 
         return new DietResponseDto(dietRepository.save(diet));
     }
@@ -56,22 +60,15 @@ public class DietService {
         return dietRepository.findAll();
     }
 
-    public DietResponseDto getOne(Long id) {
+    public DietResponseDto getDietById(Long id) {
         this.verifyIsHasId(id);
+        return new DietResponseDto(dietRepository.getReferenceById(id));
+    }
 
-        DietEntity diet = this.getDiet(id);
-
-        return new DietResponseDto(diet);
+    public void delete(Long id) {
+        this.verifyIsHasId(id);
+        dietRepository.deleteById(id);
     }
 
 
-    public DietEntity delete(Long id) {
-        this.verifyIsHasId(id);
-
-        DietEntity dietFound = this.getDiet(id);
-
-        this.dietRepository.delete(dietFound);
-
-        return dietFound;
-    }
 }
