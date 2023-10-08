@@ -1,5 +1,10 @@
 package com.senai.M3PFBackEnd.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum DietType {
 
         LOW_CARB("Low Carb"),
@@ -11,13 +16,5 @@ public enum DietType {
         OTHER("Outra");
 
         private final String type;
-
-        DietType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
 
 }
