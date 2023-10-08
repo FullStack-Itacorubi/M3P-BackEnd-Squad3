@@ -47,7 +47,7 @@ public class QueryController {
     public ResponseEntity<QueryResponseDto> getQuery(
             @PathVariable(name = "idQuery") Long id
     ) {
-        QueryResponseDto query = this.queryService.getOne(id);
+        QueryResponseDto query = this.queryService.getDietById(id);
 
         return new ResponseEntity<>(query, HttpStatus.OK);
     }

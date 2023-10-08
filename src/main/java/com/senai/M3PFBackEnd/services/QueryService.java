@@ -58,22 +58,16 @@ public class QueryService {
             return queryRepository.findAll();
     }
 
-    public QueryResponseDto getOne(Long id) {
+    public QueryResponseDto getDietById(Long id) {
         this.verifyIsHasId(id);
 
-        QueryEntity query = this.getQuery(id);
-
-        return new QueryResponseDto(query);
+        return new QueryResponseDto(queryRepository.getReferenceById(id));
     }
 
-    public QueryEntity delete(Long id) {
+    public void delete(Long id) {
         this.verifyIsHasId(id);
 
-        QueryEntity queryFound = this.getQuery(id);
-
-        this.queryRepository.delete(queryFound);
-
-        return queryFound;
+        queryRepository.deleteById(id);
     }
 
 
