@@ -25,8 +25,6 @@ public class DietMapper {
         DietEntity target = new DietEntity();
 
         target.setDietName(source.dietName());
-        target.setDietDate(source.dietDate());
-        target.setDietTime(source.dietTime());
         target.setType(DietType.valueOf(source.type()));
         target.setDescription(source.description());
         target.setStatus(source.status());
