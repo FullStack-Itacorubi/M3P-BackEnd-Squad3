@@ -51,7 +51,7 @@ public class MedicamentController {
     public ResponseEntity<MedicamentResponseDto> getMedicament(
             @PathVariable(name = "idMedicament") Long id
     ) {
-        MedicamentResponseDto medicament = this.medicamentService.getOne(id);
+        MedicamentResponseDto medicament = this.medicamentService.getMedicamentById(id);
 
         return new ResponseEntity<>(medicament, HttpStatus.OK);
     }
