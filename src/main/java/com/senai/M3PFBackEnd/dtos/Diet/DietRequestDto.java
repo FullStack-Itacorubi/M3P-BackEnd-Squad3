@@ -27,7 +27,7 @@ public record DietRequestDto(
         @NotBlank(message = "O campo Tipo de Dieta é obrigatório!")
         @Pattern(
                 regexp = "LOW_CARB|DASH|PALEOLITHIC|KETOGENIC|DUKAN|MEDITERRANEAN|OTHER",
-                message = "O tipo de ser: LOW CARB, DASH, PALEOLITHIC, KETOGENIC, DUKAN, MEDITERRANEAN ou OTHER"
+                message = "O tipo deve ser: LOW CARB, DASH, PALEOLITHIC, KETOGENIC, DUKAN, MEDITERRANEAN ou OTHER"
         )
         String type,
 
