@@ -19,7 +19,7 @@ public record QueryRequestDto(
         LocalDate consultationDate,
 
         @NotNull(message = "O campo Horário da Consulta é obrigatório!")
-        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+        @JsonFormat(pattern = "HH:mm:ss")
         LocalTime consultationTime,
 
         @NotBlank(message = "O campo Descrição do Problema é obrigatório!")
@@ -31,8 +31,7 @@ public record QueryRequestDto(
 
         @NotBlank(message = "O campo Dosagem e Precauções é obrigatório!")
         @Size(min = 16, max = 256, message = "O campo Dosagem e Precauções deve ter no mínimo 16 e máximo 256 caracteres, respectivamente!")
-        String dosageAndRecautions,
+        String dosageAndRecautions
 
-        Boolean status
 ) {
 }
