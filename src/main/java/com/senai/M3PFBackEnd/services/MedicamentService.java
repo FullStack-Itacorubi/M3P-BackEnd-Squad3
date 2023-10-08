@@ -31,10 +31,6 @@ public class MedicamentService {
         }
     }
 
-    private MedicamentEntity getMedicament(Long id) {
-        return this.medicamentRepository.getReferenceById(id);
-    }
-
     public MedicamentResponseDto save(MedicamentRequestPostDto newMedicament) {
         MedicamentEntity medicament = MedicamentMapper.map(newMedicament);
 
@@ -44,7 +40,6 @@ public class MedicamentService {
     public MedicamentResponseDto update(Long id, MedicamentRequestPutDto medicamentToUpdate) {
         this.verifyIfHasId(id);
 
-        // MedicamentEntity medicamentFound = getMedicament(id);
         MedicamentEntity medicament = MedicamentMapper.map(medicamentToUpdate);
 
         medicament.setId(id);
@@ -60,12 +55,9 @@ public class MedicamentService {
                 .toList();
     }
 
-    public MedicamentResponseDto getOne(Long id) {
+    public MedicamentResponseDto getMedicamentById(Long id) {
         this.verifyIfHasId(id);
 
-        /*MedicamentEntity medicament = this.getMedicament(id);
-
-        return new MedicamentResponseDto(medicament);*/
         return new MedicamentResponseDto(this.medicamentRepository.getReferenceById(id));
     }
 
