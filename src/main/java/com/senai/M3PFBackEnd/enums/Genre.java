@@ -3,7 +3,6 @@ package com.senai.M3PFBackEnd.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-// TODO: fazer enum Genre
 @Getter
 @AllArgsConstructor
 public enum Genre {
