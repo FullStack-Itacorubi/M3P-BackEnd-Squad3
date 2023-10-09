@@ -1,10 +1,6 @@
 package com.senai.M3PFBackEnd.dtos.medicament;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public record MedicamentRequestPutDto(
         @NotBlank(message = "O campo nome é obrigatório!")

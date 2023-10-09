@@ -3,7 +3,6 @@ package com.senai.M3PFBackEnd.controllers;
 import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.exam.ExamRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.exam.ExamResponseDto;
-import com.senai.M3PFBackEnd.dtos.user.UserResponseDto;
 import com.senai.M3PFBackEnd.services.ExamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

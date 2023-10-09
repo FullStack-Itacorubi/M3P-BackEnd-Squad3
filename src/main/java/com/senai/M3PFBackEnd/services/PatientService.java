@@ -5,10 +5,8 @@ import com.senai.M3PFBackEnd.dtos.patient.PatientRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.patient.PatientResponseDto;
 import com.senai.M3PFBackEnd.entities.PatientEntity;
 import com.senai.M3PFBackEnd.mappers.PatientMapper;
-import com.senai.M3PFBackEnd.repositories.AddressRepository;
 import com.senai.M3PFBackEnd.repositories.PatientRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,9 @@ import java.util.List;
 public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private MedicalRecordService medicalRecordService;
 
     private void verifyIfHasCpf(String cpf) {
         boolean isCpfAlreadyExists = this.patientRepository.existsByCpf(cpf);
@@ -80,8 +81,10 @@ public class PatientService {
         verifyIfHasEmail(newPatient.email());
 
         PatientEntity patient = PatientMapper.map(newPatient);
+        patient = this.patientRepository.save(patient);
+        medicalRecordService.createMedicalRecord(patient);
 
-        return new PatientResponseDto(this.patientRepository.save(patient));
+        return new PatientResponseDto(patient);
     }
 
     public PatientResponseDto update(Long id, PatientRequestPutDto patientToUpdate) {
