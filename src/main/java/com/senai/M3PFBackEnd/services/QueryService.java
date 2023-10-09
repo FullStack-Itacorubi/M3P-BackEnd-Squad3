@@ -58,7 +58,7 @@ public class QueryService {
             return queryRepository.findAll();
     }
 
-    public QueryResponseDto getDietById(Long id) {
+    public QueryResponseDto getQueryById(Long id) {
         this.verifyIsHasId(id);
 
         return new QueryResponseDto(queryRepository.getReferenceById(id));
