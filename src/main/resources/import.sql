@@ -1,1 +1,3 @@
-INSERT INTO public.diets(diet_name, diet_date, diet_time, type, description, status) VALUES ('Dieta baixar de peso', '19/09/2023', '08:45:07', 'LOW_CARB', 'Saladas e frutos do mar', true);
+
+INSERT INTO public.users(status, id, cpf, email, full_name, genre, password, phone, type) VALUES (true, '1', '390.053.750-00', 'administrador@email.com', 'Manda-chuva', 'NONBINARY', 'senhamestre', '(49) 9 8622-8534', 'ADMINISTRATOR');
+
