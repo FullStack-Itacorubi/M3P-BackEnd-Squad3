@@ -24,8 +24,6 @@ public class ExerciseMapper {
         ExerciseEntity target = new ExerciseEntity();
 
         target.setName(source.name());
-        target.setDate(source.date());
-        target.setTime(source.time());
         target.setType(ExerciseType.valueOf(source.type()));
         target.setWeeklyAmount(source.weeklyAmount());
         target.setDescription(source.description());

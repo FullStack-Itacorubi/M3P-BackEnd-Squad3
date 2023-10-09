@@ -13,6 +13,9 @@ public record ExerciseRequestPostDto(
                 @Size(min = 5, max = 100)
                 String name,
 
+                @NotNull(message = "O campo ID do paciente é obrigatório!")
+                Long patientId,
+
                 @NotNull(message = "O campo data é obrigatório!")
                 @JsonFormat(pattern = "dd/MM/yyyy")
                 LocalDate date,
