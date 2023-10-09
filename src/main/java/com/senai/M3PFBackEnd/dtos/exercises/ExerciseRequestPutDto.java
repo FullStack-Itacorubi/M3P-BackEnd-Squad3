@@ -1,8 +1,5 @@
 package com.senai.M3PFBackEnd.dtos.exercises;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -12,14 +9,6 @@ public record ExerciseRequestPutDto(
     @NotBlank(message = "O campo nome da série de exercícios é obrigatório!")
     @Size(min = 5, max = 100)
     String name,
-
-    @NotNull(message = "O campo data é obrigatório!")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    LocalDate date,
-
-    @NotNull(message = "O campo horário é obrigatório!")
-    @JsonFormat(pattern = "HH:mm:ss")
-    LocalTime time,
 
     @NotBlank(message = "O campo tipo é obrigatório!")
     @Pattern(
