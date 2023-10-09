@@ -32,7 +32,11 @@ public class MedicalRecordEntity {
     @OneToMany
     private List<ExerciseEntity> exercises;
 
-    // TODO: adicionar relacionamentos de consulta e dieta
+    @OneToMany
+    private List<QueryEntity> queries;
+
+    @OneToMany
+    private List<DietEntity> diets;
 
     public MedicalRecordEntity(PatientEntity patient) {
         this.patient = patient;
@@ -45,7 +49,11 @@ public class MedicalRecordEntity {
 
         if(!this.exercises.isEmpty())
             throw new RuntimeException("Não é possível excluir paciente, pois existe pelo menos um exercício associado a ele.");
-
-        // TODO: adicionar exceções para consulta e dieta
-    }
+                        
+        if(!this.queries.isEmpty())
+            throw new RuntimeException("Não é possível excluir paciente, pois existe pelo menos uma consulta associada a ele.");
+                
+        if(!this.diets.isEmpty())
+            throw new RuntimeException("Não é possível excluir paciente, pois existe pelo menos uma dieta associada a ele.");
+        }
 }
