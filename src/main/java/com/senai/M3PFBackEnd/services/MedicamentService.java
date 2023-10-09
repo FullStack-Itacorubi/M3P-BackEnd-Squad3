@@ -4,7 +4,6 @@ import com.senai.M3PFBackEnd.dtos.medicament.MedicamentRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.medicament.MedicamentRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.medicament.MedicamentResponseDto;
 import com.senai.M3PFBackEnd.entities.MedicamentEntity;
-import com.senai.M3PFBackEnd.entities.UserEntity;
 import com.senai.M3PFBackEnd.mappers.MedicamentMapper;
 import com.senai.M3PFBackEnd.repositories.MedicamentRepository;
 

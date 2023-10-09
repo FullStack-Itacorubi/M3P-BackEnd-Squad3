@@ -3,7 +3,6 @@ package com.senai.M3PFBackEnd.controllers;
 import com.senai.M3PFBackEnd.dtos.medicament.MedicamentRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.medicament.MedicamentRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.medicament.MedicamentResponseDto;
-import com.senai.M3PFBackEnd.dtos.medicament.MedicamentResponseDto;
 import com.senai.M3PFBackEnd.services.MedicamentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
