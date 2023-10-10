@@ -43,7 +43,7 @@ public class ExerciseController {
 
     @GetMapping
     public ResponseEntity<List<ExerciseResponseDto>> listExercises(
-            @RequestParam(name = "nome") String name){
+            @RequestParam(name = "nome", required = false) String name){
         List<ExerciseResponseDto> responseList = exerciseService.getExercises(name);
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
