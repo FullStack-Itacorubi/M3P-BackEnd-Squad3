@@ -13,6 +13,9 @@ public record ExamRequestPostDto(
         @Size(min = 8, max = 64, message = "O campo nome do exame deve ter de 6 a 64 caracteres!")
         String examName,
 
+        @NotNull(message = "O campo ID do paciente é obrigatório!")
+        Long patientId,
+
         @NotNull(message = "O campo data do exame é obrigatório!")
         @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate examDate,
