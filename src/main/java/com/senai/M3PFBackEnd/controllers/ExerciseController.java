@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 public class ExerciseController {
 
     @Autowired
-    ExerciseService exerciseService;
+    private ExerciseService exerciseService;
 
     @PostMapping
     public ResponseEntity<ExerciseResponseDto> registerExercise(

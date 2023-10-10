@@ -18,13 +18,13 @@ import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
 public class ExerciseService {
     
     @Autowired
-    ExerciseRepository exerciseRepository;
+    private ExerciseRepository exerciseRepository;
 
     @Autowired
-    MedicalRecordRepository medicalRecordRepository;
+    private MedicalRecordRepository medicalRecordRepository;
 
     @Autowired
-    MedicalRecordService medicalRecordService;
+    private MedicalRecordService medicalRecordService;
 
     public ExerciseResponseDto save(ExerciseRequestPostDto requestDto) {
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
