@@ -1,5 +1,6 @@
 package com.senai.M3PFBackEnd.services;
 
+import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,16 +12,26 @@ import com.senai.M3PFBackEnd.dtos.exercises.ExerciseResponseDto;
 import com.senai.M3PFBackEnd.entities.ExerciseEntity;
 import com.senai.M3PFBackEnd.mappers.ExerciseMapper;
 import com.senai.M3PFBackEnd.repositories.ExerciseRepository;
+import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
 
 @Service
 public class ExerciseService {
     
     @Autowired
-    ExerciseRepository exerciseRepository;
+    private ExerciseRepository exerciseRepository;
+
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
+
+    @Autowired
+    private MedicalRecordService medicalRecordService;
 
     public ExerciseResponseDto save(ExerciseRequestPostDto requestDto) {
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
-        return new ExerciseResponseDto(exerciseRepository.save(exercise));
+        exercise = exerciseRepository.save(exercise);
+        medicalRecordService.addExerciseToPatient(exercise, requestDto.patientId());
+
+        return new ExerciseResponseDto(exercise);
     }
 
     public ExerciseResponseDto update(Long id, ExerciseRequestPutDto requestDto) {
@@ -31,8 +42,12 @@ public class ExerciseService {
     }
 
     public List<ExerciseResponseDto> getExercises(String name) {
-        // TODO adicionar retorno por nome de pacientes
-        // if(!name.isBlank())
+        if(!name.isBlank()) {
+            List<ExerciseEntity> exercises = medicalRecordRepository
+                .findAllByPatientFullNameContainingIgnoringCase(name).stream()
+                .map(r -> r.getExercises()).flatMap(Collection::stream).toList();
+            return exercises.stream().map(ExerciseResponseDto::new).toList();
+        }
 
         return exerciseRepository.findAll().stream().map(ExerciseResponseDto::new).toList();
     }
