@@ -18,9 +18,16 @@ public class ExamService {
     @Autowired
     private ExamRepository examRepository;
 
-    public ExamResponseDto save(ExamRequestPostDto newExam) {
+    @Autowired
+    LogsService logsService;
+
+    public ExamResponseDto save(ExamRequestPostDto newExam, Long userId) {
         ExamEntity exam = ExamMapper.map(newExam);
-        return new ExamResponseDto(this.examRepository.save(exam));
+        exam = this.examRepository.save(exam);
+
+        logsService.saveLog("O usuário de id " + userId + " criou um novo exame: " + exam.getExamName() + "("
+                + exam.getId() + ")");
+        return new ExamResponseDto(exam);
     }
 
     private void verifyIsHasId(Long id) {
@@ -29,19 +36,22 @@ public class ExamService {
         if (!isIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
+                    "O id informado é inválido!");
         }
     }
 
-    public ExamResponseDto update(Long id, ExamRequestPutDto examToUpdate){
+    public ExamResponseDto update(Long id, ExamRequestPutDto examToUpdate, Long userId) {
         this.verifyIsHasId(id);
         ExamEntity exam = ExamMapper.map(examToUpdate);
         exam.setId(id);
-        return new ExamResponseDto(examRepository.save(exam));
+        exam = examRepository.save(exam);
+
+        logsService.saveLog("O usuário de id " + userId + " alterou o exame: " + exam.getExamName() + "("
+                + exam.getId() + ")");
+        return new ExamResponseDto(exam);
     }
 
-    //TODO: filtar GET pelo nome do Usuário
+    // TODO: filtar GET pelo nome do Usuário
     public List<ExamResponseDto> getAllExams() {
         return this.examRepository
                 .findAll()
@@ -50,14 +60,15 @@ public class ExamService {
                 .toList();
     }
 
-    public ExamResponseDto getExamById(Long id){
+    public ExamResponseDto getExamById(Long id) {
         this.verifyIsHasId(id);
         return new ExamResponseDto(examRepository.getReferenceById(id));
     }
 
-    public void delete(Long id){
+    public void delete(Long id, Long userId) {
         this.verifyIsHasId(id);
         examRepository.deleteById(id);
+        logsService.saveLog("O usuário de id " + userId + " excluiu o exame de id: " + id);
     }
 
 }
