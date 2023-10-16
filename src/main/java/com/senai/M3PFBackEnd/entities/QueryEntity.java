@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity(name = "Query")
 @Table(name = "queries")
@@ -28,9 +29,8 @@ public class QueryEntity {
     @Column(nullable=false)
     private String problemDescription;
 
-    //Atualizar e Vincular com entidade Medicamentos
-    @Column(nullable=false)
-    private String prescriptionMedication;
+    @OneToMany()
+    private List<MedicamentEntity> medicaments;
 
     @Column(nullable=false)
     private String dosageAndRecautions;
