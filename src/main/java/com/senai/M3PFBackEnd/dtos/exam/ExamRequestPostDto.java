@@ -29,7 +29,7 @@ public record ExamRequestPostDto(
         String examType,
 
         @NotBlank(message = "O campo laboratório é obrigatório!")
-        @Size(min = 4, max = 32, message = "O campo labortaório deve ter de 4 a 32 caracteres!")
+        @Size(min = 4, max = 32, message = "O campo laboratório deve ter de 4 a 32 caracteres!")
         String laboratory,
 
         String documentUrl,
