@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.senai.M3PFBackEnd.dtos.medicalRecord.MedicalRecordResponseDto;
+import com.senai.M3PFBackEnd.entities.ExerciseEntity;
 import com.senai.M3PFBackEnd.entities.MedicalRecordEntity;
 import com.senai.M3PFBackEnd.entities.PatientEntity;
 import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
@@ -46,6 +47,12 @@ public class MedicalRecordService {
         if(medicalRecords.isEmpty()) throwBadRequest();
 
         return mapListToDto(medicalRecords);
+    }
+
+    public void addExerciseToPatient(ExerciseEntity exercise, Long patientId) {
+        MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
+        medicalRecord.getExercises().add(exercise);
+        medicalRecordsRepository.save(medicalRecord);
     }
 
     private List<MedicalRecordResponseDto> mapListToDto(List<MedicalRecordEntity> list) {
