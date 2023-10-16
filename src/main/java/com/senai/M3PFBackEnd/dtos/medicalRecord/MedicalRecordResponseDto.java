@@ -2,7 +2,7 @@ package com.senai.M3PFBackEnd.dtos.medicalRecord;
 
 import java.util.List;
 import com.senai.M3PFBackEnd.dtos.Diet.DietResponseDto;
-import com.senai.M3PFBackEnd.dtos.Query.QueryResponseDto;
+import com.senai.M3PFBackEnd.dtos.query.QueryResponseDto;
 import com.senai.M3PFBackEnd.dtos.exam.ExamResponseDto;
 import com.senai.M3PFBackEnd.dtos.exercises.ExerciseResponseDto;
 import com.senai.M3PFBackEnd.dtos.patient.PatientResponseDto;

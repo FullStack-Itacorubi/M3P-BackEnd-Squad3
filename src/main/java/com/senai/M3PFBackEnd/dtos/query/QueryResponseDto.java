@@ -1,4 +1,4 @@
-package com.senai.M3PFBackEnd.dtos.Query;
+package com.senai.M3PFBackEnd.dtos.query;
 
 import com.senai.M3PFBackEnd.dtos.medicament.MedicamentResponseDto;
 import com.senai.M3PFBackEnd.entities.QueryEntity;
