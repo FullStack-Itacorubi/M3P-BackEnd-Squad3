@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 public class ExerciseController {
 
     @Autowired
-    ExerciseService exerciseService;
+    private ExerciseService exerciseService;
 
     @PostMapping
     public ResponseEntity<ExerciseResponseDto> registerExercise(
@@ -43,7 +43,7 @@ public class ExerciseController {
 
     @GetMapping
     public ResponseEntity<List<ExerciseResponseDto>> listExercises(
-            @RequestParam(required = false, name = "nome") String name) {
+            @RequestParam(name = "nome", required = false) String name){
         List<ExerciseResponseDto> responseList = exerciseService.getExercises(name);
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
