@@ -1,8 +1,12 @@
 package com.senai.M3PFBackEnd.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.senai.M3PFBackEnd.dtos.stats.GenericStatDTO;
 import com.senai.M3PFBackEnd.repositories.DietRepository;
 import com.senai.M3PFBackEnd.repositories.ExamRepository;
 import com.senai.M3PFBackEnd.repositories.ExerciseRepository;
@@ -14,27 +18,36 @@ import com.senai.M3PFBackEnd.repositories.UserRepository;
 @Service
 public class StatsService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    DietRepository dietRepository;
+    private DietRepository dietRepository;
 
     @Autowired
-    ExamRepository examRepository;
+    private ExamRepository examRepository;
 
     @Autowired
-    ExerciseRepository exerciseRepository;
+    private ExerciseRepository exerciseRepository;
 
     @Autowired
-    MedicamentRepository medicamentRepository;
+    private MedicamentRepository medicamentRepository;
 
     @Autowired
-    PatientRepository patientRepository;
+    private PatientRepository patientRepository;
 
     @Autowired
-    QueryRepository queryRepository;
+    private QueryRepository queryRepository;
 
-    public void getStatistics() {
+    public List<GenericStatDTO> getStatistics() {
+        List<GenericStatDTO> list = new ArrayList<>();
+        list.add(new GenericStatDTO("Usuários", userRepository.count()));
+        list.add(new GenericStatDTO("Pacientes", patientRepository.count()));
+        list.add(new GenericStatDTO("Medicamentos", medicamentRepository.count()));
+        list.add(new GenericStatDTO("Exercícios", exerciseRepository.count()));
+        list.add(new GenericStatDTO("Consultas", queryRepository.count()));
+        list.add(new GenericStatDTO("Exames", examRepository.count()));
+        list.add(new GenericStatDTO("Dietas", dietRepository.count()));
 
+        return list;
     }
 }
