@@ -35,8 +35,8 @@ public class ExamController {
 
     // TODO: filtar GET pelo nome do Usuário
     @GetMapping
-    public ResponseEntity<List<ExamResponseDto>> getExams() {
-        List<ExamResponseDto> examsList = this.examService.getAllExams();
+    public ResponseEntity<List<ExamResponseDto>> getExams(@RequestParam(name = "nome") String name) {
+        List<ExamResponseDto> examsList = this.examService.getAllExams(name);
         return new ResponseEntity<>(examsList, HttpStatus.OK);
     }
 

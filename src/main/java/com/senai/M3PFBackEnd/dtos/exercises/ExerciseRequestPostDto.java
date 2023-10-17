@@ -10,8 +10,11 @@ import jakarta.validation.constraints.Size;
 
 public record ExerciseRequestPostDto(
                 @NotBlank(message = "O campo nome da série de exercícios é obrigatório!")
-                @Size(min = 5, max = 100)
+                @Size(min = 5, max = 100, message = "O campo nome da série de exercícios deve ter entre 5 a 100 caracteres")
                 String name,
+
+                @NotNull(message = "O campo ID do paciente é obrigatório!")
+                Long patientId,
 
                 @NotNull(message = "O campo data é obrigatório!")
                 @JsonFormat(pattern = "dd/MM/yyyy")
@@ -31,7 +34,7 @@ public record ExerciseRequestPostDto(
                 Integer weeklyAmount,
 
                 @NotBlank(message = "O campo descrição é obrigatório!")
-                @Size(min = 10, max = 1000)
+                @Size(min = 10, max = 1000, message = "O campo descrição deve ter entre 10 a 1000 caracteres")
                 String description) {
 
 }
