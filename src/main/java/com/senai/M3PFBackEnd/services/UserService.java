@@ -99,14 +99,10 @@ public class UserService {
         return new UserResponseDto(user);
     }
 
-    public UserEntity delete(Long id) {
+    public void delete(Long id) {
         this.verifyIfHasId(id);
 
-        UserEntity userFound = this.getUser(id);
-
         this.userRepository.deleteById(id);
-
-        return userFound;
     }
 
     public LoginResponseDto login(LoginRequestDto newLogin) {
