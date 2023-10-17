@@ -19,19 +19,21 @@ public class ExamController {
     private ExamService examService;
 
     @PostMapping
-    public ResponseEntity<ExamResponseDto> registerExam(@RequestBody @Valid ExamRequestPostDto newExam) {
-        ExamResponseDto exam = this.examService.save(newExam);
+    public ResponseEntity<ExamResponseDto> registerExam(@RequestBody @Valid ExamRequestPostDto newExam,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        ExamResponseDto exam = this.examService.save(newExam, userId);
         return new ResponseEntity<>(exam, HttpStatus.CREATED);
     }
 
     @PutMapping("{idExam}")
     public ResponseEntity<ExamResponseDto> updateExam(@PathVariable(name = "idExam") Long id,
-                                                      @RequestBody @Valid ExamRequestPutDto examToUpdate) {
-        ExamResponseDto examUpdated = this.examService.update(id, examToUpdate);
+            @RequestBody @Valid ExamRequestPutDto examToUpdate,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        ExamResponseDto examUpdated = this.examService.update(id, examToUpdate, userId);
         return new ResponseEntity<>(examUpdated, HttpStatus.OK);
     }
 
-    //TODO: filtar GET pelo nome do Usuário
+    // TODO: filtar GET pelo nome do Usuário
     @GetMapping
     public ResponseEntity<List<ExamResponseDto>> getExams(@RequestParam(name = "nome") String name) {
         List<ExamResponseDto> examsList = this.examService.getAllExams(name);
@@ -45,12 +47,12 @@ public class ExamController {
     }
 
     @DeleteMapping("{idExam}")
-    public ResponseEntity<String> deleteExam(@PathVariable(name = "idExam") Long id) {
-        this.examService.delete(id);
+    public ResponseEntity<String> deleteExam(@PathVariable(name = "idExam") Long id,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        this.examService.delete(id, userId);
         return new ResponseEntity<>(
                 "Exame excluído com sucesso!",
-                HttpStatus.ACCEPTED
-        );
+                HttpStatus.ACCEPTED);
     }
 
 }
