@@ -16,7 +16,7 @@ import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
 
 @Service
 public class ExerciseService {
-    
+
     @Autowired
     private ExerciseRepository exerciseRepository;
 
@@ -26,19 +26,26 @@ public class ExerciseService {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
-    public ExerciseResponseDto save(ExerciseRequestPostDto requestDto) {
+    @Autowired
+    LogsService logsService;
+
+    public ExerciseResponseDto save(ExerciseRequestPostDto requestDto, Long userId) {
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
         exercise = exerciseRepository.save(exercise);
+        logsService.saveLog("O usuário de id " + userId + " criou um novo exercício: " + exercise.getName() + "("
+                + exercise.getId() + ")");
         medicalRecordService.addExerciseToPatient(exercise, requestDto.patientId());
-
         return new ExerciseResponseDto(exercise);
     }
 
-    public ExerciseResponseDto update(Long id, ExerciseRequestPutDto requestDto) {
+    public ExerciseResponseDto update(Long id, ExerciseRequestPutDto requestDto, Long userId) {
         verifyIfHasId(id);
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
         exercise.setId(id);
-        return new ExerciseResponseDto(exerciseRepository.save(exercise));
+        exercise = exerciseRepository.save(exercise);
+        logsService.saveLog("O usuário de id " + userId + " alterou o exercício: " + exercise.getName() + "("
+                + exercise.getId() + ")");
+        return new ExerciseResponseDto(exercise);
     }
 
     public List<ExerciseResponseDto> getExercises(String name) {
@@ -57,9 +64,10 @@ public class ExerciseService {
         return new ExerciseResponseDto(exerciseRepository.getReferenceById(id));
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
         verifyIfHasId(id);
         exerciseRepository.deleteById(id);
+        logsService.saveLog("O usuário de id " + userId + " excluiu o exercício de id: " + id);
     }
 
     private void verifyIfHasId(Long id) {
@@ -68,8 +76,7 @@ public class ExerciseService {
         if (!isIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
+                    "O id informado é inválido!");
         }
     }
 }

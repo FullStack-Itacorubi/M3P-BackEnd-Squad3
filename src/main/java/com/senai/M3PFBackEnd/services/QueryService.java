@@ -1,6 +1,5 @@
 package com.senai.M3PFBackEnd.services;
 
-
 import com.senai.M3PFBackEnd.dtos.Query.QueryRequestDto;
 import com.senai.M3PFBackEnd.dtos.Query.QueryRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.Query.QueryResponseDto;
@@ -14,12 +13,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-
 @Service
 public class QueryService {
     @Autowired
     private QueryRepository queryRepository;
 
+    @Autowired
+    LogsService logsService;
 
     private void verifyIsHasId(Long id) {
         boolean isIdExists = this.queryRepository.existsById(id);
@@ -27,8 +27,7 @@ public class QueryService {
         if (!isIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
+                    "O id informado é inválido!");
         }
     }
 
@@ -36,26 +35,38 @@ public class QueryService {
         return this.queryRepository.getReferenceById(id);
     }
 
-    public QueryResponseDto save(QueryRequestDto newQuery) {
+    public QueryResponseDto save(QueryRequestDto newQuery, Long userId) {
 
         QueryEntity query = QueryMapper.map(newQuery);
 
-        return new QueryResponseDto(queryRepository.save(query));
+        query = queryRepository.save(query);
+
+        logsService
+                .saveLog("O usuário de id " + userId + " criou uma nova consulta: " + query.getReasonForConsultation()
+                        + "("
+                        + query.getId() + ")");
+
+        return new QueryResponseDto(query);
     }
 
-
-    public QueryResponseDto update(Long id, QueryRequestPutDto queryToUpdate) {
+    public QueryResponseDto update(Long id, QueryRequestPutDto queryToUpdate, Long userId) {
         this.verifyIsHasId(id);
 
         QueryEntity query = QueryMapper.map(queryToUpdate);
 
         query.setId(id);
 
-        return new QueryResponseDto(queryRepository.save(query));
+        query = queryRepository.save(query);
+
+        logsService
+                .saveLog("O usuário de id " + userId + " alterou a consulta: " + query.getReasonForConsultation() + "("
+                        + query.getId() + ")");
+
+        return new QueryResponseDto(query);
     }
 
     public List<QueryEntity> findAll() {
-            return queryRepository.findAll();
+        return queryRepository.findAll();
     }
 
     public QueryResponseDto getQueryById(Long id) {
@@ -64,12 +75,11 @@ public class QueryService {
         return new QueryResponseDto(queryRepository.getReferenceById(id));
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
         this.verifyIsHasId(id);
 
         queryRepository.deleteById(id);
+        logsService.saveLog("O usuário de id " + userId + " excluiu a consulta de id: " + id);
     }
 
-
 }
-

@@ -23,14 +23,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private LogsService logsService;
+
     private void verifyIfHasCpf(String cpf) {
         boolean isCpfAlreadyExists = this.userRepository.existsByCpf(cpf);
 
         if (isCpfAlreadyExists) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Este CPF já foi registrado em nossa base de dados!"
-            );
+                    "Este CPF já foi registrado em nossa base de dados!");
         }
     }
 
@@ -40,8 +42,7 @@ public class UserService {
         if (isEmailAlreadyExists) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Este e-mail já foi registrado em nossa base de dados!"
-            );
+                    "Este e-mail já foi registrado em nossa base de dados!");
         }
     }
 
@@ -51,8 +52,7 @@ public class UserService {
         if (!isIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
+                    "O id informado é inválido!");
         }
     }
 
@@ -60,17 +60,21 @@ public class UserService {
         return this.userRepository.getReferenceById(id);
     }
 
-    public UserResponseDto save(UserRequestPostDto newUser) {
+    public UserResponseDto save(UserRequestPostDto newUser, Long userId) {
         this.verifyIfHasCpf(newUser.cpf());
 
         this.verifyIfHasEmail(newUser.email());
 
         UserEntity user = UserMapper.map(newUser);
+        user = this.userRepository.save(user);
 
-        return new UserResponseDto(this.userRepository.save(user));
+        logsService.saveLog("O usuário de id " + userId + " criou um novo usuário: " + user.getFullName() + "("
+                + user.getId() + ") do tipo " + user.getType());
+
+        return new UserResponseDto(user);
     }
 
-    public UserResponseDto update(Long id, UserRequestPutDto userToUpdate) {
+    public UserResponseDto update(Long id, UserRequestPutDto userToUpdate, Long userId) {
         this.verifyIfHasId(id);
         UserEntity userFound = getUser(id);
 
@@ -79,8 +83,12 @@ public class UserService {
         user.setId(userFound.getId());
         user.setCpf(userFound.getCpf());
         user.setEmail(userFound.getEmail());
+        user = this.userRepository.save(user);
 
-        return new UserResponseDto(this.userRepository.save(user));
+        logsService.saveLog("O usuário de id " + userId + " atualizou o usuário: " + user.getFullName() + "("
+                + user.getId() + ")");
+
+        return new UserResponseDto(user);
     }
 
     public List<UserResponseDto> getAll() {
@@ -99,12 +107,14 @@ public class UserService {
         return new UserResponseDto(user);
     }
 
-    public UserEntity delete(Long id) {
+    public UserEntity delete(Long id, Long userId) {
         this.verifyIfHasId(id);
 
         UserEntity userFound = this.getUser(id);
 
         this.userRepository.deleteById(id);
+        this.logsService.saveLog("O usuário de id " + userId + " excluiu o usuário: " + userFound.getFullName() + "("
+                + userFound.getId() + ")");
 
         return userFound;
     }
@@ -112,26 +122,34 @@ public class UserService {
     public LoginResponseDto login(LoginRequestDto newLogin) {
         UserEntity user = userRepository.getByEmail(newLogin.email())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha ou e-mail inválido!"));
-        if(!passwordMatches(user.getPassword(), newLogin.password()))
+        if (!passwordMatches(user.getPassword(), newLogin.password()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha ou e-mail inválido!");
+
+        this.logsService.saveLog("O usuário " + user.getFullName() + "("
+                + user.getId() + ") se conectou ao sistema.");
+
         return new LoginResponseDto(user);
     }
 
-    private boolean passwordMatches(String password, String passedPassword){
+    private boolean passwordMatches(String password, String passedPassword) {
         return password.equals(passedPassword);
     }
 
-    public PasswordResetResponseDto updatePassword(PasswordResetRequestDto newPassword){
+    public PasswordResetResponseDto updatePassword(PasswordResetRequestDto newPassword) {
         this.verifyIfHasId(newPassword.id());
         UserEntity user = getUser(newPassword.id());
-        if(!emailMatches(user.getEmail(), newPassword.email()))
+        if (!emailMatches(user.getEmail(), newPassword.email()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email inválido!");
         user.setPassword(newPassword.password());
+        user = userRepository.save(user);
 
-        return new PasswordResetResponseDto(userRepository.save(user));
+        this.logsService.saveLog("O usuário " + user.getFullName() + "("
+                + user.getId() + ") resetou sua senha.");
+
+        return new PasswordResetResponseDto(user);
     }
 
-    private boolean emailMatches(String email, String passedEmail){
+    private boolean emailMatches(String email, String passedEmail) {
         return email.equals(passedEmail);
     }
 
