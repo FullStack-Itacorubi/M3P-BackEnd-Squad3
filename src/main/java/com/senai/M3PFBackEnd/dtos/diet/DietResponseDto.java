@@ -1,4 +1,4 @@
-package com.senai.M3PFBackEnd.dtos.Diet;
+package com.senai.M3PFBackEnd.dtos.diet;
 
 import com.senai.M3PFBackEnd.entities.DietEntity;
 
@@ -11,8 +11,6 @@ public record DietResponseDto(
         LocalDate dietDate,
         LocalTime dietTime,
         String type,
-
-        //Atualizar e Vincular com entidade Pacientes
         String description,
         Boolean status
 ) {

@@ -1,4 +1,4 @@
-package com.senai.M3PFBackEnd.dtos.Diet;
+package com.senai.M3PFBackEnd.dtos.diet;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +18,6 @@ public record DietRequestPutDto(
         )
         String type,
 
-        //Atualizar e Vincular com entidade Pacientes
         String description,
 
         @NotNull(message = "O campo status é obrigatório!")
