@@ -20,9 +20,9 @@ public class PatientController {
 
     @PostMapping
     public ResponseEntity<PatientResponseDto> registerPatient(
-            @RequestBody @Valid PatientRequestPostDto newPatient
-    ) {
-        PatientResponseDto patient = this.patientService.addPatient(newPatient);
+            @RequestBody @Valid PatientRequestPostDto newPatient,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        PatientResponseDto patient = this.patientService.addPatient(newPatient, userId);
 
         return new ResponseEntity<>(patient, HttpStatus.CREATED);
     }
@@ -30,9 +30,9 @@ public class PatientController {
     @PutMapping("{idPatient}")
     public ResponseEntity<PatientResponseDto> updatePatient(
             @PathVariable(name = "idPatient") Long id,
-            @RequestBody @Valid PatientRequestPutDto patientToUpdate
-    ) {
-        PatientResponseDto patientUpdated = this.patientService.update(id, patientToUpdate);
+            @RequestBody @Valid PatientRequestPutDto patientToUpdate,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        PatientResponseDto patientUpdated = this.patientService.update(id, patientToUpdate, userId);
 
         return new ResponseEntity<>(patientUpdated, HttpStatus.OK);
     }
@@ -46,8 +46,7 @@ public class PatientController {
 
     @GetMapping("{idPatient}")
     public ResponseEntity<PatientResponseDto> getPatient(
-            @PathVariable(name = "idPatient") Long id
-    ) {
+            @PathVariable(name = "idPatient") Long id) {
         PatientResponseDto patient = this.patientService.getOne(id);
 
         return new ResponseEntity<>(patient, HttpStatus.OK);
@@ -55,13 +54,12 @@ public class PatientController {
 
     @DeleteMapping("{idPatient}")
     public ResponseEntity<String> deletePatient(
-            @PathVariable(name = "idPatient") Long id
-    ) {
-        this.patientService.delete(id);
+            @PathVariable(name = "idPatient") Long id,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        this.patientService.delete(id, userId);
 
         return new ResponseEntity<>(
                 "Usuário excluído com sucesso!",
-                HttpStatus.ACCEPTED
-        );
+                HttpStatus.ACCEPTED);
     }
 }

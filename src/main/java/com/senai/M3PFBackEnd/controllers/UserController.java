@@ -1,6 +1,5 @@
 package com.senai.M3PFBackEnd.controllers;
 
-
 import com.senai.M3PFBackEnd.dtos.login.*;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.user.UserRequestPutDto;
@@ -23,9 +22,9 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDto> registerUser(
-            @RequestBody @Valid UserRequestPostDto newUser
-    ) {
-        UserResponseDto user = this.userService.save(newUser);
+            @RequestBody @Valid UserRequestPostDto newUser,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        UserResponseDto user = this.userService.save(newUser, userId);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
@@ -33,9 +32,9 @@ public class UserController {
     @PutMapping("{idUser}")
     public ResponseEntity<UserResponseDto> updateUser(
             @PathVariable(name = "idUser") Long id,
-            @RequestBody @Valid UserRequestPutDto userToUpdate
-    ) {
-        UserResponseDto userUpdated = this.userService.update(id, userToUpdate);
+            @RequestBody @Valid UserRequestPutDto userToUpdate,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        UserResponseDto userUpdated = this.userService.update(id, userToUpdate, userId);
 
         return new ResponseEntity<>(userUpdated, HttpStatus.OK);
     }
@@ -49,8 +48,7 @@ public class UserController {
 
     @GetMapping("{idUser}")
     public ResponseEntity<UserResponseDto> getUser(
-            @PathVariable(name = "idUser") Long id
-    ) {
+            @PathVariable(name = "idUser") Long id) {
         UserResponseDto user = this.userService.getOne(id);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -58,25 +56,24 @@ public class UserController {
 
     @DeleteMapping("{idUser}")
     public ResponseEntity<String> deleteUser(
-            @PathVariable(name = "idUser") Long id
-    ) {
-        this.userService.delete(id);
+            @PathVariable(name = "idUser") Long id,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        this.userService.delete(id, userId);
 
         return new ResponseEntity<>(
                 "Usuário excluído com sucesso!",
-                HttpStatus.ACCEPTED
-        );
+                HttpStatus.ACCEPTED);
     }
 
     @PostMapping("login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto newLogin){
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto newLogin) {
         LoginResponseDto verifiedUser = this.userService.login(newLogin);
         return new ResponseEntity<>(verifiedUser, HttpStatus.OK);
     }
 
     @PatchMapping("resetarsenha")
     public ResponseEntity<PasswordResetResponseDto> resetPassword(
-            @RequestBody @Valid PasswordResetRequestDto passwordResetRequestDto){
+            @RequestBody @Valid PasswordResetRequestDto passwordResetRequestDto) {
         return new ResponseEntity<>(this.userService.updatePassword(passwordResetRequestDto), HttpStatus.OK);
     }
 
