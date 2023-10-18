@@ -24,6 +24,8 @@ public class DietService {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
+    @Autowired
+    private LogsService logsService;
 
     private void verifyIsHasId(Long id) {
         boolean isIdExists = this.dietRepository.existsById(id);
@@ -31,8 +33,7 @@ public class DietService {
         if (!isIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
+                    "O id informado é inválido!");
         }
     }
 
@@ -40,18 +41,20 @@ public class DietService {
         return this.dietRepository.getReferenceById(id);
     }
 
-
-    public DietResponseDto save(DietRequestDto newDiet) {
+    public DietResponseDto save(DietRequestDto newDiet, Long userId) {
 
         DietEntity diet = DietMapper.map(newDiet);
-
         diet = dietRepository.save(diet);
+
+        logsService.saveLog("O usuário de id " + userId + " criou um novo exame: " + diet.getDietName() + "("
+                + diet.getId() + ")");
+
         medicalRecordService.addDietToPatient(diet, newDiet.patientId());
 
         return new DietResponseDto(diet);
     }
 
-    public DietResponseDto update(Long id, DietRequestPutDto dietToUpdate) {
+    public DietResponseDto update(Long id, DietRequestPutDto dietToUpdate, Long userId) {
         this.verifyIsHasId(id);
 
         DietEntity diet = DietMapper.map(dietToUpdate);
@@ -62,7 +65,12 @@ public class DietService {
         diet.setDietDate(found.getDietDate());
         diet.setDietTime(found.getDietTime());
 
-        return new DietResponseDto(dietRepository.save(diet));
+        diet = dietRepository.save(diet);
+
+        logsService.saveLog("O usuário de id " + userId + " alterou a dieta: " + diet.getDietName() + "("
+                + diet.getId() + ")");
+
+        return new DietResponseDto(diet);
     }
 
     public List<DietResponseDto> getAllDiets(String name) {
@@ -80,10 +88,10 @@ public class DietService {
         return new DietResponseDto(dietRepository.getReferenceById(id));
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
         this.verifyIsHasId(id);
         dietRepository.deleteById(id);
+        logsService.saveLog("O usuário de id " + userId + " excluiu a dieta de id: " + id);
     }
-
 
 }
