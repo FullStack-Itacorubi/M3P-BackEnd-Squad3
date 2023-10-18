@@ -1,22 +1,28 @@
 package com.senai.M3PFBackEnd.services;
 
-import com.senai.M3PFBackEnd.dtos.Diet.DietRequestDto;
-import com.senai.M3PFBackEnd.dtos.Diet.DietRequestPutDto;
-import com.senai.M3PFBackEnd.dtos.Diet.DietResponseDto;
+import com.senai.M3PFBackEnd.dtos.diet.DietRequestDto;
+import com.senai.M3PFBackEnd.dtos.diet.DietRequestPutDto;
+import com.senai.M3PFBackEnd.dtos.diet.DietResponseDto;
 import com.senai.M3PFBackEnd.entities.DietEntity;
 import com.senai.M3PFBackEnd.mappers.DietMapper;
 import com.senai.M3PFBackEnd.repositories.DietRepository;
+import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
 public class DietService {
     @Autowired
     private DietRepository dietRepository;
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
+    @Autowired
+    private MedicalRecordService medicalRecordService;
 
     @Autowired
     private LogsService logsService;
@@ -43,6 +49,8 @@ public class DietService {
         logsService.saveLog("O usuário de id " + userId + " criou um novo exame: " + diet.getDietName() + "("
                 + diet.getId() + ")");
 
+        medicalRecordService.addDietToPatient(diet, newDiet.patientId());
+
         return new DietResponseDto(diet);
     }
 
@@ -65,8 +73,14 @@ public class DietService {
         return new DietResponseDto(diet);
     }
 
-    public List<DietEntity> findAll() {
-        return dietRepository.findAll();
+    public List<DietResponseDto> getAllDiets(String name) {
+        if (!name.isBlank()) {
+            List<DietEntity> diets = medicalRecordRepository
+                    .findAllByPatientFullNameContainingIgnoringCase(name)
+                    .stream().map(r -> r.getDiets()).flatMap(Collection::stream).toList();
+            return diets.stream().map(DietResponseDto::new).toList();
+        }
+        return dietRepository.findAll().stream().map(DietResponseDto::new).toList();
     }
 
     public DietResponseDto getDietById(Long id) {

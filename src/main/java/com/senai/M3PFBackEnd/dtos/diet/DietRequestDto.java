@@ -1,4 +1,4 @@
-package com.senai.M3PFBackEnd.dtos.Diet;
+package com.senai.M3PFBackEnd.dtos.diet;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +13,9 @@ public record DietRequestDto(
         @NotBlank(message = "O campo Nome da Dieta é obrigatório!")
         @Size(min = 5, max = 100, message = "O campo Nome da Dieta deve ter no mínimo 5 e máximo 100 caracteres, respectivamente!")
         String dietName,
+
+        @NotNull(message = "O campo ID do paciente é obrigatório!")
+        Long patientId,
 
         @NotNull(message = "O campo Data da Dieta é obrigatório!")
         @JsonFormat(pattern = "dd/MM/yyyy")
@@ -29,7 +32,6 @@ public record DietRequestDto(
         )
         String type,
 
-        //Atualizar e Vincular com entidade Pacientes
         String description
 
 ) {
