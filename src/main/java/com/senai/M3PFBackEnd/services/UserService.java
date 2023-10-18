@@ -111,9 +111,8 @@ public class UserService {
         this.verifyIfHasId(id);
 
         this.userRepository.deleteById(id);
-      
-        this.logsService.saveLog("O usuário de id " + userId + " excluiu o usuário: " + userFound.getFullName() + "("
-                + userFound.getId() + ")");
+
+        this.logsService.saveLog("O usuário de id " + userId + " excluiu o usuário de id " + id);
     }
 
     public LoginResponseDto login(LoginRequestDto newLogin) {
