@@ -71,14 +71,14 @@ public class UserController {
         return new ResponseEntity<>(verifiedUser, HttpStatus.OK);
     }
 
-    @PatchMapping("resetarsenha")
+    @PatchMapping("resetar-senha")
     public ResponseEntity<PasswordResetResponseDto> resetPassword(
             @RequestBody @Valid PasswordResetRequestDto passwordResetRequestDto) {
         return new ResponseEntity<>(this.userService.updatePassword(passwordResetRequestDto), HttpStatus.OK);
     }
 
     @GetMapping("email")
-    public ResponseEntity<PasswordResetResponseDto> getEmail(@RequestBody EmailRequestDto emailRequestDto) {
+    public ResponseEntity<PasswordResetResponseDto> getEmail(@RequestHeader("email") EmailRequestDto emailRequestDto) {
         PasswordResetResponseDto user = this.userService.getByEmail(emailRequestDto.email());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

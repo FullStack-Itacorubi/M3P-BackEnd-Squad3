@@ -107,16 +107,13 @@ public class UserService {
         return new UserResponseDto(user);
     }
 
-    public UserEntity delete(Long id, Long userId) {
+    public void delete(Long id, Long userId) {
         this.verifyIfHasId(id);
 
-        UserEntity userFound = this.getUser(id);
-
         this.userRepository.deleteById(id);
+      
         this.logsService.saveLog("O usuário de id " + userId + " excluiu o usuário: " + userFound.getFullName() + "("
                 + userFound.getId() + ")");
-
-        return userFound;
     }
 
     public LoginResponseDto login(LoginRequestDto newLogin) {
