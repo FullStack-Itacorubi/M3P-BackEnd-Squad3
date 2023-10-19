@@ -29,7 +29,7 @@ public class QueryEntity {
     @Column(nullable=false)
     private String problemDescription;
 
-    @OneToMany()
+    @ManyToMany()
     private List<MedicamentEntity> medicaments;
 
     @Column(nullable=false)
