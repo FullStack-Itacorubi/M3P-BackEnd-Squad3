@@ -2,6 +2,7 @@ package com.senai.M3PFBackEnd.services;
 
 import java.util.List;
 
+import com.senai.M3PFBackEnd.entities.QueryEntity;
 import com.senai.M3PFBackEnd.entities.DietEntity;
 import com.senai.M3PFBackEnd.entities.ExamEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class MedicalRecordService {
         return mapListToDto(medicalRecords);
     }
 
+    public void addQueriesToPatient(QueryEntity query, Long patientId){
+        MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
+        medicalRecord.getQueries().add(query);
+        medicalRecordsRepository.save(medicalRecord);
+    }
 
     public void addDietToPatient(DietEntity diet, Long patientId){
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
