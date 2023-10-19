@@ -41,7 +41,7 @@ public class QueryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<QueryResponseDto>> getQueries(@RequestParam(name = "nome") String name) {
+    public ResponseEntity<List<QueryResponseDto>> getQueries(@RequestParam(name = "nome", required = false) String name) {
 
         List<QueryResponseDto> queriesList = this.queryService.getAllQueries(name);
 
