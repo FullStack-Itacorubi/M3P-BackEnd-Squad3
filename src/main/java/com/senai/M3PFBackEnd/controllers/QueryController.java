@@ -1,6 +1,5 @@
 package com.senai.M3PFBackEnd.controllers;
 
-
 import com.senai.M3PFBackEnd.dtos.query.QueryRequestDto;
 import com.senai.M3PFBackEnd.dtos.query.QueryRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.query.QueryResponseDto;
@@ -19,23 +18,21 @@ public class QueryController {
     @Autowired
     private QueryService queryService;
 
-
     @PostMapping
     public ResponseEntity<QueryResponseDto> registerQuery(
-            @RequestBody @Valid QueryRequestDto newQuery
-    ) {
-        QueryResponseDto query = this.queryService.save(newQuery);
+            @RequestBody @Valid QueryRequestDto newQuery,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        QueryResponseDto query = this.queryService.save(newQuery, userId);
 
         return new ResponseEntity<>(query, HttpStatus.CREATED);
     }
 
-
     @PutMapping("{idQuery}")
     public ResponseEntity<QueryResponseDto> updateQuery(
             @PathVariable(name = "idQuery") Long id,
-            @RequestBody @Valid QueryRequestPutDto queryToUpdate
-    ){
-        QueryResponseDto queryUpdated = this.queryService.update(id, queryToUpdate);
+            @RequestBody @Valid QueryRequestPutDto queryToUpdate,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        QueryResponseDto queryUpdated = this.queryService.update(id, queryToUpdate, userId);
 
         return new ResponseEntity<>(queryUpdated, HttpStatus.OK);
     }
@@ -51,25 +48,21 @@ public class QueryController {
 
     @GetMapping("{idQuery}")
     public ResponseEntity<QueryResponseDto> getQuery(
-            @PathVariable(name = "idQuery") Long id
-    ) {
+            @PathVariable(name = "idQuery") Long id) {
         QueryResponseDto query = this.queryService.getQueryById(id);
 
         return new ResponseEntity<>(query, HttpStatus.OK);
     }
 
-
     @DeleteMapping("{idQuery}")
     public ResponseEntity<String> deleteQuery(
-            @PathVariable(name = "idQuery") Long id
-    ) {
-        this.queryService.delete(id);
+            @PathVariable(name = "idQuery") Long id,
+            @RequestHeader(required = true, name = "userId") Long userId) {
+        this.queryService.delete(id, userId);
 
         return new ResponseEntity<>(
                 "Consulta excluida com sucesso!",
-                HttpStatus.ACCEPTED
-        );
+                HttpStatus.ACCEPTED);
     }
 
 }
-

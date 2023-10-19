@@ -22,14 +22,16 @@ public class PatientService {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
+    @Autowired
+    private LogsService logsService;
+
     private void verifyIfHasCpf(String cpf) {
         boolean isCpfAlreadyExists = this.patientRepository.existsByCpf(cpf);
 
         if (isCpfAlreadyExists) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Este CPF já foi registrado em nossa base de dados!"
-            );
+                    "Este CPF já foi registrado em nossa base de dados!");
         }
     }
 
@@ -39,8 +41,7 @@ public class PatientService {
         if (isEmailAlreadyExists) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Este e-mail já foi registrado em nossa base de dados!"
-            );
+                    "Este e-mail já foi registrado em nossa base de dados!");
         }
     }
 
@@ -50,8 +51,7 @@ public class PatientService {
         if (!isIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
+                    "O id informado é inválido!");
         }
     }
 
@@ -59,16 +59,13 @@ public class PatientService {
         var patient = this.patientRepository
                 .findAll()
                 .stream()
-                .filter(p ->
-                        p.getEmail().equals(email) && !p.getId().equals(id)
-                )
+                .filter(p -> p.getEmail().equals(email) && !p.getId().equals(id))
                 .findFirst();
 
         if (patient.isPresent()) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Este e-mail já foi registrado em nossa base de dados!"
-            );
+                    "Este e-mail já foi registrado em nossa base de dados!");
         }
     }
 
@@ -76,18 +73,20 @@ public class PatientService {
         return this.patientRepository.getReferenceById(id);
     }
 
-    public PatientResponseDto addPatient(PatientRequestPostDto newPatient) {
+    public PatientResponseDto addPatient(PatientRequestPostDto newPatient, Long userId) {
         verifyIfHasCpf(newPatient.cpf());
         verifyIfHasEmail(newPatient.email());
 
         PatientEntity patient = PatientMapper.map(newPatient);
         patient = this.patientRepository.save(patient);
+        logsService.saveLog("O usuário de id " + userId + " criou um novo paciente: " + patient.getFullName() + "("
+                + patient.getId() + ")");
         medicalRecordService.createMedicalRecord(patient);
 
         return new PatientResponseDto(patient);
     }
 
-    public PatientResponseDto update(Long id, PatientRequestPutDto patientToUpdate) {
+    public PatientResponseDto update(Long id, PatientRequestPutDto patientToUpdate, Long userId) {
         verifyIfHasId(id);
         checkEmailUpdate(id, patientToUpdate.email());
 
@@ -98,8 +97,11 @@ public class PatientService {
         patient.setCpf(patientFound.getCpf());
         patient.setRg(patientFound.getRg());
         patient.getAddress().setId(patientFound.getAddress().getId());
+        patient = this.patientRepository.save(patient);
+        logsService.saveLog("O usuário de id " + userId + " alterou o paciente: " + patient.getFullName() + "("
+                + patient.getId() + ")");
 
-        return new PatientResponseDto(this.patientRepository.save(patient));
+        return new PatientResponseDto(patient);
     }
 
     public List<PatientResponseDto> getAll() {
@@ -119,9 +121,9 @@ public class PatientService {
         return new PatientResponseDto(patient);
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
         this.verifyIfHasId(id);
-
         this.patientRepository.deleteById(id);
+        logsService.saveLog("O usuário de id " + userId + " excluiu o paciente de id: " + id);
     }
 }

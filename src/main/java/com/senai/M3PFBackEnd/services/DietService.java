@@ -1,23 +1,31 @@
 package com.senai.M3PFBackEnd.services;
 
-import com.senai.M3PFBackEnd.dtos.Diet.DietRequestDto;
-import com.senai.M3PFBackEnd.dtos.Diet.DietRequestPutDto;
-import com.senai.M3PFBackEnd.dtos.Diet.DietResponseDto;
+import com.senai.M3PFBackEnd.dtos.diet.DietRequestDto;
+import com.senai.M3PFBackEnd.dtos.diet.DietRequestPutDto;
+import com.senai.M3PFBackEnd.dtos.diet.DietResponseDto;
 import com.senai.M3PFBackEnd.entities.DietEntity;
 import com.senai.M3PFBackEnd.mappers.DietMapper;
 import com.senai.M3PFBackEnd.repositories.DietRepository;
+import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
 public class DietService {
     @Autowired
     private DietRepository dietRepository;
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
+    @Autowired
+    private MedicalRecordService medicalRecordService;
 
+    @Autowired
+    private LogsService logsService;
 
     private void verifyIsHasId(Long id) {
         boolean isIdExists = this.dietRepository.existsById(id);
@@ -25,8 +33,7 @@ public class DietService {
         if (!isIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
+                    "O id informado é inválido!");
         }
     }
 
@@ -34,15 +41,20 @@ public class DietService {
         return this.dietRepository.getReferenceById(id);
     }
 
-
-    public DietResponseDto save(DietRequestDto newDiet) {
+    public DietResponseDto save(DietRequestDto newDiet, Long userId) {
 
         DietEntity diet = DietMapper.map(newDiet);
+        diet = dietRepository.save(diet);
 
-        return new DietResponseDto(dietRepository.save(diet));
+        logsService.saveLog("O usuário de id " + userId + " criou um novo exame: " + diet.getDietName() + "("
+                + diet.getId() + ")");
+
+        medicalRecordService.addDietToPatient(diet, newDiet.patientId());
+
+        return new DietResponseDto(diet);
     }
 
-    public DietResponseDto update(Long id, DietRequestPutDto dietToUpdate) {
+    public DietResponseDto update(Long id, DietRequestPutDto dietToUpdate, Long userId) {
         this.verifyIsHasId(id);
 
         DietEntity diet = DietMapper.map(dietToUpdate);
@@ -53,11 +65,22 @@ public class DietService {
         diet.setDietDate(found.getDietDate());
         diet.setDietTime(found.getDietTime());
 
-        return new DietResponseDto(dietRepository.save(diet));
+        diet = dietRepository.save(diet);
+
+        logsService.saveLog("O usuário de id " + userId + " alterou a dieta: " + diet.getDietName() + "("
+                + diet.getId() + ")");
+
+        return new DietResponseDto(diet);
     }
 
-    public List<DietEntity> findAll() {
-        return dietRepository.findAll();
+    public List<DietResponseDto> getAllDiets(String name) {
+        if (!name.isBlank()) {
+            List<DietEntity> diets = medicalRecordRepository
+                    .findAllByPatientFullNameContainingIgnoringCase(name)
+                    .stream().map(r -> r.getDiets()).flatMap(Collection::stream).toList();
+            return diets.stream().map(DietResponseDto::new).toList();
+        }
+        return dietRepository.findAll().stream().map(DietResponseDto::new).toList();
     }
 
     public DietResponseDto getDietById(Long id) {
@@ -65,10 +88,10 @@ public class DietService {
         return new DietResponseDto(dietRepository.getReferenceById(id));
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
         this.verifyIsHasId(id);
         dietRepository.deleteById(id);
+        logsService.saveLog("O usuário de id " + userId + " excluiu a dieta de id: " + id);
     }
-
 
 }
