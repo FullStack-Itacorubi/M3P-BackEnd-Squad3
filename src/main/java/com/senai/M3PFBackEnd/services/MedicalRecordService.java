@@ -26,6 +26,13 @@ public class MedicalRecordService {
         medicalRecordsRepository.save(medicalRecord);
     }
 
+    public List<MedicalRecordResponseDto> listMedicalRecords() {
+        List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
+            .findAll();
+    
+        return mapListToDto(medicalRecords);
+    }
+
     public List<MedicalRecordResponseDto> listMedicalRecords(String name) {
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
             .findAllByPatientFullNameContainingIgnoringCase(name);
