@@ -30,9 +30,9 @@ public class ExamService {
     private LogsService logsService;
 
     private void verifyPatientIdExists(Long id) {
-        boolean isUserIdExists = this.patientRepository.existsById(id);
+        boolean isPatientIdExists = this.patientRepository.existsById(id);
 
-        if (!isUserIdExists) {
+        if (!isPatientIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "O id do paciente é inválido!");
