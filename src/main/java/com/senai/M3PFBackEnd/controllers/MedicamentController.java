@@ -39,8 +39,15 @@ public class MedicamentController {
 
     @GetMapping
     public ResponseEntity<List<MedicamentResponseDto>> getAllMedicaments(
-            @RequestParam(name = "nome", required = false) String name) {
-        List<MedicamentResponseDto> medicamentList = this.medicamentService.getAll(name);
+            @RequestParam(name = "nome", required = false) String name
+    ) {
+        List<MedicamentResponseDto> medicamentList;
+
+        if (name == null || name.isBlank()) {
+            medicamentList = this.medicamentService.getAll();
+        } else {
+            medicamentList = this.medicamentService.getAll(name);
+        }
 
         return new ResponseEntity<>(medicamentList, HttpStatus.OK);
     }
