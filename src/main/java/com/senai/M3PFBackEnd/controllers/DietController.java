@@ -39,7 +39,9 @@ public class DietController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DietResponseDto>> getDiets(@RequestParam(name = "nome") String name) {
+    public ResponseEntity<List<DietResponseDto>> getDiets(
+            @RequestParam(name = "nome", required = false) String name
+    ) {
         List<DietResponseDto> dietsList = this.dietService.getAllDiets(name);
         return new ResponseEntity<>(dietsList, HttpStatus.OK);
     }
