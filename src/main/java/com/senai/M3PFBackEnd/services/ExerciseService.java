@@ -2,6 +2,8 @@ package com.senai.M3PFBackEnd.services;
 
 import java.util.Collection;
 import java.util.List;
+
+import com.senai.M3PFBackEnd.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,12 @@ public class ExerciseService {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
+    @Autowired
+    private PatientRepository patientRepository;
+
     public ExerciseResponseDto save(ExerciseRequestPostDto requestDto) {
+        verifyPatientIdExists(requestDto.patientId());
+
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
         exercise = exerciseRepository.save(exercise);
         medicalRecordService.addExerciseToPatient(exercise, requestDto.patientId());
@@ -42,7 +49,7 @@ public class ExerciseService {
     }
 
     public List<ExerciseResponseDto> getExercises(String name) {
-        if(!name.isBlank()) {
+        if(name != null && !name.isBlank()) {
             List<ExerciseEntity> exercises = medicalRecordRepository
                 .findAllByPatientFullNameContainingIgnoringCase(name).stream()
                 .map(r -> r.getExercises()).flatMap(Collection::stream).toList();
@@ -70,6 +77,16 @@ public class ExerciseService {
                     HttpStatus.NOT_FOUND,
                     "O id informado é inválido!"
             );
+        }
+    }
+
+    private void verifyPatientIdExists(Long id) {
+        boolean isUserIdExists = this.patientRepository.existsById(id);
+
+        if (!isUserIdExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "O id do paciente é inválido!");
         }
     }
 }
