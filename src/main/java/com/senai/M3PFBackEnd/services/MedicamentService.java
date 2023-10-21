@@ -4,14 +4,18 @@ import com.senai.M3PFBackEnd.dtos.medicament.MedicamentRequestPostDto;
 import com.senai.M3PFBackEnd.dtos.medicament.MedicamentRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.medicament.MedicamentResponseDto;
 import com.senai.M3PFBackEnd.entities.MedicamentEntity;
+import com.senai.M3PFBackEnd.entities.QueryEntity;
 import com.senai.M3PFBackEnd.mappers.MedicamentMapper;
+import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
 import com.senai.M3PFBackEnd.repositories.MedicamentRepository;
+import com.senai.M3PFBackEnd.entities.MedicalRecordEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -21,6 +25,13 @@ public class MedicamentService {
 
     @Autowired
     private LogsService logsService;
+
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
+
+    @Autowired
+    private MedicalRecordService medicalRecordService;
+
 
     private void verifyIfHasId(Long id) {
         boolean isIdExists = this.medicamentRepository.existsById(id);
@@ -57,12 +68,32 @@ public class MedicamentService {
         return new MedicamentResponseDto(medicament);
     }
 
-    public List<MedicamentResponseDto> getAll(String name) {
+    public List<MedicamentResponseDto> getAll() {
         return this.medicamentRepository
                 .findAll()
                 .stream()
                 .map(MedicamentResponseDto::new)
                 .toList();
+    }
+
+    public List<MedicamentResponseDto> getAll(String name) {
+        List<QueryEntity> queries = medicalRecordRepository
+                .findAllByPatientFullNameContainingIgnoringCase(name)
+                .stream()
+                .map(MedicalRecordEntity::getQueries)
+                .flatMap(Collection::stream)
+                .toList();
+
+            List<MedicamentEntity> medicaments = queries
+                    .stream()
+                    .map(QueryEntity::getMedicaments)
+                    .flatMap(Collection::stream)
+                    .toList();
+
+            return medicaments
+                    .stream()
+                    .map(MedicamentResponseDto::new)
+                    .toList();
     }
 
     public MedicamentResponseDto getMedicamentById(Long id) {
