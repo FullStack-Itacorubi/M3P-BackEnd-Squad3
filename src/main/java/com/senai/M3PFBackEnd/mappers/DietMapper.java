@@ -1,7 +1,7 @@
 package com.senai.M3PFBackEnd.mappers;
 
-import com.senai.M3PFBackEnd.dtos.Diet.DietRequestDto;
-import com.senai.M3PFBackEnd.dtos.Diet.DietRequestPutDto;
+import com.senai.M3PFBackEnd.dtos.diet.DietRequestDto;
+import com.senai.M3PFBackEnd.dtos.diet.DietRequestPutDto;
 import com.senai.M3PFBackEnd.entities.DietEntity;
 import com.senai.M3PFBackEnd.enums.DietType;
 

@@ -30,7 +30,6 @@ public class DietEntity {
     @Enumerated(value = EnumType.STRING)
     private DietType type;
 
-    //Atualizar e Vincular com entidade Pacientes
     @Column(nullable=false)
     private String description;
 

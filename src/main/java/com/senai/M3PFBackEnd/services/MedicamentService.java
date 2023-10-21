@@ -19,31 +19,42 @@ public class MedicamentService {
     @Autowired
     private MedicamentRepository medicamentRepository;
 
+    @Autowired
+    private LogsService logsService;
+
     private void verifyIfHasId(Long id) {
         boolean isIdExists = this.medicamentRepository.existsById(id);
 
         if (!isIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!"
-            );
+                    "O id informado é inválido!");
         }
     }
 
-    public MedicamentResponseDto save(MedicamentRequestPostDto newMedicament) {
+    public MedicamentResponseDto save(MedicamentRequestPostDto newMedicament, Long userId) {
         MedicamentEntity medicament = MedicamentMapper.map(newMedicament);
+        medicament = this.medicamentRepository.save(medicament);
 
-        return new MedicamentResponseDto(this.medicamentRepository.save(medicament));
+        logsService.saveLog("O usuário de id " + userId + " criou um novo medicamento: " + medicament.getName() + "("
+                + medicament.getId() + ")");
+
+        return new MedicamentResponseDto(medicament);
     }
 
-    public MedicamentResponseDto update(Long id, MedicamentRequestPutDto medicamentToUpdate) {
+    public MedicamentResponseDto update(Long id, MedicamentRequestPutDto medicamentToUpdate, Long userId) {
         this.verifyIfHasId(id);
 
         MedicamentEntity medicament = MedicamentMapper.map(medicamentToUpdate);
 
         medicament.setId(id);
 
-        return new MedicamentResponseDto(this.medicamentRepository.save(medicament));
+        medicament = this.medicamentRepository.save(medicament);
+
+        logsService.saveLog("O usuário de id " + userId + " alterou o medicamento: " + medicament.getName() + "("
+                + medicament.getId() + ")");
+
+        return new MedicamentResponseDto(medicament);
     }
 
     public List<MedicamentResponseDto> getAll(String name) {
@@ -60,9 +71,10 @@ public class MedicamentService {
         return new MedicamentResponseDto(this.medicamentRepository.getReferenceById(id));
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
         this.verifyIfHasId(id);
 
         this.medicamentRepository.deleteById(id);
+        logsService.saveLog("O usuário de id " + userId + " excluiu o medicamento de id: " + id);
     }
 }
