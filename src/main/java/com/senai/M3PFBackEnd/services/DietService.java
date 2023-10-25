@@ -7,6 +7,8 @@ import com.senai.M3PFBackEnd.entities.DietEntity;
 import com.senai.M3PFBackEnd.mappers.DietMapper;
 import com.senai.M3PFBackEnd.repositories.DietRepository;
 import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
+import com.senai.M3PFBackEnd.repositories.PatientRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,8 @@ public class DietService {
     private MedicalRecordRepository medicalRecordRepository;
     @Autowired
     private MedicalRecordService medicalRecordService;
-
+    @Autowired
+    private PatientRepository patientRepository;
     @Autowired
     private LogsService logsService;
 
@@ -37,11 +40,22 @@ public class DietService {
         }
     }
 
+    private void verifyPatientIdExists(Long id) {
+        boolean isUserIdExists = this.patientRepository.existsById(id);
+
+        if (!isUserIdExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "O id do paciente é inválido!");
+        }
+    }
+
     private DietEntity getDiet(Long id) {
         return this.dietRepository.getReferenceById(id);
     }
 
     public DietResponseDto save(DietRequestDto newDiet, Long userId) {
+        verifyPatientIdExists(newDiet.patientId());
 
         DietEntity diet = DietMapper.map(newDiet);
         diet = dietRepository.save(diet);
@@ -74,7 +88,7 @@ public class DietService {
     }
 
     public List<DietResponseDto> getAllDiets(String name) {
-        if (!name.isBlank()) {
+        if (name != null && !name.isBlank()) {
             List<DietEntity> diets = medicalRecordRepository
                     .findAllByPatientFullNameContainingIgnoringCase(name)
                     .stream().map(r -> r.getDiets()).flatMap(Collection::stream).toList();
@@ -93,5 +107,4 @@ public class DietService {
         dietRepository.deleteById(id);
         logsService.saveLog("O usuário de id " + userId + " excluiu a dieta de id: " + id);
     }
-
 }

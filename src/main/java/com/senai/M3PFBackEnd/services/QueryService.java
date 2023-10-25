@@ -3,9 +3,14 @@ package com.senai.M3PFBackEnd.services;
 import com.senai.M3PFBackEnd.dtos.query.QueryRequestDto;
 import com.senai.M3PFBackEnd.dtos.query.QueryRequestPutDto;
 import com.senai.M3PFBackEnd.dtos.query.QueryResponseDto;
+import com.senai.M3PFBackEnd.entities.MedicamentEntity;
 import com.senai.M3PFBackEnd.entities.QueryEntity;
 import com.senai.M3PFBackEnd.mappers.QueryMapper;
 import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
+<<<<<<< HEAD
+=======
+import com.senai.M3PFBackEnd.repositories.MedicamentRepository;
+>>>>>>> develop
 import com.senai.M3PFBackEnd.repositories.PatientRepository;
 import com.senai.M3PFBackEnd.repositories.QueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +29,12 @@ public class QueryService {
     private MedicalRecordRepository medicalRecordRepository;
     @Autowired
     private MedicalRecordService medicalRecordService;
-
-    @Autowired
-    LogsService logsService;
-
     @Autowired
     private PatientRepository patientRepository;
-
-    private void verifyIsHasId(Long id) {
-        boolean isIdExists = this.queryRepository.existsById(id);
-
-        if (!isIdExists) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!");
-        }
-    }
+    @Autowired
+    private MedicamentRepository medicamentRepository;
+    @Autowired
+    LogsService logsService;
 
     private void verifyPatientIdExists(Long id) {
         boolean isPatientIdExists = this.patientRepository.existsById(id);
@@ -51,8 +46,34 @@ public class QueryService {
         }
     }
 
+    private MedicamentEntity verifyMedicamentIdExists(Long id) {
+        return this.medicamentRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "O id do medicamento é inválido!")
+                );
+    }
+
+    private void verifyIsHasId(Long id) {
+        boolean isIdExists = this.queryRepository.existsById(id);
+
+        if (!isIdExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "O id informado é inválido!");
+        }
+    }
+
     public QueryResponseDto save(QueryRequestDto newQuery, Long userId) {
         verifyPatientIdExists(newQuery.patientId());
+
+        List<MedicamentEntity> medicaments = newQuery
+                .medicaments()
+                .stream()
+                .map(m -> verifyMedicamentIdExists(m.getId()))
+                .toList();
 
         QueryEntity query = QueryMapper.map(newQuery);
 
@@ -64,6 +85,7 @@ public class QueryService {
                         + "("
                         + query.getId() + ")");
 
+        query.setMedicaments(medicaments);
         return new QueryResponseDto(query);
     }
 
@@ -84,7 +106,7 @@ public class QueryService {
     }
 
     public List<QueryResponseDto> getAllQueries(String name) {
-        if (!name.isBlank()) {
+        if (name != null && !name.isBlank()) {
             List<QueryEntity> queries = medicalRecordRepository
                     .findAllByPatientFullNameContainingIgnoringCase(name)
                     .stream().map(r -> r.getQueries()).flatMap(Collection::stream).toList();

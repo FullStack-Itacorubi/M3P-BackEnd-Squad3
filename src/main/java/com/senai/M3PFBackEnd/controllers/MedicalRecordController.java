@@ -19,7 +19,7 @@ public class MedicalRecordController {
     private MedicalRecordService medicalRecordService;
 
     @GetMapping
-    public ResponseEntity<List<?>> listMedicalRecords(
+    public ResponseEntity<List<MedicalRecordResponseDto>> listMedicalRecords(
         @RequestParam(name = "nome", required = false) String name,
         @RequestParam(name = "id", required = false) Long id
     ) {
@@ -28,7 +28,7 @@ public class MedicalRecordController {
         if(id != null && name != null) responseList = medicalRecordService.listMedicalRecords(id, name);
         else if(id != null) responseList = medicalRecordService.listMedicalRecords(id);
         else if(name != null) responseList = medicalRecordService.listMedicalRecords(name);
-        else responseList = medicalRecordService.listMedicalRecords("");
+        else responseList = medicalRecordService.listMedicalRecords();
 
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }

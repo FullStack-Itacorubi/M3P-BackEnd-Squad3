@@ -7,6 +7,7 @@ import com.senai.M3PFBackEnd.entities.ExamEntity;
 import com.senai.M3PFBackEnd.mappers.ExamMapper;
 import com.senai.M3PFBackEnd.repositories.ExamRepository;
 import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
+import com.senai.M3PFBackEnd.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,15 +24,30 @@ public class ExamService {
     private MedicalRecordRepository medicalRecordRepository;
     @Autowired
     private MedicalRecordService medicalRecordService;
-
     @Autowired
-    LogsService logsService;
+    private PatientRepository patientRepository;
+    @Autowired
+    private LogsService logsService;
+
+    private void verifyPatientIdExists(Long id) {
+        boolean isPatientIdExists = this.patientRepository.existsById(id);
+
+        if (!isPatientIdExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "O id do paciente é inválido!");
+        }
+    }
 
     public ExamResponseDto save(ExamRequestPostDto newExam, Long userId) {
+        verifyPatientIdExists(newExam.patientId());
+
         ExamEntity exam = ExamMapper.map(newExam);
         exam = this.examRepository.save(exam);
+
         logsService.saveLog("O usuário de id " + userId + " criou um novo exame: " + exam.getExamName() + "("
                 + exam.getId() + ")");
+
         medicalRecordService.addExamToPatient(exam, newExam.patientId());
       
         return new ExamResponseDto(exam);
@@ -59,7 +75,7 @@ public class ExamService {
     }
 
     public List<ExamResponseDto> getAllExams(String name) {
-        if (!name.isBlank()) {
+        if (name != null && !name.isBlank()) {
             List<ExamEntity> exams = medicalRecordRepository
                     .findAllByPatientFullNameContainingIgnoringCase(name)
                     .stream().map(r -> r.getExams()).flatMap(Collection::stream).toList();
