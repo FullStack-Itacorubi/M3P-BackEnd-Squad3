@@ -7,12 +7,10 @@ import com.senai.M3PFBackEnd.entities.MedicamentEntity;
 import com.senai.M3PFBackEnd.entities.QueryEntity;
 import com.senai.M3PFBackEnd.mappers.QueryMapper;
 import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
-<<<<<<< HEAD
-=======
 import com.senai.M3PFBackEnd.repositories.MedicamentRepository;
->>>>>>> develop
 import com.senai.M3PFBackEnd.repositories.PatientRepository;
 import com.senai.M3PFBackEnd.repositories.QueryRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
