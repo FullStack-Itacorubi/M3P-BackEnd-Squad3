@@ -6,6 +6,7 @@ import com.senai.M3PFBackEnd.dtos.query.QueryResponseDto;
 import com.senai.M3PFBackEnd.entities.QueryEntity;
 import com.senai.M3PFBackEnd.mappers.QueryMapper;
 import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
+import com.senai.M3PFBackEnd.repositories.PatientRepository;
 import com.senai.M3PFBackEnd.repositories.QueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class QueryService {
     @Autowired
     LogsService logsService;
 
+    @Autowired
+    private PatientRepository patientRepository;
+
     private void verifyIsHasId(Long id) {
         boolean isIdExists = this.queryRepository.existsById(id);
 
@@ -37,11 +41,18 @@ public class QueryService {
         }
     }
 
-    private QueryEntity getQuery(Long id) {
-        return this.queryRepository.getReferenceById(id);
+    private void verifyPatientIdExists(Long id) {
+        boolean isPatientIdExists = this.patientRepository.existsById(id);
+
+        if (!isPatientIdExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "O id do paciente é inválido!");
+        }
     }
 
     public QueryResponseDto save(QueryRequestDto newQuery, Long userId) {
+        verifyPatientIdExists(newQuery.patientId());
 
         QueryEntity query = QueryMapper.map(newQuery);
 
