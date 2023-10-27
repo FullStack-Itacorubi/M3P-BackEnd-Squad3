@@ -26,8 +26,7 @@ public record QueryRequestPutDto(
         @NotBlank(message = "O campo Descrição do Problema é obrigatório!")
         @Size(min = 16, max = 1024, message = "O campo Descrição do Problema deve ter no mínimo 16 e máximo 1024 caracteres, respectivamente!")
         String problemDescription,
-
-        @NotBlank(message = "O campo Medicação Receitada é obrigatório!")
+        
         List<MedicamentEntity> medicaments,
 
         @NotBlank(message = "O campo Dosagem e Precauções é obrigatório!")
