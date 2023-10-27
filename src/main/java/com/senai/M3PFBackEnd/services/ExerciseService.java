@@ -31,7 +31,7 @@ public class ExerciseService {
 
     @Autowired
     private PatientRepository patientRepository;
-    
+
     @Autowired
     private LogsService logsService;
 
@@ -55,10 +55,10 @@ public class ExerciseService {
     }
 
     public List<ExerciseResponseDto> getExercises(String name) {
-        if(name != null && !name.isBlank()) {
+        if (name != null && !name.isBlank()) {
             List<ExerciseEntity> exercises = medicalRecordRepository
-                .findAllByPatientFullNameContainingIgnoringCase(name).stream()
-                .map(r -> r.getExercises()).flatMap(Collection::stream).toList();
+                    .findAllByPatientFullNameContainingIgnoringCase(name).stream()
+                    .map(r -> r.getExercises()).flatMap(Collection::stream).toList();
             return exercises.stream().map(ExerciseResponseDto::new).toList();
         }
 
@@ -70,8 +70,9 @@ public class ExerciseService {
         return new ExerciseResponseDto(exerciseRepository.getReferenceById(id));
     }
 
-    public void delete(Long id, Long userId) {
+    public void delete(Long id, Long patientId, Long userId) {
         verifyIfHasId(id);
+        medicalRecordService.deleteExerciseFromPatient(exerciseRepository.getReferenceById(id), patientId);
         exerciseRepository.deleteById(id);
         logsService.saveLog("O usuário de id " + userId + " excluiu o exercício de id: " + id);
     }
