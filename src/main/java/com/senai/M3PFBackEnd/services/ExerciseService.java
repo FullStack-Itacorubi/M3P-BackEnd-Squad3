@@ -46,8 +46,11 @@ public class ExerciseService {
 
     public ExerciseResponseDto update(Long id, ExerciseRequestPutDto requestDto, Long userId) {
         verifyIfHasId(id);
+        ExerciseEntity oldExercise = exerciseRepository.getReferenceById(id);
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
         exercise.setId(id);
+        exercise.setDate(oldExercise.getDate());
+        exercise.setTime(oldExercise.getTime());
         exercise = exerciseRepository.save(exercise);
         logsService.saveLog("O usuário de id " + userId + " alterou o exercício: " + exercise.getName() + "("
                 + exercise.getId() + ")");
