@@ -96,24 +96,28 @@ public class MedicalRecordService {
     }
 
     public void deleteQueryFromPatient(QueryEntity query, Long patientId) {
+        verifyPatientIdExists(patientId);
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getQueries().remove(query);
         medicalRecordsRepository.save(medicalRecord);
     }
 
     public void deleteDietFromPatient(DietEntity diet, Long patientId) {
+        verifyPatientIdExists(patientId);
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getDiets().remove(diet);
         medicalRecordsRepository.save(medicalRecord);
     }
 
     public void deleteExamFromPatient(ExamEntity exam, Long patientId) {
+        verifyPatientIdExists(patientId);
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getExams().remove(exam);
         medicalRecordsRepository.save(medicalRecord);
     }
 
     public void deleteExerciseFromPatient(ExerciseEntity exercise, Long patientId) {
+        verifyPatientIdExists(patientId);
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getExercises().remove(exercise);
         medicalRecordsRepository.save(medicalRecord);
