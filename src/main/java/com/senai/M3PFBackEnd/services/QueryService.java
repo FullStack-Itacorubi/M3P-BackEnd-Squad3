@@ -49,8 +49,7 @@ public class QueryService {
                 .orElseThrow(
                         () -> new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
-                                "O id do medicamento é inválido!")
-                );
+                                "O id do medicamento é inválido!"));
     }
 
     private void verifyIsHasId(Long id) {
@@ -122,9 +121,9 @@ public class QueryService {
         return new QueryResponseDto(queryRepository.getReferenceById(id));
     }
 
-    public void delete(Long id, Long userId) {
+    public void delete(Long id, Long patientId, Long userId) {
         this.verifyIsHasId(id);
-
+        medicalRecordService.deleteQueryFromPatient(queryRepository.getReferenceById(id), patientId);
         queryRepository.deleteById(id);
         logsService.saveLog("O usuário de id " + userId + " excluiu a consulta de id: " + id);
     }
