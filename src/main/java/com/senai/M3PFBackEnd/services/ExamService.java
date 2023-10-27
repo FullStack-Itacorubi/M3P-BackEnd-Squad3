@@ -49,7 +49,7 @@ public class ExamService {
                 + exam.getId() + ")");
 
         medicalRecordService.addExamToPatient(exam, newExam.patientId());
-      
+
         return new ExamResponseDto(exam);
     }
 
@@ -89,8 +89,9 @@ public class ExamService {
         return new ExamResponseDto(examRepository.getReferenceById(id));
     }
 
-    public void delete(Long id, Long userId) {
+    public void delete(Long id, Long patientId, Long userId) {
         this.verifyIsHasId(id);
+        medicalRecordService.deleteExamFromPatient(examRepository.getReferenceById(id), patientId);
         examRepository.deleteById(id);
         logsService.saveLog("O usuário de id " + userId + " excluiu o exame de id: " + id);
     }
