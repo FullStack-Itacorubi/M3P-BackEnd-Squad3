@@ -48,8 +48,9 @@ public class ExamController {
 
     @DeleteMapping("{idExam}")
     public ResponseEntity<String> deleteExam(@PathVariable(name = "idExam") Long id,
+            @RequestHeader(required = true, name = "patientId") Long patientId,
             @RequestHeader(required = true, name = "userId") Long userId) {
-        this.examService.delete(id, userId);
+        this.examService.delete(id, patientId, userId);
         return new ResponseEntity<>(
                 "Exame excluído com sucesso!",
                 HttpStatus.ACCEPTED);

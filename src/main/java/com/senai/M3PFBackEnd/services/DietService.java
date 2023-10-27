@@ -41,9 +41,9 @@ public class DietService {
     }
 
     private void verifyPatientIdExists(Long id) {
-        boolean isUserIdExists = this.patientRepository.existsById(id);
+        boolean isPatientIdExists = this.patientRepository.existsById(id);
 
-        if (!isUserIdExists) {
+        if (!isPatientIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "O id do paciente é inválido!");
@@ -102,8 +102,9 @@ public class DietService {
         return new DietResponseDto(dietRepository.getReferenceById(id));
     }
 
-    public void delete(Long id, Long userId) {
+    public void delete(Long id, Long patientId, Long userId) {
         this.verifyIsHasId(id);
+        medicalRecordService.deleteDietFromPatient(dietRepository.getReferenceById(id), patientId);
         dietRepository.deleteById(id);
         logsService.saveLog("O usuário de id " + userId + " excluiu a dieta de id: " + id);
     }

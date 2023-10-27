@@ -46,7 +46,7 @@ public class ExerciseController {
 
     @GetMapping
     public ResponseEntity<List<ExerciseResponseDto>> listExercises(
-            @RequestParam(name = "nome", required = false) String name){
+            @RequestParam(name = "nome", required = false) String name) {
         List<ExerciseResponseDto> responseList = exerciseService.getExercises(name);
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
@@ -61,8 +61,9 @@ public class ExerciseController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteExercise(
             @PathVariable(name = "id") Long id,
+            @RequestHeader(required = true, name = "patientId") Long patientId,
             @RequestHeader(required = true, name = "userId") Long userId) {
-        exerciseService.delete(id, userId);
+        exerciseService.delete(id, patientId, userId);
         return new ResponseEntity<>("Exercício excluído com sucesso.", HttpStatus.ACCEPTED);
     }
 }

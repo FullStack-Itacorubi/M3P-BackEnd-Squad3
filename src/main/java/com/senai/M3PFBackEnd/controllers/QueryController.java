@@ -38,13 +38,13 @@ public class QueryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<QueryResponseDto>> getQueries(@RequestParam(name = "nome", required = false) String name) {
+    public ResponseEntity<List<QueryResponseDto>> getQueries(
+            @RequestParam(name = "nome", required = false) String name) {
 
         List<QueryResponseDto> queriesList = this.queryService.getAllQueries(name);
 
         return new ResponseEntity<>(queriesList, HttpStatus.OK);
     }
-
 
     @GetMapping("{idQuery}")
     public ResponseEntity<QueryResponseDto> getQuery(
@@ -57,8 +57,9 @@ public class QueryController {
     @DeleteMapping("{idQuery}")
     public ResponseEntity<String> deleteQuery(
             @PathVariable(name = "idQuery") Long id,
+            @RequestHeader(required = true, name = "patientId") Long patientId,
             @RequestHeader(required = true, name = "userId") Long userId) {
-        this.queryService.delete(id, userId);
+        this.queryService.delete(id, patientId, userId);
 
         return new ResponseEntity<>(
                 "Consulta excluida com sucesso!",

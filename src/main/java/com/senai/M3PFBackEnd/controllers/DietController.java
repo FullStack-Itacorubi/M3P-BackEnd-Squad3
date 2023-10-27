@@ -40,8 +40,7 @@ public class DietController {
 
     @GetMapping
     public ResponseEntity<List<DietResponseDto>> getDiets(
-            @RequestParam(name = "nome", required = false) String name
-    ) {
+            @RequestParam(name = "nome", required = false) String name) {
         List<DietResponseDto> dietsList = this.dietService.getAllDiets(name);
         return new ResponseEntity<>(dietsList, HttpStatus.OK);
     }
@@ -57,8 +56,9 @@ public class DietController {
     @DeleteMapping("{idDiet}")
     public ResponseEntity<String> deleteDiet(
             @PathVariable(name = "idDiet") Long id,
+            @RequestHeader(required = true, name = "patientId") Long patientId,
             @RequestHeader(required = true, name = "userId") Long userId) {
-        this.dietService.delete(id, userId);
+        this.dietService.delete(id, patientId, userId);
 
         return new ResponseEntity<>(
                 "Dieta excluida com sucesso!",
