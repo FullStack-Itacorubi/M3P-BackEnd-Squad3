@@ -10,6 +10,7 @@ import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
 import com.senai.M3PFBackEnd.repositories.MedicamentRepository;
 import com.senai.M3PFBackEnd.repositories.PatientRepository;
 import com.senai.M3PFBackEnd.repositories.QueryRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -60,10 +61,6 @@ public class QueryService {
                     HttpStatus.NOT_FOUND,
                     "O id informado é inválido!");
         }
-    }
-
-    private QueryEntity getQuery(Long id) {
-        return this.queryRepository.getReferenceById(id);
     }
 
     public QueryResponseDto save(QueryRequestDto newQuery, Long userId) {
