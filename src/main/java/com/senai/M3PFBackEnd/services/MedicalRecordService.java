@@ -5,6 +5,7 @@ import java.util.List;
 import com.senai.M3PFBackEnd.entities.QueryEntity;
 import com.senai.M3PFBackEnd.entities.DietEntity;
 import com.senai.M3PFBackEnd.entities.ExamEntity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class MedicalRecordService {
     MedicalRecordRepository medicalRecordsRepository;
 
     public void createMedicalRecord(PatientEntity patient) {
+        verifyPatientIdExists(patient.getId());
         MedicalRecordEntity medicalRecord = new MedicalRecordEntity(patient);
         medicalRecordsRepository.save(medicalRecord);
     }
@@ -44,6 +46,7 @@ public class MedicalRecordService {
     }
 
     public List<MedicalRecordResponseDto> listMedicalRecords(Long id) {
+        verifyPatientIdExists(id);
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
                 .findAllByPatientId(id);
 
@@ -54,6 +57,7 @@ public class MedicalRecordService {
     }
 
     public List<MedicalRecordResponseDto> listMedicalRecords(Long id, String name) {
+        verifyPatientIdExists(id);
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
                 .findAllByPatientIdAndPatientFullNameContainingIgnoringCase(id, name);
 
@@ -64,24 +68,28 @@ public class MedicalRecordService {
     }
 
     public void addQueriesToPatient(QueryEntity query, Long patientId) {
+        verifyPatientIdExists(patientId);
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getQueries().add(query);
         medicalRecordsRepository.save(medicalRecord);
     }
 
     public void addDietToPatient(DietEntity diet, Long patientId) {
+        verifyPatientIdExists(patientId);
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getDiets().add(diet);
         medicalRecordsRepository.save(medicalRecord);
     }
 
     public void addExamToPatient(ExamEntity exam, Long patientId) {
+        verifyPatientIdExists(patientId);
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getExams().add(exam);
         medicalRecordsRepository.save(medicalRecord);
     }
 
     public void addExerciseToPatient(ExerciseEntity exercise, Long patientId) {
+        verifyPatientIdExists(patientId);
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getExercises().add(exercise);
         medicalRecordsRepository.save(medicalRecord);
@@ -119,5 +127,16 @@ public class MedicalRecordService {
         throw new ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
                 "Busca não condiz com nenhum usuário");
+    }
+
+    private void verifyPatientIdExists(Long id) {
+        boolean isPatientIdExists = this.medicalRecordsRepository.existsByPatientId(id);
+
+        if (!isPatientIdExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    // "O paciente não cadastrado!"
+                    "O id do paciente é inválido!");
+        }
     }
 }
