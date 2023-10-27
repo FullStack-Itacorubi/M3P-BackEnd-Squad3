@@ -20,7 +20,7 @@ public class MedicalRecordService {
 
     @Autowired
     MedicalRecordRepository medicalRecordsRepository;
-    
+
     public void createMedicalRecord(PatientEntity patient) {
         MedicalRecordEntity medicalRecord = new MedicalRecordEntity(patient);
         medicalRecordsRepository.save(medicalRecord);
@@ -28,59 +28,86 @@ public class MedicalRecordService {
 
     public List<MedicalRecordResponseDto> listMedicalRecords() {
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
-            .findAll();
-    
+                .findAll();
+
         return mapListToDto(medicalRecords);
     }
 
     public List<MedicalRecordResponseDto> listMedicalRecords(String name) {
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
-            .findAllByPatientFullNameContainingIgnoringCase(name);
-    
-        if(medicalRecords.isEmpty()) throwBadRequest();
-    
+                .findAllByPatientFullNameContainingIgnoringCase(name);
+
+        if (medicalRecords.isEmpty())
+            throwBadRequest();
+
         return mapListToDto(medicalRecords);
     }
 
     public List<MedicalRecordResponseDto> listMedicalRecords(Long id) {
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
-            .findAllByPatientId(id);
-    
-        if(medicalRecords.isEmpty()) throwBadRequest();
-    
+                .findAllByPatientId(id);
+
+        if (medicalRecords.isEmpty())
+            throwBadRequest();
+
         return mapListToDto(medicalRecords);
     }
 
     public List<MedicalRecordResponseDto> listMedicalRecords(Long id, String name) {
         List<MedicalRecordEntity> medicalRecords = medicalRecordsRepository
-            .findAllByPatientIdAndPatientFullNameContainingIgnoringCase(id, name);
+                .findAllByPatientIdAndPatientFullNameContainingIgnoringCase(id, name);
 
-        if(medicalRecords.isEmpty()) throwBadRequest();
+        if (medicalRecords.isEmpty())
+            throwBadRequest();
 
         return mapListToDto(medicalRecords);
     }
 
-    public void addQueriesToPatient(QueryEntity query, Long patientId){
+    public void addQueriesToPatient(QueryEntity query, Long patientId) {
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getQueries().add(query);
         medicalRecordsRepository.save(medicalRecord);
     }
 
-    public void addDietToPatient(DietEntity diet, Long patientId){
+    public void addDietToPatient(DietEntity diet, Long patientId) {
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getDiets().add(diet);
         medicalRecordsRepository.save(medicalRecord);
     }
 
-    public void addExamToPatient(ExamEntity exam, Long patientId){
+    public void addExamToPatient(ExamEntity exam, Long patientId) {
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getExams().add(exam);
         medicalRecordsRepository.save(medicalRecord);
     }
-  
+
     public void addExerciseToPatient(ExerciseEntity exercise, Long patientId) {
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getExercises().add(exercise);
+        medicalRecordsRepository.save(medicalRecord);
+    }
+
+    public void deleteQueryFromPatient(QueryEntity query, Long patientId) {
+        MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
+        medicalRecord.getQueries().remove(query);
+        medicalRecordsRepository.save(medicalRecord);
+    }
+
+    public void deleteDietFromPatient(DietEntity diet, Long patientId) {
+        MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
+        medicalRecord.getDiets().remove(diet);
+        medicalRecordsRepository.save(medicalRecord);
+    }
+
+    public void deleteExamFromPatient(ExamEntity exam, Long patientId) {
+        MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
+        medicalRecord.getExams().remove(exam);
+        medicalRecordsRepository.save(medicalRecord);
+    }
+
+    public void deleteExerciseFromPatient(ExerciseEntity exercise, Long patientId) {
+        MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
+        medicalRecord.getExercises().remove(exercise);
         medicalRecordsRepository.save(medicalRecord);
     }
 
@@ -90,7 +117,7 @@ public class MedicalRecordService {
 
     private void throwBadRequest() {
         throw new ResponseStatusException(
-            HttpStatus.BAD_REQUEST,
-            "Busca não condiz com nenhum usuário");
+                HttpStatus.BAD_REQUEST,
+                "Busca não condiz com nenhum usuário");
     }
 }
