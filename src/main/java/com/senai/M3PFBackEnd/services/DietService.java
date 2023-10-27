@@ -102,8 +102,9 @@ public class DietService {
         return new DietResponseDto(dietRepository.getReferenceById(id));
     }
 
-    public void delete(Long id, Long userId) {
+    public void delete(Long id, Long patientId, Long userId) {
         this.verifyIsHasId(id);
+        medicalRecordService.deleteDietFromPatient(dietRepository.getReferenceById(id), patientId);
         dietRepository.deleteById(id);
         logsService.saveLog("O usuário de id " + userId + " excluiu a dieta de id: " + id);
     }
