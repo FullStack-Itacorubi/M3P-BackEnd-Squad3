@@ -36,6 +36,7 @@ public class ExerciseService {
     private LogsService logsService;
 
     public ExerciseResponseDto save(ExerciseRequestPostDto requestDto, Long userId) {
+        verifyPatientIdExists(requestDto.patientId());
         ExerciseEntity exercise = ExerciseMapper.map(requestDto);
         exercise = exerciseRepository.save(exercise);
         logsService.saveLog("O usuário de id " + userId + " criou um novo exercício: " + exercise.getName() + "("
@@ -91,9 +92,9 @@ public class ExerciseService {
     }
 
     private void verifyPatientIdExists(Long id) {
-        boolean isUserIdExists = this.patientRepository.existsById(id);
+        boolean isPatientIdExists = this.patientRepository.existsById(id);
 
-        if (!isUserIdExists) {
+        if (!isPatientIdExists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "O id do paciente é inválido!");
