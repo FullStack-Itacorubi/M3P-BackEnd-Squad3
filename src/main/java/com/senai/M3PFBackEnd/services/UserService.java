@@ -83,6 +83,7 @@ public class UserService {
         user.setId(userFound.getId());
         user.setCpf(userFound.getCpf());
         user.setEmail(userFound.getEmail());
+        user.setPassword(userFound.getPassword());
         user = this.userRepository.save(user);
 
         logsService.saveLog("O usuário de id " + userId + " atualizou o usuário: " + user.getFullName() + "("
