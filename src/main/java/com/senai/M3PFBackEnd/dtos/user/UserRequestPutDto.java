@@ -24,10 +24,6 @@ public record UserRequestPutDto(
         )
         String phone,
 
-        @NotBlank(message = "O campo senha é obrigatório!")
-        @Size(min = 6, message = "O campo senha deve ter no mínimo 6 caracteres!")
-        String password,
-
         @NotBlank(message = "O campo tipo é obrigatório!")
         @Pattern(regexp = "ADMINISTRATOR|DOCTOR|NURSE", message = "O tipo deve ser: ADMINISTRATOR, DOCTOR ou NURSE")
         String type,

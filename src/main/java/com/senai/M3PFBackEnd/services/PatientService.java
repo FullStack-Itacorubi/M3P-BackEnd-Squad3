@@ -123,6 +123,7 @@ public class PatientService {
 
     public void delete(Long id, Long userId) {
         this.verifyIfHasId(id);
+        this.medicalRecordService.delete(id);
         this.patientRepository.deleteById(id);
         logsService.saveLog("O usuário de id " + userId + " excluiu o paciente de id: " + id);
     }

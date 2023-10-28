@@ -29,10 +29,6 @@ public class MedicamentService {
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
 
-    @Autowired
-    private MedicalRecordService medicalRecordService;
-
-
     private void verifyIfHasId(Long id) {
         boolean isIdExists = this.medicamentRepository.existsById(id);
 
@@ -55,10 +51,12 @@ public class MedicamentService {
 
     public MedicamentResponseDto update(Long id, MedicamentRequestPutDto medicamentToUpdate, Long userId) {
         this.verifyIfHasId(id);
-
+        MedicamentEntity oldMedicament = medicamentRepository.getReferenceById(id);
         MedicamentEntity medicament = MedicamentMapper.map(medicamentToUpdate);
 
         medicament.setId(id);
+        medicament.setDate(oldMedicament.getDate());
+        medicament.setTime(oldMedicament.getTime());
 
         medicament = this.medicamentRepository.save(medicament);
 
