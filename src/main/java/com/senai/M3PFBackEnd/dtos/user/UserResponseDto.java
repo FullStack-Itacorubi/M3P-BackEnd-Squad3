@@ -15,7 +15,9 @@ public record UserResponseDto(
 
         String email,
 
-        String type
+        String type,
+
+        Boolean status
 ) {
     public UserResponseDto(UserEntity userEntity) {
         this(
@@ -25,7 +27,8 @@ public record UserResponseDto(
                 userEntity.getCpf(),
                 userEntity.getPhone(),
                 userEntity.getEmail(),
-                userEntity.getType().getType()
+                userEntity.getType().getType(),
+                userEntity.getStatus()
         );
     }
 

@@ -30,7 +30,6 @@ public class UserMapper {
         target.setFullName(source.fullName());
         target.setGenre(Genre.valueOf(source.genre()));
         target.setPhone(source.phone());
-        target.setPassword(source.password());
         target.setType(UserType.valueOf(source.type()));
         target.setStatus(source.status());
 
