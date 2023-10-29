@@ -14,8 +14,12 @@ import com.senai.M3PFBackEnd.dtos.medicalRecord.MedicalRecordResponseDto;
 import com.senai.M3PFBackEnd.entities.ExerciseEntity;
 import com.senai.M3PFBackEnd.entities.MedicalRecordEntity;
 import com.senai.M3PFBackEnd.entities.PatientEntity;
+import com.senai.M3PFBackEnd.repositories.DietRepository;
+import com.senai.M3PFBackEnd.repositories.ExamRepository;
+import com.senai.M3PFBackEnd.repositories.ExerciseRepository;
 import com.senai.M3PFBackEnd.repositories.MedicalRecordRepository;
 import com.senai.M3PFBackEnd.repositories.PatientRepository;
+import com.senai.M3PFBackEnd.repositories.QueryRepository;
 
 @Service
 public class MedicalRecordService {
@@ -25,6 +29,18 @@ public class MedicalRecordService {
 
     @Autowired
     PatientRepository patientRepository;
+
+    @Autowired
+    DietRepository dietRepository;
+
+    @Autowired
+    ExamRepository examRepository;
+
+    @Autowired
+    ExerciseRepository exerciseRepository;
+
+    @Autowired
+    QueryRepository queryRepository;
 
     public void createMedicalRecord(PatientEntity patient) {
         verifyPatientExists(patient.getId());
@@ -131,6 +147,27 @@ public class MedicalRecordService {
         MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
         medicalRecord.getExercises().remove(exercise);
         medicalRecordsRepository.save(medicalRecord);
+    }
+    
+    public void changeRelatedStatus(boolean status, Long patientId) {
+        verifyPatientHasMedicalRecord(patientId);
+        MedicalRecordEntity medicalRecord = medicalRecordsRepository.findAllByPatientId(patientId).get(0);
+        medicalRecord.getDiets().forEach(diet -> {
+            diet.setStatus(status);
+            dietRepository.save(diet);
+        });
+        medicalRecord.getExams().forEach(exam -> {
+            exam.setStatus(status);
+            examRepository.save(exam);
+        });
+        medicalRecord.getExercises().forEach(exercise -> {
+            exercise.setStatus(status);
+            exerciseRepository.save(exercise);
+        });
+        medicalRecord.getQueries().forEach(query -> {
+            query.setStatus(status);
+            queryRepository.save(query);
+        });
     }
 
     private List<MedicalRecordResponseDto> mapListToDto(List<MedicalRecordEntity> list) {

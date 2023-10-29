@@ -43,6 +43,7 @@ public class PatientService {
         checkEmailUpdate(id, patientToUpdate.email());
 
         var patientFound = this.patientRepository.getReferenceById(id);
+        boolean hasStatusChanged = patientFound.getStatus() != patientToUpdate.status();
         var patient = PatientMapper.map(patientToUpdate);
 
         patient.setId(patientFound.getId());
@@ -52,6 +53,8 @@ public class PatientService {
         patient = this.patientRepository.save(patient);
         logsService.saveLog("O usuário de id " + userId + " alterou o paciente: " + patient.getFullName() + "("
                 + patient.getId() + ")");
+
+        if(hasStatusChanged) medicalRecordService.changeRelatedStatus(patient.getStatus(), id);
 
         return new PatientResponseDto(patient);
     }
