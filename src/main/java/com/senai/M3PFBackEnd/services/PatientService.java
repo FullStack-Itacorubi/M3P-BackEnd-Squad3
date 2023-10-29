@@ -112,8 +112,15 @@ public class PatientService {
                 .toList();
     }
 
+    public List<PatientResponseDto> getAll(String filter) {
+        return this.patientRepository
+                .findAllWithFilter(filter)
+                .stream()
+                .map(PatientResponseDto::new)
+                .toList();
+    }
+
     public PatientResponseDto getOne(Long id) {
-        // TODO: talvez validar se id é um Long -> bad request
         this.verifyIfHasId(id);
 
         PatientEntity patient = this.getPatient(id);

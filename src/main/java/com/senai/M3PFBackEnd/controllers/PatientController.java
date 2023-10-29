@@ -38,8 +38,14 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PatientResponseDto>> getAllPatients() {
-        List<PatientResponseDto> patientsList = this.patientService.getAll();
+    public ResponseEntity<List<PatientResponseDto>> getAllPatients(
+        @RequestParam(name = "s", required = false) String filter
+    ) {
+        List<PatientResponseDto> patientsList;
+        if(filter == null)
+            patientsList = this.patientService.getAll();
+        else
+            patientsList = this.patientService.getAll(filter);
 
         return new ResponseEntity<>(patientsList, HttpStatus.OK);
     }
