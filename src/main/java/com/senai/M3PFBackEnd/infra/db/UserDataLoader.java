@@ -20,21 +20,18 @@ public class UserDataLoader implements CommandLineRunner {
     }
 
     private void loadUserData() {
-        if (userRepository.count() == 0) {
-            UserEntity user1 = new UserEntity(
-                    // 1L,
-                    "Manda-chuva",
-                    Genre.CISGENDER,
-                    "390.053.750-00",
-                    "(49) 9 8622-8534",
-                    "administrador@email.com",
-                    // true,
-                    "senhamestre",
-                    // "ADMINISTRATOR"
-                    UserType.ADMINISTRATOR
-            );
-            userRepository.save(user1);
-        }
+        if (userRepository.count() != 0) return;
+        UserEntity seederAdmin = new UserEntity(
+            "Manda-chuva",
+            Genre.CISGENDER,
+            "000.000.000-00",
+            "(00) 0 0000-0000",
+            "administrador@email.com",
+            "senhamestre",
+            UserType.ADMINISTRATOR
+        );
+        userRepository.save(seederAdmin);
+        
         System.out.println(userRepository.count());
     }
 }
