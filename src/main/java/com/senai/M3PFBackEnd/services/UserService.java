@@ -100,6 +100,14 @@ public class UserService {
                 .toList();
     }
 
+    public List<UserResponseDto> getAll(String filter) {
+        return this.userRepository
+                .findAllWithFilter(filter)
+                .stream()
+                .map(UserResponseDto::new)
+                .toList();
+    }
+
     public UserResponseDto getOne(Long id) {
         this.verifyIfHasId(id);
 

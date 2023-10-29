@@ -40,8 +40,14 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
-        List<UserResponseDto> usersList = this.userService.getAll();
+    public ResponseEntity<List<UserResponseDto>> getAllUsers(
+        @RequestParam(name = "s", required = false) String filter
+    ) {
+        List<UserResponseDto> usersList;
+        if(filter == null)
+            usersList = this.userService.getAll();
+        else
+            usersList = this.userService.getAll();
 
         return new ResponseEntity<>(usersList, HttpStatus.OK);
     }
