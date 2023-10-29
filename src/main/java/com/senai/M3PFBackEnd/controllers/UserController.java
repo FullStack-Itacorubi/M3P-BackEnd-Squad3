@@ -47,7 +47,7 @@ public class UserController {
         if(filter == null)
             usersList = this.userService.getAll();
         else
-            usersList = this.userService.getAll();
+            usersList = this.userService.getAll(filter);
 
         return new ResponseEntity<>(usersList, HttpStatus.OK);
     }
