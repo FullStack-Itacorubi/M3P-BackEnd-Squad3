@@ -20,7 +20,7 @@ public class MedicalRecordController {
 
     @GetMapping
     public ResponseEntity<List<MedicalRecordResponseDto>> listMedicalRecords(
-        @RequestParam(name = "nome", required = false) String name,
+        @RequestParam(name = "s", required = false) String name,
         @RequestParam(name = "id", required = false) Long id
     ) {
         List<MedicalRecordResponseDto> responseList;
