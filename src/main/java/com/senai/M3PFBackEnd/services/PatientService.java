@@ -25,55 +25,7 @@ public class PatientService {
     @Autowired
     private LogsService logsService;
 
-    private void verifyIfHasCpf(String cpf) {
-        boolean isCpfAlreadyExists = this.patientRepository.existsByCpf(cpf);
-
-        if (isCpfAlreadyExists) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Este CPF já foi registrado em nossa base de dados!");
-        }
-    }
-
-    private void verifyIfHasEmail(String email) {
-        boolean isEmailAlreadyExists = this.patientRepository.existsByEmail(email);
-
-        if (isEmailAlreadyExists) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Este e-mail já foi registrado em nossa base de dados!");
-        }
-    }
-
-    private void verifyIfHasId(Long id) {
-        boolean isIdExists = this.patientRepository.existsById(id);
-
-        if (!isIdExists) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "O id informado é inválido!");
-        }
-    }
-
-    private void checkEmailUpdate(Long id, String email) {
-        var patient = this.patientRepository
-                .findAll()
-                .stream()
-                .filter(p -> p.getEmail().equals(email) && !p.getId().equals(id))
-                .findFirst();
-
-        if (patient.isPresent()) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Este e-mail já foi registrado em nossa base de dados!");
-        }
-    }
-
-    private PatientEntity getPatient(Long id) {
-        return this.patientRepository.getReferenceById(id);
-    }
-
-    public PatientResponseDto addPatient(PatientRequestPostDto newPatient, Long userId) {
+    public PatientResponseDto save(PatientRequestPostDto newPatient, Long userId) {
         verifyIfHasCpf(newPatient.cpf());
         verifyIfHasEmail(newPatient.email());
 
@@ -112,8 +64,7 @@ public class PatientService {
                 .toList();
     }
 
-    public PatientResponseDto getOne(Long id) {
-        // TODO: talvez validar se id é um Long -> bad request
+    public PatientResponseDto getById(Long id) {
         this.verifyIfHasId(id);
 
         PatientEntity patient = this.getPatient(id);
@@ -126,5 +77,53 @@ public class PatientService {
         this.medicalRecordService.delete(id);
         this.patientRepository.deleteById(id);
         logsService.saveLog("O usuário de id " + userId + " excluiu o paciente de id: " + id);
+    }
+
+    private void verifyIfHasEmail(String email) {
+        boolean isEmailAlreadyExists = this.patientRepository.existsByEmail(email);
+        
+        if (isEmailAlreadyExists) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                    "Este e-mail já foi registrado em nossa base de dados!");
+        }
+    }
+    
+    private void verifyIfHasId(Long id) {
+        boolean isIdExists = this.patientRepository.existsById(id);
+    
+        if (!isIdExists) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "O id informado é inválido!");
+            }
+    }
+    
+    private void checkEmailUpdate(Long id, String email) {
+        var patient = this.patientRepository
+                .findAll()
+                .stream()
+                .filter(p -> p.getEmail().equals(email) && !p.getId().equals(id))
+                .findFirst();
+    
+        if (patient.isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Este e-mail já foi registrado em nossa base de dados!");
+        }
+    }
+    
+    private PatientEntity getPatient(Long id) {
+        return this.patientRepository.getReferenceById(id);
+    }
+
+    private void verifyIfHasCpf(String cpf) {
+        boolean isCpfAlreadyExists = this.patientRepository.existsByCpf(cpf);
+    
+        if (isCpfAlreadyExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Este CPF já foi registrado em nossa base de dados!");
+        }
     }
 }

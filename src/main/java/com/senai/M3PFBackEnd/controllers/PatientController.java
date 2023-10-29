@@ -22,7 +22,7 @@ public class PatientController {
     public ResponseEntity<PatientResponseDto> registerPatient(
             @RequestBody @Valid PatientRequestPostDto newPatient,
             @RequestHeader(required = true, name = "userId") Long userId) {
-        PatientResponseDto patient = this.patientService.addPatient(newPatient, userId);
+        PatientResponseDto patient = this.patientService.save(newPatient, userId);
 
         return new ResponseEntity<>(patient, HttpStatus.CREATED);
     }
@@ -47,7 +47,7 @@ public class PatientController {
     @GetMapping("{idPatient}")
     public ResponseEntity<PatientResponseDto> getPatient(
             @PathVariable(name = "idPatient") Long id) {
-        PatientResponseDto patient = this.patientService.getOne(id);
+        PatientResponseDto patient = this.patientService.getById(id);
 
         return new ResponseEntity<>(patient, HttpStatus.OK);
     }
