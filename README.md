@@ -231,6 +231,7 @@ Para realizar a execução do projeto, temos duas possibilidades: executando o J
 > | nome      |  obrigatório     | data type               | descrição                                                      |
 > |-----------|------------------|-------------------------|----------------------------------------------------------------|
 > | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+> | patientId |  sim             | Integer                 | ID do paciente relacionado a consulta.                         |
 
 ##### Response Code
 
@@ -250,6 +251,205 @@ Para realizar a execução do projeto, temos duas possibilidades: executando o J
 </details>
 
 ### Dietas
+
+<details>
+ <summary><code>POST</code> <code><b>/</b></code> <code>Cadastrar nova dieta</code></summary>
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+
+##### Request Body
+
+> | campo                   | obrigatório | tipo       | descrição                                                      |
+> |-------------------------|-------------|------------|----------------------------------------------------------------|
+> | dietName                | sim         | String     | Nome da dieta. Mínimo e máximo de 5 e 100 caracteres.        |
+> | patientId               | sim         | Integer    | ID do paciente que está executando a dieta            |
+> | dietDate                | sim         | String     | Data da dieta no seguinte formato: dd/MM/yyy                |
+> | dietTime                | sim         | String     | Hora da dieta no seguinte formato: HH:mm:ss                 |
+> | type                    | sim         | String     | Tipo da dieta que está sendo executada, opções válidas: LOW_CARB, DASH, PALEOLITHIC, KETOGENIC, DUKAN, MEDITERRANEAN e OTHER.|
+> | description             | não         | String     | Descrição da dieta que está sendo executada.  |
+> 
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID da dieta cadastrada.                                        |
+> | dietName               | String         | Nome da dieta.                                                 |
+> | dietDate               | String         | Data da dieta                                                    |
+> | dietTime               | String         | Hora da dieta                                                    |
+> | type                   | String         | Tipo da dieta que está sendo executada                                               |
+> | description            | String         | Descrição da dieta que está sendo executada                                    |
+> | status                 | Boolean        | Valor informando se a dieta está ativa.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `201`         | dieta cadastrada com sucesso, retornando no body a dieta      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `500`         |   |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X POST 'http://localhost:8080/api/dietas' -H 'userId: 1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>PUT</code> <code><b>/</b></code> <code>Editar uma dieta</code></summary>
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+> 
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | dietId    |  sim             | Integer                 | ID da dieta que está sendo editada.                |
+
+##### Request Body
+
+> | campo                   | obrigatório | tipo       | descrição                                                      |
+> |-------------------------|-------------|------------|----------------------------------------------------------------|
+> | dietName                | sim         | String     | Nome da dieta. Mínimo e máximo de 5 e 100 caracteres.        |
+> | type                    | sim         | String     | Tipo da dieta que está sendo executada, opções válidas: LOW_CARB, DASH, PALEOLITHIC, KETOGENIC, DUKAN, MEDITERRANEAN e OTHER.|
+> | description             | não         | String     | Descrição da dieta que está sendo executada.  |
+> | status                  | sim         | Boolean    | Valor informando se a dieta está ativa.  |
+> 
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID da dieta cadastrada.                                        |
+> | dietName               | String         | Nome da dieta.                                                 |
+> | dietDate               | String         | Data da dieta                                                    |
+> | dietTime               | String         | Hora da dieta                                                    |
+> | type                   | String         | Tipo da dieta que está sendo executada                                               |
+> | description            | String         | Descrição da dieta que está sendo executada                                    |
+> | status                 | Boolean        | Valor informando se a dieta está ativa.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | dieta editada com sucesso, retornando no body a dieta      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que a dieta não foi encontrada   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X PUT 'http://localhost:8080/api/dietas/1' -H 'userId: 1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/</b></code> <code>Buscar todas dietas</code></summary>
+
+##### Query Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | nome      |  não             | String                  | Nome do paciente que será usado para filtrar as dietas.     |
+
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> |                        | Object[]       | Lista de dietas cadastradas                                      |
+> 
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | Retorna todas dietas, caso tenha sido passado o paramêtro na URI retorna todas dietas que possuam o paciente com o paramêtro.      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `500`         |     |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X GET 'http://localhost:8080/api/dietas?nome=joao'
+> ```
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/</b></code> <code>Buscar dieta pelo ID</code></summary>
+
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | dietId    |  sim             | Integer                 | ID da dieta que está sendo executada.                |
+
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> |                        | Object         | dieta cadastrada com o ID passado.                               |
+> 
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | dieta cadastrada com sucesso, retornando no body a dieta      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que a dieta não foi encontrada   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X GET 'http://localhost:8080/api/dietas/1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>DELETE</code> <code><b>/</b></code> <code>Deletar uma dieta</code></summary>
+
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | dietId    |  sim             | Integer                 | ID da dieta que está sendo deletada.                |
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+> | patientId |  sim             | Integer                 | ID do paciente relacionado a dieta.                            |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `202`         | dieta deletada com sucesso      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que a dieta não foi encontrada   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X DELETE 'http://localhost:8080/api/dietas/1' -H 'userId: 1'
+> ```
+
+</details>
+
 ### Estatísticas
 ### Exames
 ### Exercícios
