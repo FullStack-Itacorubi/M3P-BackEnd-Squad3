@@ -195,10 +195,18 @@ Para realizar a execução do projeto, temos duas possibilidades: executando o J
 
 ##### Response Body
 
+##### Response Body
+
 > | campo                  | tipo           | response                                                            |
 > |------------------------|----------------|---------------------------------------------------------------------|
-> |                        | Object         | Consulta cadastrada com o ID passado.                               |
-> 
+> | id                     | Integer        | O ID da consulta cadastrada.                                        |
+> | reasonForConsultation  | String         | Motivo da consulta.                                                 |
+> | consultationDate       | String         | Data da consulta                                                    |
+> | consultationTime       | String         | Hora da consulta                                                    |
+> | problemDescription     | String         | Descrição do problema                                               |
+> | medicaments            | Object[]       | Lista de medicamentos receitados                                    |
+> | dosageAndRecautions    | String         | Informações relacionadas as medicações                              |
+> | status                 | Boolean        | Valor informando se a consulta está ativa.                          |
 
 ##### Response Code
 
@@ -397,8 +405,13 @@ Para realizar a execução do projeto, temos duas possibilidades: executando o J
 
 > | campo                  | tipo           | response                                                            |
 > |------------------------|----------------|---------------------------------------------------------------------|
-> |                        | Object         | dieta cadastrada com o ID passado.                               |
-> 
+> | id                     | Integer        | O ID da dieta cadastrada.                                        |
+> | dietName               | String         | Nome da dieta.                                                 |
+> | dietDate               | String         | Data da dieta                                                    |
+> | dietTime               | String         | Hora da dieta                                                    |
+> | type                   | String         | Tipo da dieta que está sendo executada                                               |
+> | description            | String         | Descrição da dieta que está sendo executada                                    |
+> | status                 | Boolean        | Valor informando se a dieta está ativa.                          |
 
 ##### Response Code
 
@@ -451,8 +464,433 @@ Para realizar a execução do projeto, temos duas possibilidades: executando o J
 </details>
 
 ### Estatísticas
+
 ### Exames
+
+<details>
+ <summary><code>POST</code> <code><b>/</b></code> <code>Cadastrar novo exame</code></summary>
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+
+##### Request Body
+
+> | campo                   | obrigatório | tipo       | descrição                                                      |
+> |-------------------------|-------------|------------|----------------------------------------------------------------|
+> | examName                | sim         | String     | Nome do exame. Mínimo e máximo de 8 e 64 caracteres.        |
+> | patientId               | sim         | Integer    | ID do paciente examinado.            |
+> | examDate                | sim         | String     | Data do exame no seguinte formato: dd/MM/yyy                |
+> | examHour                | sim         | String     | Hora do exame no seguinte formato: HH:mm:ss                 |
+> | examType                | sim         | String     | Tipo do exame que foi passado. Mínimo e máximo de 4 e 32 caracteres.|
+> | laboratory              | sim         | String     | Nome do laboratório que realizou o exame. Mínimo e máximo de 4 e 32 caracteres.  |
+> | documentUrl             | não         | String     | Link para acessar o documento do exame.  |
+> | results                 | sim         | String     | Resultados do exame.  |
+> 
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID do exame cadastrada.                                        |
+> | examName               | String         | Nome do exame.                                                 |
+> | examDate               | String         | Data do exame                                                    |
+> | examHour               | String         | Hora do exame                                                    |
+> | examType               | String         | Tipo do exame que foi passado.                                              |
+> | laboratory             | String         | Nome do laboratório que realizou o exame.                                    |
+> | documentUrl            | String         | Link para acessar o documento do exame.                                    |
+> | status                 | Boolean        | Valor informando se o exame está ativo.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `201`         | Exame cadastrado com sucesso, retornando no body o exame      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `500`         |   |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X POST 'http://localhost:8080/api/exames' -H 'userId: 1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>PUT</code> <code><b>/</b></code> <code>Editar um exame</code></summary>
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+> 
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | examId    |  sim             | Integer                 | ID do exame que está sendo editado.                |
+
+##### Request Body
+
+> | campo                   | obrigatório | tipo       | descrição                                                      |
+> |-------------------------|-------------|------------|----------------------------------------------------------------|
+> | examName                | sim         | String     | Nome do exame. Mínimo e máximo de 8 e 64 caracteres.        |
+> | examDate                | sim         | String     | Data do exame no seguinte formato: dd/MM/yyy                |
+> | examHour                | sim         | String     | Hora do exame no seguinte formato: HH:mm:ss                 |
+> | examType                | sim         | String     | Tipo do exame que foi passado. Mínimo e máximo de 4 e 32 caracteres.|
+> | laboratory              | sim         | String     | Nome do laboratório que realizou o exame. Mínimo e máximo de 4 e 32 caracteres.  |
+> | documentUrl             | não         | String     | Link para acessar o documento do exame.  |
+> | results                 | sim         | String     | Resultados do exame.  |
+> | status                 | sim         | Boolean     | Valor informando se o exame está ativo.  |
+> 
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID do exame cadastrada.                                        |
+> | examName               | String         | Nome do exame.                                                 |
+> | examDate               | String         | Data do exame                                                    |
+> | examHour               | String         | Hora do exame                                                    |
+> | examType               | String         | Tipo do exame que foi passado.                                              |
+> | laboratory             | String         | Nome do laboratório que realizou o exame.                                    |
+> | documentUrl            | String         | Link para acessar o documento do exame.                                    |
+> | status                 | Boolean        | Valor informando se o exame está ativo.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | Exame editado com sucesso, retornando no body o exame      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que o exame não foi encontrado   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X PUT 'http://localhost:8080/api/exames/1' -H 'userId: 1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/</b></code> <code>Buscar todos exames</code></summary>
+
+##### Query Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | nome      |  não             | String                  | Nome do paciente que será usado para filtrar os exames.     |
+
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> |                        | Object[]       | Lista de exames cadastrados                                      |
+> 
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | Retorna todos exames, caso tenha sido passado o paramêtro na URI retorna todos exames que possuam o paciente com o paramêtro.      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `500`         |     |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X GET 'http://localhost:8080/api/exames?nome=joao'
+> ```
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/</b></code> <code>Buscar exame pelo ID</code></summary>
+
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | examId    |  sim             | Integer                 | ID da exame que está sendo executado.                |
+
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID do exame cadastrada.                                        |
+> | examName               | String         | Nome do exame.                                                 |
+> | examDate               | String         | Data do exame                                                    |
+> | examHour               | String         | Hora do exame                                                    |
+> | examType               | String         | Tipo do exame que foi passado.                                              |
+> | laboratory             | String         | Nome do laboratório que realizou o exame.                                    |
+> | documentUrl            | String         | Link para acessar o documento do exame.                                    |
+> | status                 | Boolean        | Valor informando se o exame está ativo.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | exame cadastrado com sucesso, retornando no body o exame      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que o exame não foi encontrado   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X GET 'http://localhost:8080/api/exames/1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>DELETE</code> <code><b>/</b></code> <code>Deletar um exame</code></summary>
+
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | examId    |  sim             | Integer                 | ID da exame que está sendo deletado.                |
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+> | patientId |  sim             | Integer                 | ID do paciente relacionado o exame.                            |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `202`         | exame deletado com sucesso      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que o exame não foi encontrado  |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X DELETE 'http://localhost:8080/api/exames/1' -H 'userId: 1'
+> ```
+
+</details>
+
 ### Exercícios
+
+<details>
+ <summary><code>POST</code> <code><b>/</b></code> <code>Cadastrar novo exercício</code></summary>
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+
+##### Request Body
+
+> | campo                   | obrigatório | tipo       | descrição                                                      |
+> |-------------------------|-------------|------------|----------------------------------------------------------------|
+> | name                | sim         | String     | Nome do exercício. Mínimo e máximo de 8 e 64 caracteres.        |
+> | patientId               | sim         | Integer    | ID do paciente examinado.            |
+> | date                | sim         | String     | Data do exercício no seguinte formato: dd/MM/yyy                |
+> | time                | sim         | String     | Hora do exercício no seguinte formato: HH:mm:ss                 |
+> | type                | sim         | String     | Tipo do exercício que foi passado, opções possíveis: AEROBICS, MUSCULAR, FLEXIBILITY, STRENGTH, AGILITY ou OTHER|
+> | weeklyAmount              | sim         | Integer     | Quantidade semanal que deve ser realizado.  |
+> | description             | sim         | String     | Descrição do exercicio.  |
+> 
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID do exercicio cadastrado.                                        |
+> | name               | String         | Nome do exercicio.                                                 |
+> | date               | String         | Data do exercicio                                                    |
+> | time               | String         | Hora do exercicio                                                    |
+> | type               | String         | Tipo do exercicio que foi passado.                                              |
+> | weeklyAmount            | Integer         | Quantidade semanal que deve ser realizado.                               |
+> | description            | String         | Descrição do exercicio.                               |
+> | status                 | Boolean        | Valor informando se o exercicio está ativo.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `201`         | exercicio cadastrado com sucesso, retornando no body o exercicio      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `500`         |   |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X POST 'http://localhost:8080/api/exercicios' -H 'userId: 1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>PUT</code> <code><b>/</b></code> <code>Editar um exercicio</code></summary>
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+> 
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | exerciseId    |  sim             | Integer                 | ID do exercicio que está sendo editado.                |
+
+##### Request Body
+
+> | campo                   | obrigatório | tipo       | descrição                                                      |
+> |-------------------------|-------------|------------|----------------------------------------------------------------|
+> | name                | sim         | String     | Nome do exercício. Mínimo e máximo de 8 e 64 caracteres.        |
+> | patientId               | sim         | Integer    | ID do paciente examinado.            |
+> | date                | sim         | String     | Data do exercício no seguinte formato: dd/MM/yyy                |
+> | time                | sim         | String     | Hora do exercício no seguinte formato: HH:mm:ss                 |
+> | type                | sim         | String     | Tipo do exercício que foi passado, opções possíveis: AEROBICS, MUSCULAR, FLEXIBILITY, STRENGTH, AGILITY ou OTHER|
+> | weeklyAmount              | sim         | Integer     | Quantidade semanal que deve ser realizado.  |
+> | description             | sim         | String     | Descrição do exercicio.  |
+> 
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID do exercicio cadastrado.                                        |
+> | name               | String         | Nome do exercicio.                                                 |
+> | date               | String         | Data do exercicio                                                    |
+> | time               | String         | Hora do exercicio                                                    |
+> | type               | String         | Tipo do exercicio que foi passado.                                              |
+> | weeklyAmount            | Integer         | Quantidade semanal que deve ser realizado.                               |
+> | description            | String         | Descrição do exercicio.                               |
+> | status                 | Boolean        | Valor informando se o exercicio está ativo.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | exercicio editado com sucesso, retornando no body o exercicio      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que o exercicio não foi encontrado   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X PUT 'http://localhost:8080/api/exercicios/1' -H 'userId: 1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/</b></code> <code>Buscar todos exercicios</code></summary>
+
+##### Query Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | nome      |  não             | String                  | Nome do paciente que será usado para filtrar os exercicios.     |
+
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> |                        | Object[]       | Lista de exercicios cadastrados                                      |
+> 
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | Retorna todos exercicios, caso tenha sido passado o paramêtro na URI retorna todos exercicios que possuam o paciente com o paramêtro.      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `500`         |     |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X GET 'http://localhost:8080/api/exercicios?nome=joao'
+> ```
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/</b></code> <code>Buscar exercicio pelo ID</code></summary>
+
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | exerciseId    |  sim             | Integer                 | ID da exercicio que está sendo executado.                |
+
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID do exercicio cadastrado.                                        |
+> | name               | String         | Nome do exercicio.                                                 |
+> | date               | String         | Data do exercicio                                                    |
+> | time               | String         | Hora do exercicio                                                    |
+> | type               | String         | Tipo do exercicio que foi passado.                                              |
+> | weeklyAmount            | Integer         | Quantidade semanal que deve ser realizado.                               |
+> | description            | String         | Descrição do exercicio.                               |
+> | status                 | Boolean        | Valor informando se o exercicio está ativo.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | exercicio cadastrado com sucesso, retornando no body o exercicio      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que o exercicio não foi encontrado   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X GET 'http://localhost:8080/api/exercicios/1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>DELETE</code> <code><b>/</b></code> <code>Deletar um exercicio</code></summary>
+
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | exerciseId    |  sim             | Integer                 | ID da exercicio que está sendo deletado.                |
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+> | patientId |  sim             | Integer                 | ID do paciente relacionado o exercicio.                            |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `202`         | exercicio deletado com sucesso      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que o exercicio não foi encontrado  |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X DELETE 'http://localhost:8080/api/exercicios/1' -H 'userId: 1'
+> ```
+
+</details>
+
 ### Logs
 ### Medicamentos
 ### Pacientes
