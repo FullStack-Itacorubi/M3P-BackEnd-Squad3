@@ -86,12 +86,165 @@ Para realizar a execução do projeto, temos duas possibilidades: executando o J
 > |---------------|---------------------------------------------------------------------|
 > | `201`         | Consulta cadastrada com sucesso, retornando no body a consulta      |
 > | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
-> | `500`         | Retorna uma mensagem informando que não foi possível realizar o cadastro   |
+> | `500`         |   |
 
 ##### Example cURL
 
 > ```javascript
 >  curl -X POST 'http://localhost:8080/api/consultas' -H 'userId: 1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>PUT</code> <code><b>/</b></code> <code>Editar uma consulta</code></summary>
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+> 
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | queryId   |  sim             | Integer                 | ID da consulta que está sendo editada.                |
+
+##### Request Body
+
+> | campo                   | obrigatório | tipo       | descrição                                                      |
+> |-------------------------|-------------|------------|----------------------------------------------------------------|
+> | reasonForConsultation   | sim         | String     | Motivo da consulta. Mínimo de 8 caracteres.                    |
+> | consultationDate        | sim         | String     | Data da consulta no seguinte formato: dd/MM/yyy                |
+> | consultationTime        | sim         | String     | Hora da consulta no seguinte formato: HH:mm:ss                 |
+> | problemDescription      | sim         | String     | Descrição do problema. Mínimo e máximo de 16 e 1024 caracteres.|
+> | medicaments             | não         | Object[]   | Lista de medicamentos receitados, pode ser somente um objeto com o ID do medicamento.  |
+> | dosageAndRecautions     | sim         | String     | Informações relacionadas as medicações. Mínimo e máximo de 16 e 256 caracteres.       |
+> | status                  | sim         | Boolean    | Valor informando se a consulta está ativa.       |
+> 
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> | id                     | Integer        | O ID da consulta cadastrada.                                        |
+> | reasonForConsultation  | String         | Motivo da consulta.                                                 |
+> | consultationDate       | String         | Data da consulta                                                    |
+> | consultationTime       | String         | Hora da consulta                                                    |
+> | problemDescription     | String         | Descrição do problema                                               |
+> | medicaments            | Object[]       | Lista de medicamentos receitados                                    |
+> | dosageAndRecautions    | String         | Informações relacionadas as medicações                              |
+> | status                 | Boolean        | Valor informando se a consulta está ativa.                          |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | Consulta editada com sucesso, retornando no body a consulta      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que a consulta não foi encontrada   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X PUT 'http://localhost:8080/api/consultas/1' -H 'userId: 1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/</b></code> <code>Buscar todas consultas</code></summary>
+
+##### Query Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | nome      |  não             | String                  | Nome do paciente que será usado para filtrar as consultas.     |
+
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> |                        | Object[]       | Lista de consultas cadastradas                                      |
+> 
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | Retorna todas consultas, caso tenha sido passado o paramêtro na URI retorna todas consultas que possuam o paciente com o paramêtro.      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `500`         |     |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X GET 'http://localhost:8080/api/consultas?nome=joao'
+> ```
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/</b></code> <code>Buscar consulta pelo ID</code></summary>
+
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | queryId   |  sim             | Integer                 | ID da consulta que está sendo consultada.                |
+
+##### Response Body
+
+> | campo                  | tipo           | response                                                            |
+> |------------------------|----------------|---------------------------------------------------------------------|
+> |                        | Object         | Consulta cadastrada com o ID passado.                               |
+> 
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `200`         | Consulta cadastrada com sucesso, retornando no body a consulta      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que a consulta não foi encontrada   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X GET 'http://localhost:8080/api/consultas/1'
+> ```
+
+</details>
+
+<details>
+ <summary><code>DELETE</code> <code><b>/</b></code> <code>Deletar uma consulta</code></summary>
+
+##### Path Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | queryId   |  sim             | Integer                 | ID da consulta que está sendo deletada.                |
+
+##### Header Parameters
+
+> | nome      |  obrigatório     | data type               | descrição                                                      |
+> |-----------|------------------|-------------------------|----------------------------------------------------------------|
+> | userId    |  sim             | Integer                 | ID do usuário que está realizando a requisição.                |
+
+##### Response Code
+
+> | código http   | descrição                                                           |
+> |---------------|---------------------------------------------------------------------|
+> | `202`         | Consulta deletada com sucesso      |
+> | `400`         | Retorna uma mensagem informando quais campos estão inválidos        |
+> | `404`         | Retorna uma mensagem informando que a consulta não foi encontrada   |
+> | `500`         |    |
+
+##### Example cURL
+
+> ```javascript
+>  curl -X DELETE 'http://localhost:8080/api/consultas/1' -H 'userId: 1'
 > ```
 
 </details>
